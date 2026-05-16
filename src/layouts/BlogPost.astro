@@ -1,6 +1,7 @@
 ---
 import TableOfContents from '@components/docs/TableOfContents.astro';
 import ShareLinks from '@components/blog/ShareLinks.astro';
+import SearchDialog from '@components/SearchDialog.astro';
 
 interface TocItem {
   id: string;
@@ -45,6 +46,8 @@ const wordCount = Astro.slots.has('default')
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} | SWE-Squad Blog</title>
     <meta name="description" content={description} />
+    <meta data-pagefind-meta="title" content={title} />
+    <meta data-pagefind-meta="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {image && <meta property="og:image" content={image} />}
@@ -251,7 +254,7 @@ const wordCount = Astro.slots.has('default')
   </head>
   <body>
     <div class="blog-layout">
-      <main class="blog-main">
+      <main class="blog-main" data-pagefind-body>
         <div class="blog-header">
           <div class="blog-breadcrumb">
             <a href="/blog">&larr; Blog</a>
@@ -291,5 +294,6 @@ const wordCount = Astro.slots.has('default')
         {tocItems.length > 0 && <TableOfContents items={tocItems} />}
       </aside>
     </div>
+    <SearchDialog />
   </body>
 </html>
