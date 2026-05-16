@@ -12,20 +12,14 @@ const diagramId = id ?? `mermaid-${Math.random().toString(36).slice(2, 9)}`;
 
 <pre class="mermaid" data-mermaid-id={diagramId} data-mermaid-theme={theme}>{code}</pre>
 
-<script define:vars={{ diagramId, theme }}>
+<script>
   import mermaid from 'mermaid';
 
-  // Initialize mermaid only once per page
-  if (!window.__mermaid_initialized) {
-    mermaid.initialize({ startOnLoad: false, theme });
-    window.__mermaid_initialized = true;
-  }
+  mermaid.initialize({ startOnLoad: false, theme: 'default' });
 
-  // Scope rendering to this specific diagram instance
-  const node = document.querySelector(`[data-mermaid-id="${diagramId}"]`);
-  if (node) {
-    mermaid.run({ nodes: [node] });
-  }
+  document.addEventListener('DOMContentLoaded', () => {
+    mermaid.run({ querySelector: '.mermaid' });
+  });
 </script>
 
 <style>
