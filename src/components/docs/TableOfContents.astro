@@ -1,0 +1,80 @@
+---
+export interface TocItem {
+  id: string;
+  text: string;
+  depth: number;
+}
+
+interface Props {
+  items: TocItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="toc" aria-label="Table of contents">
+  <h2 class="toc-heading">On this page</h2>
+  <ul class="toc-list" role="list">
+    {items.map((item) => (
+      <li class={`toc-item toc-depth-${item.depth}`}>
+        <a href={`#${item.id}`} class="toc-link">
+          {item.text}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .toc {
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
+
+  .toc-heading {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary, #4a4a6a);
+    margin-bottom: 0.75rem;
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .toc-item {
+    margin-bottom: 0.25rem;
+  }
+
+  .toc-link {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary, #4a4a6a);
+    text-decoration: none;
+    padding: 0.25rem 0;
+    line-height: 1.4;
+    transition: color 0.15s;
+  }
+
+  .toc-link:hover {
+    color: var(--color-text-primary, #1a1a2e);
+  }
+
+  .toc-depth-2 {
+    padding-left: 0;
+  }
+
+  .toc-depth-3 {
+    padding-left: 1rem;
+  }
+
+  .toc-depth-4 {
+    padding-left: 2rem;
+  }
+</style>

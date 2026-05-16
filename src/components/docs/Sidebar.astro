@@ -1,0 +1,133 @@
+---
+export interface SidebarItem {
+  slug: string;
+  title: string;
+}
+
+export interface SidebarSection {
+  name: string;
+  items: SidebarItem[];
+}
+
+interface Props {
+  sections: SidebarSection[];
+  currentSlug: string;
+}
+
+const { sections, currentSlug } = Astro.props;
+---
+
+<nav class="sidebar-nav" aria-label="Documentation navigation">
+  {sections.map((section) => (
+    <div class="sidebar-section" data-section={section.name}>
+      <button
+        class="sidebar-section-toggle"
+        aria-expanded="true"
+        aria-controls={`section-${section.name.replace(/\s+/g, '-').toLowerCase()}`}
+      >
+        <span class="sidebar-section-name">{section.name}</span>
+        <svg class="sidebar-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <ul
+        id={`section-${section.name.replace(/\s+/g, '-').toLowerCase()}`}
+        class="sidebar-section-items"
+        role="list"
+      >
+        {section.items.map((item) => (
+          <li>
+            <a
+              href={`/docs/${item.slug}`}
+              class:list={['sidebar-link', { active: item.slug === currentSlug }]}
+              aria-current={item.slug === currentSlug ? 'page' : undefined}
+            >
+              {item.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</nav>
+
+<style>
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .sidebar-section {
+    margin-bottom: 0.5rem;
+  }
+
+  .sidebar-section-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-primary, #1a1a2e);
+    text-align: left;
+    border-radius: 0.375rem;
+    transition: background-color 0.15s;
+  }
+
+  .sidebar-section-toggle:hover {
+    background-color: var(--color-bg-hover, rgba(0, 0, 0, 0.05));
+  }
+
+  .sidebar-chevron {
+    transition: transform 0.2s ease;
+  }
+
+  .sidebar-section-toggle[aria-expanded="false"] .sidebar-chevron {
+    transform: rotate(-90deg);
+  }
+
+  .sidebar-section-toggle[aria-expanded="false"] + .sidebar-section-items {
+    display: none;
+  }
+
+  .sidebar-section-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sidebar-link {
+    display: block;
+    padding: 0.375rem 0.75rem 0.375rem 1.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary, #4a4a6a);
+    text-decoration: none;
+    border-radius: 0.375rem;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .sidebar-link:hover {
+    background-color: var(--color-bg-hover, rgba(0, 0, 0, 0.05));
+    color: var(--color-text-primary, #1a1a2e);
+  }
+
+  .sidebar-link.active {
+    background-color: var(--color-bg-active, rgba(59, 130, 246, 0.1));
+    color: var(--color-accent, #3b82f6);
+    font-weight: 500;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.sidebar-section-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+    });
+  });
+</script>

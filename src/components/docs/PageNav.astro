@@ -1,0 +1,82 @@
+---
+interface Props {
+  prev?: { slug: string; title: string } | null;
+  next?: { slug: string; title: string } | null;
+}
+
+const { prev, next } = Astro.props;
+---
+
+{(prev || next) && (
+  <nav class="page-nav" aria-label="Page navigation">
+    <div class="page-nav-inner">
+      {prev ? (
+        <a href={`/docs/${prev.slug}`} class="page-nav-link page-nav-prev" rel="prev">
+          <span class="page-nav-direction">Previous</span>
+          <span class="page-nav-title">{prev.title}</span>
+        </a>
+      ) : <div />}
+      {next ? (
+        <a href={`/docs/${next.slug}`} class="page-nav-link page-nav-next" rel="next">
+          <span class="page-nav-direction">Next</span>
+          <span class="page-nav-title">{next.title}</span>
+        </a>
+      ) : <div />}
+    </div>
+  </nav>
+)}
+<style>
+  .page-nav {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border, #e5e7eb);
+  }
+
+  .page-nav-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .page-nav-link {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 0.5rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    min-width: 0;
+  }
+
+  .page-nav-link:hover {
+    border-color: var(--color-accent, #3b82f6);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .page-nav-next {
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  .page-nav-direction {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary, #4a4a6a);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+  }
+
+  .page-nav-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-primary, #1a1a2e);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .page-nav-link:hover .page-nav-title {
+    color: var(--color-accent, #3b82f6);
+  }
+</style>
