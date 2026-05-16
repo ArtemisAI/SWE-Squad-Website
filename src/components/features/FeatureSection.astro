@@ -1,0 +1,159 @@
+---
+import MermaidDiagram from '@components/MermaidDiagram.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  direction: 'left' | 'right';
+  icon: string;
+  diagram?: string;
+  codeSnippet?: string;
+  index?: number;
+}
+
+const { title, description, direction, icon, diagram, codeSnippet, index = 0 } = Astro.props;
+
+const isReversed = direction === 'right';
+const hasBackground = index % 2 === 0;
+---
+
+<section class:list={['feature-section', { 'feature-section--bg': hasBackground }]}>
+  <div class:list={['feature-row', { 'feature-row--reversed': isReversed }]}>
+    <div class="feature-text">
+      <div class="feature-icon-badge">{icon}</div>
+      <h3 class="feature-title">{title}</h3>
+      <div class="feature-description" set:html={description} />
+    </div>
+
+    <div class="feature-visual">
+      {diagram ? (
+        <MermaidDiagram code={diagram} />
+      ) : codeSnippet ? (
+        <div class="feature-code-wrapper">
+          <pre class="feature-code"><code>{codeSnippet}</code></pre>
+        </div>
+      ) : (
+        <div class="feature-placeholder">
+          <span class="feature-placeholder-icon">{icon}</span>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .feature-section {
+    padding: 4rem 0;
+    background: var(--color-bg, #ffffff);
+  }
+
+  .feature-section--bg {
+    background: var(--color-bg-sidebar, #f9fafb);
+  }
+
+  .feature-row {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .feature-row--reversed {
+    flex-direction: row-reverse;
+  }
+
+  .feature-text {
+    flex: 1;
+  }
+
+  .feature-visual {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .feature-icon-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-accent, #3b82f6);
+    color: #ffffff;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .feature-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary, #1a1a2e);
+    margin: 0 0 0.75rem 0;
+  }
+
+  .feature-description {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary, #4a4a6a);
+  }
+
+  .feature-description :global(p) {
+    margin: 0;
+  }
+
+  .feature-description :global(p + p) {
+    margin-top: 0.75rem;
+  }
+
+  .feature-code-wrapper {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .feature-code {
+    background: #1a1a2e;
+    color: #e2e8f0;
+    font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas, monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    padding: 1.25rem;
+    margin: 0;
+    border-radius: 8px;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .feature-placeholder {
+    background: var(--color-bg-sidebar, #f9fafb);
+    border: 2px dashed var(--color-border, #e5e7eb);
+    border-radius: 12px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .feature-placeholder-icon {
+    font-size: 3rem;
+    opacity: 0.4;
+  }
+
+  @media (max-width: 768px) {
+    .feature-row,
+    .feature-row--reversed {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .feature-visual {
+      order: -1;
+      width: 100%;
+    }
+
+    .feature-text {
+      width: 100%;
+    }
+  }
+</style>

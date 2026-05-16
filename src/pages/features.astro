@@ -1,0 +1,301 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import FeatureSection from '@components/features/FeatureSection.astro';
+import Callout from '@components/Callout.astro';
+---
+
+<BaseLayout title="Features — SWE-Squad">
+  <div class="page">
+
+    <a href="/" class="back-link">&larr; Home</a>
+
+    <h1 class="page-title">Features</h1>
+    <p class="page-intro">
+      SWE-Squad is a fully automated incident response platform that combines intelligent model routing,
+      iterative fix loops, semantic memory, and a rigorous stability gate to resolve production issues
+      faster than manual workflows. Explore each capability below.
+    </p>
+
+    <!-- Feature 0: Automated Detection -->
+    <FeatureSection
+      title="Automated Detection"
+      description='<p>SWE-Squad continuously monitors your production environment through real-time log ingestion and metric collection from every service in your stack.</p><p>Its pattern detection engine matches incoming signals against a growing library of anomaly signatures, identifying issues often before they trigger user-facing impact.</p><p>When a threshold breach or novel pattern is detected, the system generates a structured alert with full context, including service metadata, severity classification, and related historical incidents.</p><p>These alerts flow directly into the triage queue, eliminating manual toil and ensuring no issue goes unnoticed regardless of time of day.</p>'
+      direction="left"
+      icon="🔍"
+      index={0}
+      diagram={`flowchart LR
+    LogSources[Log Sources] --> PD[Pattern Detection]
+    PD --> AG[Alert Generation]
+    AG --> TQ[Triage Queue]`}
+    />
+
+    <!-- Feature 1: Smart Model Routing -->
+    <FeatureSection
+      title="Smart Model Routing"
+      description='<p>Not every incident warrants the same level of AI horsepower. SWE-Squad uses a complexity analyzer to classify each incoming issue and route it to the most cost-effective model capable of handling it.</p><p>Fast triage and classification tasks are handled by lightweight Haiku-class models, keeping latency low and cost per incident minimal. Investigation and root-cause analysis are delegated to mid-tier Sonnet-class models that balance depth with speed.</p><p>Only the most complex, multi-service failures are escalated to Opus-class models, ensuring that expensive capacity is reserved for the problems that truly require it.</p><p>This tiered approach typically reduces model spend by 60-80% compared to routing every incident through the most capable model.</p>'
+      direction="right"
+      icon="🧠"
+      index={1}
+      diagram={`flowchart TD
+    Incident[Incoming Incident] --> CA[Complexity Analyzer]
+    CA -->|Simple| Haiku[Haiku - Triage & Classification]
+    CA -->|Moderate| Sonnet[Sonnet - Investigation & RCA]
+    CA -->|Complex| Opus[Opus - Deep Multi-Service Fixes]`}
+    />
+
+    <!-- Feature 2: Keep/Discard Fix Loop -->
+    <FeatureSection
+      title="Keep/Discard Fix Loop"
+      description='<p>When a proposed fix fails validation, SWE-Squad does not simply retry blindly. Instead, it enters a structured iterative loop where the agent reviews the specific failure reasons, adjusts its approach, and generates an improved patch.</p><p>Each retry carries forward the full failure context from previous attempts, so the agent never repeats the same mistake twice. The loop is bounded by a maximum of three attempts to prevent infinite cycles.</p><p>If all three attempts are exhausted without a passing result, the system escalates the incident to a human engineer along with the complete diagnostic trace, including every attempted fix and its failure reasons.</p>'
+      direction="left"
+      icon="🔄"
+      index={2}
+      diagram={`flowchart TD
+    GF[Generate Fix] --> V[Validate]
+    V -->|Pass| D[Deploy]
+    V -->|Fail| RF[Review Failures]
+    RF --> AA[Adjust Approach]
+    AA -->|Attempt <= 3| GF
+    AA -->|Attempt > 3| EH[Escalate to Human]`}
+    />
+
+    <!-- Feature 3: Ralph Wiggum Stability Gate -->
+    <FeatureSection
+      title="Ralph Wiggum Stability Gate"
+      description='<p>No fix ships unless it passes every single check. Named after the principle of uncompromising gatekeeping, the Ralph Wiggum Stability Gate is an eight-stage validation pipeline that catches regressions, security vulnerabilities, and subtle bugs before they reach production.</p><p>The pipeline runs syntax checks, unit tests, linting, type checking, security scanning, regression testing, scope verification, and a confidence score assessment in sequence. A failure at any stage stops the entire pipeline and feeds the failure reason back into the fix loop.</p><p>Only fixes that clear all eight gates are approved for deployment, giving teams confidence that automated patches meet the same quality bar as human-reviewed code.</p>'
+      direction="right"
+      icon="🛡️"
+      index={3}
+      diagram={`flowchart LR
+    Fix[Proposed Fix] --> S[Syntax Check]
+    S --> UT[Unit Tests]
+    UT --> L[Lint]
+    L --> TC[Type Check]
+    TC --> SS[Security Scan]
+    SS --> RT[Regression Test]
+    RT --> SC[Scope Check]
+    SC --> CS[Confidence Score]
+    CS -->|All Pass| Deploy[Deploy]`}
+    />
+
+    <!-- Feature 4: Semantic Memory -->
+    <FeatureSection
+      title="Semantic Memory"
+      description='<p>SWE-Squad maintains an accumulated knowledge store that grows smarter with every incident it resolves. When a new issue arrives, the system first matches it against this semantic memory to check whether a similar problem has been seen before.</p><p>If a match is found, the cached fix and its context are retrieved instantly, often resolving the issue without invoking a model at all. This means previously encountered error patterns are handled at zero model cost and near-zero latency.</p><p>When no match exists, the agent investigates the issue from scratch and then stores its findings back into the memory for future reuse. Over time, the system becomes progressively faster and more accurate as its knowledge base expands.</p>'
+      direction="left"
+      icon="🧠"
+      index={4}
+      diagram={`flowchart TD
+    II[Incoming Issue] --> MAM[Match Against Memory]
+    MAM -->|Hit| RCF[Return Cached Fix]
+    MAM -->|Miss| INV[Investigate]
+    INV --> SNF[Store New Finding]
+    SNF --> RCF`}
+    />
+
+    <!-- Feature 5: Trajectory Distillation -->
+    <FeatureSection
+      title="Trajectory Distillation"
+      description='<p>Every time SWE-Squad resolves an incident, it produces a detailed trajectory of the steps taken: exploration paths, code changes, test results, and the reasoning behind each decision. Trajectory distillation compresses these successful trajectories into concise, reusable playbooks.</p><p>These distilled playbooks capture the essential steps and context needed to resolve a class of similar issues, stripping away the exploratory dead ends and intermediate failures. When a future incident matches a playbook pattern, the system can skip directly to the proven solution path.</p><p>This dramatically reduces both resolution time and token cost for recurring issue categories, compounding the system's efficiency with every incident it handles.</p>'
+      direction="right"
+      icon="📉"
+      index={5}
+      diagram={`flowchart LR
+    SF[Successful Fix] --> EKS[Extract Key Steps]
+    EKS --> CMP[Compress]
+    CMP --> DP[Distilled Playbook]
+    DP --> RS[Reuse for Similar Issues]`}
+    />
+
+    <!-- Feature 6: Multi-Team Support -->
+    <FeatureSection
+      title="Multi-Team Support"
+      description='<p>SWE-Squad supports multiple engineering teams operating within the same organization, each with its own isolated workspace, model preferences, and scope boundaries. Teams can configure their own triage and fix models independently, choosing cost-effective options for simple services and more powerful models for critical systems.</p><p>Each team's scope is defined by configurable code paths, ensuring that agents only explore and modify files within their designated boundaries. A shared knowledge base allows cross-team learning while maintaining team-scoped privacy for sensitive configurations.</p><p>This enables platform teams, frontend teams, backend teams, and data teams to all benefit from automated incident response without stepping on each other's workflows.</p>'
+      direction="left"
+      icon="👥"
+      index={6}
+      codeSnippet={`teams:
+  - name: platform
+    models: { triage: haiku, fix: sonnet }
+    scope: ["src/core", "src/api"]
+  - name: frontend
+    models: { triage: haiku, fix: haiku }
+    scope: ["src/web", "src/components"]`}
+    />
+
+    <!-- Feature 7: A2A Protocol -->
+    <FeatureSection
+      title="A2A Protocol"
+      description='<p>SWE-Squad uses a standardized Agent-to-Agent communication protocol that enables specialized agents to coordinate on complex incidents. Rather than relying on a single monolithic agent, the system decomposes work into distinct phases handled by purpose-built agents.</p><p>An Explorer agent gathers context and identifies the blast radius, a Planner agent designs the fix strategy, a Coder agent implements the changes, and a Reviewer agent validates the result. Each agent receives a structured handoff message containing the accumulated context from prior stages.</p><p>The A2A protocol defines the message format, handoff rules, and error handling for these inter-agent workflows, ensuring reliable coordination even when individual agents fail or timeout.</p>'
+      direction="right"
+      icon="🤝"
+      index={7}
+      diagram={`flowchart LR
+    Explorer[Explorer Agent] -->|Findings| Planner[Planner Agent]
+    Planner -->|Strategy| Coder[Coder Agent]
+    Coder -->|Patch| Reviewer[Reviewer Agent]
+    Reviewer -->|Approved| Deploy[Deploy]
+    Reviewer -->|Rejected| Planner`}
+    />
+
+    <!-- Feature 8: Provider-Agnostic Architecture -->
+    <FeatureSection
+      title="Provider-Agnostic Architecture"
+      description='<p>SWE-Squad isolates all model-specific logic behind a clean provider interface, making the core pipeline completely independent of any single AI vendor. The BaseProvider abstract class defines the contract every provider must implement, while the ProviderRegistry manages registration and lookup at runtime.</p><p>Teams can swap between OpenAI, Anthropic, local model servers, or custom implementations with a single configuration change. Because the pipeline depends only on the abstract interface, switching providers requires zero changes to the surrounding automation logic.</p><p>This architecture also enables hybrid deployments where different models handle different stages of the pipeline, optimizing for both cost and capability at each step.</p>'
+      direction="left"
+      icon="🔌"
+      index={8}
+      codeSnippet={`class BaseProvider(ABC):
+    @abstractmethod
+    async def complete(self, prompt: str, **kwargs) -> str: ...
+
+    @abstractmethod
+    async def embed(self, text: str) -> list[float]: ...
+
+# Swap providers with one line
+registry.register("anthropic", AnthropicProvider())
+registry.register("local", LocalProvider(port=8080))`}
+    />
+
+    <!-- Feature 9: CLI Tools -->
+    <FeatureSection
+      title="CLI Tools"
+      description='<p>SWE-Squad ships with a full-featured command-line interface that puts incident management at your fingertips. The CLI provides commands for listing active incidents, applying generated fixes, checking system status, and integrating with your existing CI/CD pipelines.</p><p>Run <code>swe incident list</code> to see all active incidents sorted by severity, <code>swe fix apply</code> to apply a generated fix with an optional auto-merge flag, and <code>swe status</code> to get a real-time overview of the system health and agent activity.</p><p>The CLI is designed for both interactive use and scripting, making it easy to embed SWE-Squad into automated deployment workflows, cron-based monitoring checks, or chatbot-driven ops channels.</p>'
+      direction="right"
+      icon="⌨️"
+      index={9}
+      codeSnippet={`$ swe incident list --severity critical
+INC-001  API timeout spike       3m ago   \u25CF Investigating
+INC-002  DB connection leak      12m ago  \u25CF Fix in review
+
+$ swe fix apply INC-001 --auto-merge
+Applying fix... Running stability gate... \u2713 All checks passed
+Merged to main in 47s`}
+    />
+
+    <!-- Feature 10: Governance and RBAC -->
+    <FeatureSection
+      title="Governance and RBAC"
+      description='<p>SWE-Squad includes a comprehensive role-based access control system that governs who can view incidents, approve fixes, modify configurations, and deploy changes to production. Pre-defined roles include Viewer, Operator, Admin, and Auditor, each with carefully scoped permissions.</p><p>Production deployments require explicit approval from authorized personnel, with configurable policies that can enforce single- or multi-party approval workflows. Every action taken by an AI agent is logged in a tamper-evident audit trail, providing full traceability from alert to deployment.</p><p>These governance controls make SWE-Squad suitable for organizations with strict compliance requirements, including SOC 2, HIPAA, and financial regulatory frameworks.</p>'
+      direction="left"
+      icon="🔒"
+      index={10}
+      diagram={`flowchart TD
+    Roles[Roles] --> V[Viewer]
+    Roles --> O[Operator]
+    Roles --> A[Admin]
+    Roles --> Au[Auditor]
+    V --> P1[View Incidents & Reports]
+    O --> P2[View + Apply Fixes + Manage Alerts]
+    A --> P3[Full Access + Config + Deploy]
+    Au --> P4[View All + Audit Logs + Compliance]`}
+    />
+
+    <!-- Feature 11: Notifications -->
+    <FeatureSection
+      title="Notifications"
+      description='<p>SWE-Squad keeps your team informed through real-time notifications delivered via Slack, email, webhooks, and PagerDuty. Configurable alert rules let each team define exactly which events trigger notifications and through which channels, based on severity, service, or incident type.</p><p>Escalation policies ensure that unacknowledged incidents are automatically promoted to higher-urgency channels after a configurable timeout. A critical incident that goes unnoticed in Slack will automatically page the on-call engineer through PagerDuty after the defined window.</p><p>All notification preferences are managed per-team, so platform engineers can opt into PagerDuty for production alerts while frontend engineers receive Slack-only notifications for lower-severity issues.</p>'
+      direction="right"
+      icon="🔔"
+      index={11}
+      diagram={`flowchart LR
+    IE[Incident Event] --> NR[Notification Router]
+    NR --> Slack[Slack]
+    NR --> Email[Email]
+    NR --> WH[Webhook]
+    NR --> PD[PagerDuty]`}
+    />
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <Callout type="info" title="Ready to get started?">
+        <p>Explore the <a href="/docs">documentation</a> to set up SWE-Squad for your team, or check out the <a href="/architecture">architecture overview</a> to understand how the pieces fit together.</p>
+      </Callout>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  :root {
+    --color-bg: #ffffff;
+    --color-bg-sidebar: #f9fafb;
+    --color-text-primary: #1a1a2e;
+    --color-text-secondary: #4a4a6a;
+    --color-accent: #3b82f6;
+    --color-border: #e5e7eb;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg);
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    margin-bottom: 1.5rem;
+    transition: color 0.15s;
+  }
+
+  .back-link:hover {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+
+  .page-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem;
+    color: var(--color-text-primary);
+  }
+
+  .page-intro {
+    font-size: 1.0625rem;
+    color: var(--color-text-secondary);
+    margin: 0 0 3rem;
+    line-height: 1.7;
+  }
+
+  .cta-section {
+    margin-top: 4rem;
+  }
+
+  .cta-section :global(a) {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .cta-section :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .page {
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    .page-title {
+      font-size: 1.75rem;
+    }
+  }
+</style>
