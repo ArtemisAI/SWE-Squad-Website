@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import DocsLayout from '@layouts/DocsLayout.astro';
+
+const allDocs = await getCollection('docs');
+const firstDoc = allDocs.sort((a, b) => a.data.order - b.data.order)[0];
+
+if (firstDoc) {
+  return Astro.redirect(`/docs/${firstDoc.slug}`);
+}
+---
+
+<DocsLayout title="Docs" description="Documentation" section="" headings={[]}>
+  <p>No documentation pages found.</p>
+</DocsLayout>

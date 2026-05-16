@@ -1,0 +1,42 @@
+---
+interface Props {
+  code: string;
+  id?: string;
+  theme?: string;
+}
+
+const { code, id, theme = 'default' } = Astro.props;
+
+const diagramId = id ?? `mermaid-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<pre class="mermaid" data-mermaid-id={diagramId} data-mermaid-theme={theme}>{code}</pre>
+
+<script define:vars={{ diagramId, theme }}>
+  import mermaid from 'mermaid';
+
+  // Initialize mermaid only once per page
+  if (!window.__mermaid_initialized) {
+    mermaid.initialize({ startOnLoad: false, theme });
+    window.__mermaid_initialized = true;
+  }
+
+  // Scope rendering to this specific diagram instance
+  const node = document.querySelector(`[data-mermaid-id="${diagramId}"]`);
+  if (node) {
+    mermaid.run({ nodes: [node] });
+  }
+</script>
+
+<style>
+  .mermaid {
+    background: var(--color-bg-sidebar, #f9fafb);
+    border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 8px;
+    padding: 1.25rem;
+    overflow-x: auto;
+    font-family: inherit;
+    line-height: 1.5;
+    margin: 1.5rem 0;
+  }
+</style>

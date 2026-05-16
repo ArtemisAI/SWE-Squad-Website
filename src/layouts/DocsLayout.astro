@@ -1,0 +1,312 @@
+---
+import Sidebar from '@components/docs/Sidebar.astro';
+import Breadcrumbs from '@components/docs/Breadcrumbs.astro';
+import TableOfContents from '@components/docs/TableOfContents.astro';
+import PageNav from '@components/docs/PageNav.astro';
+import EditOnGitHub from '@components/docs/EditOnGitHub.astro';
+import { getCollection } from 'astro:content';
+import type { SidebarSection, SidebarItem } from '@components/docs/Sidebar.astro';
+
+interface TocItem {
+  id: string;
+  text: string;
+  depth: number;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  section: string;
+  headings: TocItem[];
+}
+
+const { title, description, section, headings } = Astro.props;
+
+const currentSlug = Astro.url.pathname.replace(/^\/docs\/|\/$/g, '');
+
+const allDocs = await getCollection('docs');
+const sortedDocs = allDocs.sort((a, b) => {
+  if (a.data.section !== b.data.section) {
+    return a.data.section.localeCompare(b.data.section);
+  }
+  return a.data.order - b.data.order;
+});
+
+const sectionsMap = new Map<string, SidebarItem[]>();
+for (const doc of sortedDocs) {
+  const sec = doc.data.section;
+  const items = sectionsMap.get(sec) || [];
+  items.push({ slug: doc.slug, title: doc.data.title });
+  sectionsMap.set(sec, items);
+}
+
+const sidebarSections: SidebarSection[] = [];
+for (const [name, items] of sectionsMap) {
+  sidebarSections.push({ name, items });
+}
+
+const flatDocs = sortedDocs.map((doc) => ({
+  slug: doc.slug,
+  title: doc.data.title,
+  section: doc.data.section,
+  order: doc.data.order,
+}));
+
+const currentIndex = flatDocs.findIndex((doc) => doc.slug === currentSlug);
+const prevDoc = currentIndex > 0 ? flatDocs[currentIndex - 1] : null;
+const nextDoc = currentIndex < flatDocs.length - 1 ? flatDocs[currentIndex + 1] : null;
+
+const tocItems = headings
+  .filter((h) => h.depth >= 2 && h.depth <= 4)
+  .map((h) => ({ id: h.id, text: h.text, depth: h.depth }));
+
+const breadcrumbs = [
+  { label: 'Docs', href: '/docs' },
+  { label: section },
+  { label: title },
+];
+
+const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/src/content/docs/${currentSlug}.md`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} | SWE-Squad Docs</title>
+    <meta name="description" content={description} />
+    <style is:global>
+      :root {
+        --color-bg: #ffffff;
+        --color-bg-sidebar: #f9fafb;
+        --color-bg-hover: rgba(0, 0, 0, 0.05);
+        --color-bg-active: rgba(59, 130, 246, 0.1);
+        --color-text-primary: #1a1a2e;
+        --color-text-secondary: #4a4a6a;
+        --color-text-tertiary: #9ca3af;
+        --color-accent: #3b82f6;
+        --color-border: #e5e7eb;
+        --sidebar-width: 16rem;
+        --toc-width: 14rem;
+      }
+
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        color: var(--color-text-primary);
+        background-color: var(--color-bg);
+        line-height: 1.6;
+      }
+
+      .docs-layout {
+        display: grid;
+        grid-template-columns: var(--sidebar-width) 1fr var(--toc-width);
+        min-height: 100vh;
+      }
+
+      .docs-sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        padding: 1.5rem 1rem;
+        background-color: var(--color-bg-sidebar);
+        border-right: 1px solid var(--color-border);
+      }
+
+      .docs-main {
+        padding: 2rem 2.5rem;
+        max-width: 48rem;
+        min-width: 0;
+      }
+
+      .docs-toc {
+        padding: 2rem 1rem;
+        border-left: 1px solid var(--color-border);
+      }
+
+      .docs-main h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1.2;
+        margin: 0 0 1rem;
+      }
+
+      .docs-main h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 2rem 0 0.75rem;
+        padding-bottom: 0.375rem;
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .docs-main h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 1.5rem 0 0.5rem;
+      }
+
+      .docs-main p {
+        margin: 0.75rem 0;
+      }
+
+      .docs-main code {
+        font-size: 0.875em;
+        padding: 0.125rem 0.375rem;
+        background: var(--color-bg-hover);
+        border-radius: 0.25rem;
+      }
+
+      .docs-main pre {
+        padding: 1rem;
+        background: #1e1e2e;
+        color: #cdd6f4;
+        border-radius: 0.5rem;
+        overflow-x: auto;
+      }
+
+      .docs-main pre code {
+        padding: 0;
+        background: none;
+        color: inherit;
+      }
+
+      .docs-main table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+      }
+
+      .docs-main th,
+      .docs-main td {
+        padding: 0.5rem 0.75rem;
+        border: 1px solid var(--color-border);
+        text-align: left;
+      }
+
+      .docs-main th {
+        background: var(--color-bg-sidebar);
+        font-weight: 600;
+      }
+
+      /* Mobile overlay sidebar */
+      .mobile-sidebar-toggle {
+        display: none;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 40;
+        width: 2.5rem;
+        height: 2.5rem;
+        border: 1px solid var(--color-border);
+        border-radius: 0.5rem;
+        background: var(--color-bg);
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mobile-sidebar-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 30;
+      }
+
+      @media (max-width: 1023px) {
+        .docs-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .docs-sidebar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          z-index: 35;
+          width: 16rem;
+          transform: translateX(-100%);
+          transition: transform 0.2s ease;
+        }
+
+        .docs-sidebar.is-open {
+          transform: translateX(0);
+        }
+
+        .mobile-sidebar-toggle {
+          display: flex;
+        }
+
+        .mobile-sidebar-backdrop.is-open {
+          display: block;
+        }
+
+        .docs-main {
+          padding: 2rem 1rem;
+          padding-top: 4rem;
+        }
+
+        .docs-toc {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <button class="mobile-sidebar-toggle" aria-label="Open navigation" id="mobile-sidebar-toggle">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="mobile-sidebar-backdrop" id="mobile-sidebar-backdrop"></div>
+
+    <div class="docs-layout">
+      <aside class="docs-sidebar" id="docs-sidebar">
+        <Sidebar sections={sidebarSections} currentSlug={currentSlug} />
+      </aside>
+      <main class="docs-main">
+        <Breadcrumbs items={breadcrumbs} />
+        <slot />
+        <EditOnGitHub href={githubEditUrl} />
+        <PageNav prev={prevDoc} next={nextDoc} />
+      </main>
+      <aside class="docs-toc">
+        {tocItems.length > 0 && <TableOfContents items={tocItems} />}
+      </aside>
+    </div>
+
+    <script>
+      const toggle = document.getElementById('mobile-sidebar-toggle');
+      const sidebar = document.getElementById('docs-sidebar');
+      const backdrop = document.getElementById('mobile-sidebar-backdrop');
+
+      function openSidebar() {
+        sidebar?.classList.add('is-open');
+        backdrop?.classList.add('is-open');
+        toggle?.setAttribute('aria-label', 'Close navigation');
+      }
+
+      function closeSidebar() {
+        sidebar?.classList.remove('is-open');
+        backdrop?.classList.remove('is-open');
+        toggle?.setAttribute('aria-label', 'Open navigation');
+      }
+
+      toggle?.addEventListener('click', () => {
+        if (sidebar?.classList.contains('is-open')) {
+          closeSidebar();
+        } else {
+          openSidebar();
+        }
+      });
+
+      backdrop?.addEventListener('click', closeSidebar);
+    </script>
+  </body>
+</html>
