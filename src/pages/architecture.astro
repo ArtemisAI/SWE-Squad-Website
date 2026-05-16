@@ -1,0 +1,379 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import MermaidDiagram from '@components/MermaidDiagram.astro';
+import Callout from '@components/Callout.astro';
+---
+
+<BaseLayout title="Architecture — SWE-Squad">
+  <div class="page">
+
+    <a href="/" class="back-link">&larr; Home</a>
+
+    <h1 class="page-title">Architecture</h1>
+    <p class="page-intro">A deep dive into the SWE-Squad pipeline, feedback loops, memory system, and provider architecture.</p>
+
+    <!-- Section 1: Full Pipeline Diagram -->
+    <section class="section">
+      <h2>Full Pipeline</h2>
+      <p>SWE-Squad automates the entire incident lifecycle through a five-stage pipeline. Each stage contains focused sub-steps that handle a specific concern, from raw log ingestion all the way to validated deployment.</p>
+
+      <div class="diagram-container">
+        <MermaidDiagram code={`flowchart TD
+    subgraph Monitor["🔍 Monitor"]
+        M1[Log Ingestion]
+        M2[Pattern Detection]
+        M3[Alert Generation]
+    end
+    subgraph Triage["⚖️ Triage"]
+        T1[Severity Classification]
+        T2[Deduplication]
+        T3[Assignment]
+    end
+    subgraph Investigate["🔬 Investigate"]
+        I1[Codebase Exploration]
+        I2[Root Cause Analysis]
+        I3[Context Assembly]
+    end
+    subgraph Fix["🔧 Fix"]
+        F1[Code Generation]
+        F2[Test Generation]
+        F3[Self-Review]
+    end
+    subgraph Gate["🛡️ Stability Gate"]
+        G1[Unit Tests]
+        G2[Lint & Type Check]
+        G3[Security Scan]
+        G4[Smoke Tests]
+    end
+    Monitor --> Triage --> Investigate --> Fix --> Gate
+    Gate -- Pass --> Deploy[🚀 Deploy]
+    Gate -- Fail --> Investigate`} />
+      </div>
+
+      <div class="stage-descriptions">
+        <div class="stage-desc">
+          <strong>Monitor</strong> — Ingests logs and metrics from production systems, detects anomalous patterns, and generates structured alerts for downstream processing.
+        </div>
+        <div class="stage-desc">
+          <strong>Triage</strong> — Classifies each alert by severity, deduplicates recurring issues to avoid duplicate work, and assigns the incident to the appropriate AI agent.
+        </div>
+        <div class="stage-desc">
+          <strong>Investigate</strong> — Explores the relevant codebase, performs root-cause analysis, and assembles the context needed to produce an accurate fix.
+        </div>
+        <div class="stage-desc">
+          <strong>Fix</strong> — Generates targeted code patches, produces corresponding tests, and runs a self-review step to catch obvious issues before validation.
+        </div>
+        <div class="stage-desc">
+          <strong>Stability Gate</strong> — Validates the proposed fix through unit tests, linting, type checking, security scanning, and smoke tests. Only fixes that pass all checks proceed to deployment.
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Fix Loop Diagram -->
+    <section class="section">
+      <h2>Fix Loop</h2>
+      <p>When the Stability Gate rejects a fix, the system does not give up. Instead, it enters an iterative feedback loop: the agent reviews the specific failures, adjusts its approach, and generates an improved patch.</p>
+
+      <div class="diagram-container">
+        <MermaidDiagram code={`flowchart LR
+    Fix --> Gate[Stability Gate]
+    Gate -- Pass --> Deploy
+    Gate -- Fail --> Review[Review Failures]
+    Review --> Adjust[Adjust Approach]
+    Adjust --> Fix`} />
+      </div>
+
+      <p>The loop is bounded by a retry limit. After a maximum of three attempts, the system escalates the incident to a human engineer along with the full diagnostic trace, ensuring no issue is silently abandoned. Each retry carries forward the failure context so the agent avoids repeating the same mistake.</p>
+    </section>
+
+    <!-- Section 3: Semantic Memory Flow -->
+    <section class="section">
+      <h2>Semantic Memory</h2>
+      <p>SWE-Squad maintains a semantic memory store that accumulates knowledge across incidents. Every incoming issue is matched against this store to surface relevant historical context before the agent begins work.</p>
+
+      <div class="diagram-container">
+        <MermaidDiagram code={`flowchart TD
+    Input[Incoming Issue] --> Memory[Semantic Memory Store]
+    Memory --> |Relevant Context| Agent[AI Agent]
+    Agent --> |New Findings| Memory
+    Memory --> |Lessons Learned| Knowledge[Knowledge Base]
+    Knowledge --> |Historical Patterns| Memory`} />
+      </div>
+
+      <p>As agents investigate and resolve issues, they write new findings back into the memory store. Over time, these findings are distilled into a persistent knowledge base of lessons learned and recurring patterns. This means the system becomes progressively faster and more accurate: previously seen error signatures are recognized immediately, and the agent can skip redundant exploration steps.</p>
+    </section>
+
+    <!-- Section 4: Provider Plugin Architecture -->
+    <section class="section">
+      <h2>Provider Plugin Architecture</h2>
+      <p>SWE-Squad isolates model-specific logic behind a provider interface. The <code>BaseProvider</code> abstract class defines the contract every provider must satisfy, while the <code>ProviderRegistry</code> manages registration and lookup at runtime.</p>
+
+      <div class="diagram-container">
+        <MermaidDiagram code={`flowchart TD
+    subgraph Interface["Provider Interface"]
+        PI[BaseProvider]
+        PM[ProviderRegistry]
+    end
+    subgraph Implementations["Provider Implementations"]
+        P1[OpenAIProvider]
+        P2[AnthropicProvider]
+        P3[LocalProvider]
+        P4[CustomProvider]
+    end
+    PI --> P1
+    PI --> P2
+    PI --> P3
+    PI --> P4
+    PM --> PI`} />
+      </div>
+
+      <p>Each concrete provider — OpenAI, Anthropic, a local model server, or a custom implementation — extends <code>BaseProvider</code> and implements the same set of methods. Because the core pipeline depends only on the abstract interface, swapping or adding providers requires no changes to the surrounding logic. Teams can plug in new models, swap backends, or run entirely local inference without touching the pipeline code.</p>
+    </section>
+
+    <!-- Section 5: What Happens to a Log Line -->
+    <section class="section">
+      <h2>What Happens to a Log Line</h2>
+      <p>Follow a single error log line on its journey from ingestion to deployment.</p>
+
+      <div class="narrative-step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <Callout type="info" title="Ingestion">
+            <p>A production service emits an error log line — perhaps a NullPointerException or a timeout stack trace. The Monitor stage ingests this line in real time alongside thousands of other log entries, normalizing its format and attaching metadata such as service name, timestamp, and environment.</p>
+          </Callout>
+        </div>
+      </div>
+
+      <div class="narrative-step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <p>Pattern Detection scans the incoming stream against known anomaly signatures. The error line matches a threshold breach or a novel pattern, and the system flags it as anomalous, promoting it from a raw log entry to a structured alert.</p>
+        </div>
+      </div>
+
+      <div class="narrative-step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <p>Triage takes over the alert. It classifies severity (critical, high, medium, low), checks whether an identical or similar issue is already being tracked, and deduplicates if necessary to avoid parallel agents working the same problem.</p>
+        </div>
+      </div>
+
+      <div class="narrative-step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <p>The assignment step routes the incident to the right AI agent based on the service, language, and error category. Model routing ensures a fast Haiku-class model handles straightforward classification while a heavier Sonnet or Opus model is reserved for complex root-cause analysis.</p>
+        </div>
+      </div>
+
+      <div class="narrative-step">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <Callout type="tip" title="Deep Investigation">
+            <p>The assigned agent enters the Investigate stage, exploring the codebase to locate the relevant files, tracing the error path through the call stack, and assembling a rich context window that includes surrounding code, recent commits, and any related historical fixes from the semantic memory store.</p>
+          </Callout>
+        </div>
+      </div>
+
+      <div class="narrative-step">
+        <div class="step-number">6</div>
+        <div class="step-content">
+          <p>In the Fix stage, the agent generates a targeted code patch, writes corresponding unit tests, and runs a self-review pass to catch syntax errors, off-by-one mistakes, or obvious logic flaws before submitting.</p>
+        </div>
+      </div>
+
+      <div class="narrative-step">
+        <div class="step-number">7</div>
+        <div class="step-content">
+          <Callout type="warning" title="Stability Gate">
+            <p>The proposed fix is handed to the Stability Gate, which runs the full validation suite: unit tests, linting, type checking, security scanning, and smoke tests. If any check fails, the fix is rejected and the loop restarts. If all checks pass, the gate opens and the fix is cleared for deployment.</p>
+          </Callout>
+        </div>
+      </div>
+
+      <div class="narrative-step">
+        <div class="step-number">8</div>
+        <div class="step-content">
+          <Callout type="success" title="Deployed">
+            <p>The validated fix is merged and deployed to production. The semantic memory store is updated with the new findings so that future encounters with the same pattern are resolved instantly — often without invoking a model at all.</p>
+          </Callout>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  :root {
+    --color-bg: #ffffff;
+    --color-bg-sidebar: #f9fafb;
+    --color-text-primary: #1a1a2e;
+    --color-text-secondary: #4a4a6a;
+    --color-accent: #3b82f6;
+    --color-border: #e5e7eb;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg);
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    margin-bottom: 1.5rem;
+    transition: color 0.15s;
+  }
+
+  .back-link:hover {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+
+  .page-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem;
+    color: var(--color-text-primary);
+  }
+
+  .page-intro {
+    font-size: 1.0625rem;
+    color: var(--color-text-secondary);
+    margin: 0 0 3rem;
+    line-height: 1.7;
+  }
+
+  /* ---- Sections ---- */
+  .section {
+    margin-bottom: 4rem;
+  }
+
+  .section h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem;
+    color: var(--color-accent);
+  }
+
+  .section p {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin: 0 0 1rem;
+  }
+
+  .section code {
+    font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', 'Courier New', monospace;
+    font-size: 0.875em;
+    background: var(--color-bg-sidebar);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 0.125em 0.375em;
+  }
+
+  /* ---- Diagram container ---- */
+  .diagram-container {
+    margin: 1.5rem 0;
+  }
+
+  /* ---- Stage descriptions ---- */
+  .stage-descriptions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+
+  .stage-desc {
+    background: var(--color-bg-sidebar);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1rem 1.25rem;
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .stage-desc strong {
+    color: var(--color-accent);
+  }
+
+  /* ---- Narrative steps ---- */
+  .narrative-step {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .step-number {
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.15rem;
+  }
+
+  .step-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .step-content p {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 768px) {
+    .page {
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    .page-title {
+      font-size: 1.75rem;
+    }
+
+    .section h2 {
+      font-size: 1.375rem;
+    }
+
+    .narrative-step {
+      gap: 1rem;
+    }
+
+    .step-number {
+      width: 2rem;
+      height: 2rem;
+      font-size: 0.8125rem;
+    }
+  }
+</style>

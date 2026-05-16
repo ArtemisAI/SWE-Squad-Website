@@ -20,3 +20,7 @@ The platform consists of three main layers:
 ## Data Flow
 
 Tasks flow from the user through the interface layer, get orchestrated, and are executed by agents.
+
+## Interactive Architecture Diagrams
+
+For detailed, interactive Mermaid diagrams of the full pipeline, fix loop, semantic memory, and provider plugin architecture, see the **[Architecture Page](/architecture)**.
