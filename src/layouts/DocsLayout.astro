@@ -4,6 +4,8 @@ import Breadcrumbs from '@components/docs/Breadcrumbs.astro';
 import TableOfContents from '@components/docs/TableOfContents.astro';
 import PageNav from '@components/docs/PageNav.astro';
 import EditOnGitHub from '@components/docs/EditOnGitHub.astro';
+import SearchButton from '@components/SearchButton.astro';
+import SearchDialog from '@components/SearchDialog.astro';
 import { getCollection } from 'astro:content';
 import type { SidebarSection, SidebarItem } from '@components/docs/Sidebar.astro';
 
@@ -117,6 +119,10 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
         padding: 1.5rem 1rem;
         background-color: var(--color-bg-sidebar);
         border-right: 1px solid var(--color-border);
+      }
+
+      .sidebar-search {
+        margin-bottom: 0.75rem;
       }
 
       .docs-main {
@@ -267,16 +273,21 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
     <div class="mobile-sidebar-backdrop" id="mobile-sidebar-backdrop"></div>
 
     <div class="docs-layout">
-      <aside class="docs-sidebar" id="docs-sidebar">
+      <aside class="docs-sidebar" id="docs-sidebar" data-pagefind-ignore>
+        <div class="sidebar-search">
+          <SearchButton />
+        </div>
         <Sidebar sections={sidebarSections} currentSlug={currentSlug} />
       </aside>
       <main class="docs-main">
         <Breadcrumbs items={breadcrumbs} />
-        <slot />
+        <div data-pagefind-body>
+          <slot />
+        </div>
         <EditOnGitHub href={githubEditUrl} />
         <PageNav prev={prevDoc} next={nextDoc} />
       </main>
-      <aside class="docs-toc">
+      <aside class="docs-toc" data-pagefind-ignore>
         {tocItems.length > 0 && <TableOfContents items={tocItems} />}
       </aside>
     </div>
@@ -308,5 +319,7 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
 
       backdrop?.addEventListener('click', closeSidebar);
     </script>
+
+    <SearchDialog />
   </body>
 </html>
