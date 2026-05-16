@@ -1,9 +1,385 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import MermaidDiagram from '@components/MermaidDiagram.astro';
+import Callout from '@components/Callout.astro';
 ---
 
 <BaseLayout title="SWE-Squad">
-  <h1>SWE-Squad</h1>
-  <p>Welcome to SWE-Squad.</p>
-  <a href="/docs">Documentation</a>
+  <div class="landing">
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1 class="hero-title">SWE-Squad</h1>
+      <p class="hero-tagline">Autonomous AI agents for production incident management</p>
+      <p class="hero-welcome">Welcome to SWE-Squad — an AI-powered platform that detects, triages, investigates, and resolves production incidents automatically.</p>
+      <a href="/docs" class="hero-link">Documentation</a>
+    </section>
+
+    <!-- Section 1: Architecture Overview -->
+    <section class="section">
+      <h2 class="section-heading">Architecture Overview</h2>
+      <p class="section-subtext">SWE-Squad automates the full incident lifecycle through a five-stage pipeline.</p>
+
+      <MermaidDiagram code={`flowchart LR
+    Monitor --> Triage --> Investigate --> Fix --> StabilityGate
+  `} />
+
+      <div class="pipeline-stages">
+        <div class="pipeline-card">
+          <strong class="pipeline-label">Monitor</strong>
+          <span class="pipeline-desc">Detects incidents from alerts and error signals</span>
+        </div>
+        <div class="pipeline-card">
+          <strong class="pipeline-label">Triage</strong>
+          <span class="pipeline-desc">Classifies severity and assigns the right model</span>
+        </div>
+        <div class="pipeline-card">
+          <strong class="pipeline-label">Investigate</strong>
+          <span class="pipeline-desc">Deep root-cause analysis with code context</span>
+        </div>
+        <div class="pipeline-card">
+          <strong class="pipeline-label">Fix</strong>
+          <span class="pipeline-desc">Generates and applies targeted patches</span>
+        </div>
+        <div class="pipeline-card">
+          <strong class="pipeline-label">Stability Gate</strong>
+          <span class="pipeline-desc">Validates fix correctness before merge</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Model Routing -->
+    <section class="section">
+      <h2 class="section-heading">Model Routing</h2>
+      <p class="section-subtext">Different tasks use different models — optimized for cost and quality.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Tier</th>
+              <th>Model</th>
+              <th>Cost</th>
+              <th>Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tier-badge tier-fast">Fast</span></td>
+              <td>Haiku</td>
+              <td>~$0.25/1M tokens</td>
+              <td>Triage, initial classification</td>
+            </tr>
+            <tr>
+              <td><span class="tier-badge tier-balanced">Balanced</span></td>
+              <td>Sonnet</td>
+              <td>~$3.00/1M tokens</td>
+              <td>Investigation, patch generation</td>
+            </tr>
+            <tr>
+              <td><span class="tier-badge tier-expert">Expert</span></td>
+              <td>Opus</td>
+              <td>~$15.00/1M tokens</td>
+              <td>Complex fixes, architecture decisions</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <Callout type="success" title="Cached Fixes Are Free">
+        Previously resolved patterns are cached and reused at zero model cost — no invocation needed.
+      </Callout>
+    </section>
+
+    <!-- Section 3: Getting Started CTA -->
+    <section class="section">
+      <h2 class="section-heading">Get Started</h2>
+
+      <div class="code-block-wrapper">
+        <span class="code-block-label">bash</span>
+        <pre class="code-block"><code>git clone https://github.com/swe-squad/swe-squad.git
+cd swe-squad
+cp .env.example .env
+docker compose up -d</code></pre>
+      </div>
+
+      <a href="/docs" class="cta-button">Full Guide &rarr;</a>
+    </section>
+
+  </div>
 </BaseLayout>
+
+<style>
+  :root {
+    --color-bg: #ffffff;
+    --color-bg-sidebar: #f9fafb;
+    --color-bg-hover: rgba(0, 0, 0, 0.05);
+    --color-text-primary: #1a1a2e;
+    --color-text-secondary: #4a4a6a;
+    --color-text-tertiary: #9ca3af;
+    --color-accent: #3b82f6;
+    --color-border: #e5e7eb;
+    --section-max-width: 72rem;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg);
+    line-height: 1.6;
+  }
+
+  .landing {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  /* ---- Hero ---- */
+  .hero {
+    max-width: var(--section-max-width);
+    margin: 0 auto;
+    padding: 4rem 2rem 2rem;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0 0 0.5rem;
+    color: var(--color-text-primary);
+  }
+
+  .hero-tagline {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    margin: 0 0 1.25rem;
+    font-weight: 500;
+  }
+
+  .hero-welcome {
+    font-size: 1.0625rem;
+    color: var(--color-text-secondary);
+    max-width: 42rem;
+    margin: 0 auto 1.5rem;
+    line-height: 1.7;
+  }
+
+  .hero-link {
+    display: inline-block;
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.0625rem;
+    transition: color 0.15s;
+  }
+
+  .hero-link:hover {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+
+  /* ---- Sections ---- */
+  .section {
+    max-width: var(--section-max-width);
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .section-heading {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    color: var(--color-text-primary);
+  }
+
+  .section-subtext {
+    font-size: 1.0625rem;
+    color: var(--color-text-secondary);
+    margin: 0 0 2rem;
+    line-height: 1.6;
+  }
+
+  /* ---- Pipeline stages ---- */
+  .pipeline-stages {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .pipeline-card {
+    flex: 1 1 0;
+    min-width: 10rem;
+    background: var(--color-bg-sidebar);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .pipeline-label {
+    font-size: 0.9375rem;
+    color: var(--color-accent);
+  }
+
+  .pipeline-desc {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  /* ---- Table ---- */
+  .table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 1.25rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  thead th {
+    background: var(--color-accent);
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border: 1px solid var(--color-accent);
+  }
+
+  tbody td {
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+  }
+
+  tbody tr:nth-child(even) {
+    background: var(--color-bg-sidebar);
+  }
+
+  tbody tr:nth-child(odd) {
+    background: var(--color-bg);
+  }
+
+  .tier-badge {
+    display: inline-block;
+    padding: 0.125rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .tier-fast {
+    background: #dbeafe;
+    color: #1d4ed8;
+  }
+
+  .tier-balanced {
+    background: #fef3c7;
+    color: #b45309;
+  }
+
+  .tier-expert {
+    background: #ede9fe;
+    color: #7c3aed;
+  }
+
+  /* ---- Code block ---- */
+  .code-block-wrapper {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .code-block-label {
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #7f849c;
+    pointer-events: none;
+  }
+
+  .code-block {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    border-radius: 0.5rem;
+    padding: 1.5rem 1.25rem;
+    overflow-x: auto;
+    font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', 'Courier New', monospace;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .code-block code {
+    padding: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+  }
+
+  /* ---- CTA button ---- */
+  .cta-button {
+    display: inline-block;
+    background: var(--color-accent);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.0625rem;
+    padding: 0.875rem 2rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s, transform 0.15s;
+  }
+
+  .cta-button:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+  }
+
+  .cta-button:active {
+    transform: translateY(0);
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-tagline {
+      font-size: 1.0625rem;
+    }
+
+    .pipeline-stages {
+      flex-direction: column;
+    }
+
+    .pipeline-card {
+      min-width: auto;
+    }
+
+    thead th,
+    tbody td {
+      padding: 0.5rem 0.625rem;
+      font-size: 0.8125rem;
+    }
+  }
+</style>

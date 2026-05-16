@@ -1,0 +1,53 @@
+---
+interface Props {
+  type?: 'info' | 'tip' | 'success' | 'warning';
+  title?: string;
+}
+
+const { type = 'info', title } = Astro.props;
+
+const colorMap: Record<string, { accent: string; bg: string }> = {
+  info:    { accent: '#3b82f6', bg: 'rgba(59, 130, 246, 0.08)' },
+  tip:     { accent: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.08)' },
+  success: { accent: '#22c55e', bg: 'rgba(34, 197, 94, 0.08)' },
+  warning: { accent: '#f59e0b', bg: 'rgba(245, 158, 11, 0.08)' },
+};
+
+const colors = colorMap[type];
+---
+
+<div class="callout" style={`--callout-accent: ${colors.accent}; --callout-bg: ${colors.bg};`}>
+  {title && <div class="callout-title">{title}</div>}
+  <div class="callout-content">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .callout {
+    background: var(--callout-bg);
+    border-left: 4px solid var(--callout-accent);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    color: var(--color-text, inherit);
+  }
+
+  .callout-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--callout-accent);
+  }
+
+  .callout-content {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .callout-content :global(p) {
+    margin: 0;
+  }
+
+  .callout-content :global(p + p) {
+    margin-top: 0.5rem;
+  }
+</style>
