@@ -68,13 +68,15 @@ const sampleDocs: DocEntry[] = [
   { slug: 'architecture', title: 'Architecture', section: 'Core Concepts', order: 1 },
   { slug: 'agents', title: 'Agents', section: 'Core Concepts', order: 2 },
   { slug: 'api-reference', title: 'API Reference', section: 'API', order: 1 },
+  { slug: 'configuration-reference', title: 'Configuration Reference', section: 'Reference', order: 1 },
+  { slug: 'provider-plugin-guide', title: 'Provider Plugin Development Guide', section: 'Advanced', order: 1 },
 ];
 
 describe('Sidebar sections', () => {
   it('groups docs by section', () => {
     const sections = buildSidebarSections(sampleDocs);
-    expect(sections).toHaveLength(3);
-    expect(sections.map((s) => s.name)).toEqual(['API', 'Core Concepts', 'Getting Started']);
+    expect(sections).toHaveLength(5);
+    expect(sections.map((s) => s.name)).toEqual(['Advanced', 'API', 'Core Concepts', 'Getting Started', 'Reference']);
   });
 
   it('sorts items within each section by order', () => {
@@ -102,14 +104,14 @@ describe('Prev/Next navigation', () => {
   });
 
   it('returns null prev for the first doc in sorted order', () => {
-    const { prev, next } = getPrevNext(sampleDocs, 'api-reference');
+    const { prev, next } = getPrevNext(sampleDocs, 'provider-plugin-guide');
     expect(prev).toBeNull();
-    expect(next?.slug).toBe('architecture');
+    expect(next?.slug).toBe('api-reference');
   });
 
   it('returns null next for the last doc in sorted order', () => {
-    const { prev, next } = getPrevNext(sampleDocs, 'running');
-    expect(prev?.slug).toBe('configuration');
+    const { prev, next } = getPrevNext(sampleDocs, 'configuration-reference');
+    expect(prev?.slug).toBe('running');
     expect(next).toBeNull();
   });
 
