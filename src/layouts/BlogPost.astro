@@ -282,7 +282,7 @@ const wordCount = Astro.slots.has('default')
             </div>
           )}
           {image && (
-            <img src={image} alt={title} class="blog-hero-image" />
+            <img src={image} alt={title} class="blog-hero-image" width={1200} height={630} loading="eager" fetchpriority="high" />
           )}
         </div>
         <slot />

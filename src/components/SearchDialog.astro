@@ -123,11 +123,22 @@
     const input = document.getElementById('search-input') as HTMLInputElement;
     const resultsContainer = document.getElementById('search-results');
 
+    let pagefindLoaded = false;
+
+    async function ensurePagefindLoaded() {
+      if (pagefindLoaded) return;
+      await loadPagefind();
+      pagefindLoaded = true;
+    }
+
     function openSearch() {
       backdrop?.classList.add('is-open');
       dialog?.classList.add('is-open');
       input?.focus();
       document.body.style.overflow = 'hidden';
+      ensurePagefindLoaded().catch(() => {
+        // Pagefind not available (dev mode or before first build)
+      });
     }
 
     function closeSearch() {
@@ -197,10 +208,6 @@
         }
       });
     }
-
-    loadPagefind().catch(() => {
-      // Pagefind not available (dev mode or before first build)
-    });
   }
 
   initSearch();
