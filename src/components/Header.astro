@@ -91,6 +91,20 @@ const currentPath = Astro.url.pathname;
 
     <!-- Right-side controls -->
     <div class="flex items-center gap-2">
+      <!-- Search button -->
+      <button
+        id="header-search-trigger"
+        type="button"
+        class="hidden h-9 items-center gap-1.5 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-gray-400 transition-colors duration-200 hover:border-primary-300 hover:text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-500 dark:hover:border-gray-600 dark:hover:text-gray-300 md:inline-flex"
+        aria-label="Search docs and blog"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M8.5 3a5.5 5.5 0 0 1 4.23 9.02l4.12 4.13a.75.75 0 0 1-1.06 1.06l-4.13-4.12A5.5 5.5 0 1 1 8.5 3zm0 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="currentColor"/>
+        </svg>
+        <span>Search...</span>
+        <kbd class="ml-4 inline-block rounded border border-gray-200 px-1.5 py-0.5 font-mono text-[0.625rem] leading-none text-gray-400 dark:border-gray-600 dark:text-gray-500">⌘K</kbd>
+      </button>
+
       <!-- Dark / Light toggle -->
       <button
         id="theme-toggle"
@@ -288,6 +302,17 @@ const currentPath = Astro.url.pathname;
 
   // Mobile toggle
   document.getElementById('mobile-theme-toggle')?.addEventListener('click', toggleTheme);
+
+  // ── Header search trigger ──────────────────────────────────────────────────
+  document.getElementById('header-search-trigger')?.addEventListener('click', () => {
+    const searchBackdrop = document.getElementById('search-backdrop');
+    const searchDialog = document.getElementById('search-dialog');
+    const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+    searchBackdrop?.classList.add('is-open');
+    searchDialog?.classList.add('is-open');
+    searchInput?.focus();
+    document.body.style.overflow = 'hidden';
+  });
 
   // ── Mobile drawer ─────────────────────────────────────────────────────────
   const drawer = document.getElementById('mobile-drawer');

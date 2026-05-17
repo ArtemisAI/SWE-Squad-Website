@@ -177,6 +177,6 @@ describe('TrustBar component', () => {
   it('uses CSS custom properties for theming', () => {
     expect(trustBarContent).toContain('--color-bg');
     expect(trustBarContent).toContain('--color-text');
-    expect(trustBarContent).toContain('--color-accent');
+    expect(trustBarContent).toContain('--color-text-secondary');
   });
 });

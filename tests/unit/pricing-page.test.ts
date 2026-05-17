@@ -75,13 +75,13 @@ describe('Pricing page', () => {
     expect(pageContent).toContain('href="/docs"');
   });
 
-  it('includes CSS custom properties matching project pattern', () => {
-    expect(pageContent).toContain('--color-bg: #ffffff');
-    expect(pageContent).toContain('--color-bg-sidebar: #f9fafb');
-    expect(pageContent).toContain('--color-text-primary: #1a1a2e');
-    expect(pageContent).toContain('--color-text-secondary: #4a4a6a');
-    expect(pageContent).toContain('--color-accent: #6366f1');
-    expect(pageContent).toContain('--color-border: #e5e7eb');
+  it('uses design system CSS custom properties via var() references', () => {
+    expect(pageContent).toContain('var(--color-bg)');
+    expect(pageContent).toContain('var(--color-bg-sidebar)');
+    expect(pageContent).toContain('var(--color-text-primary)');
+    expect(pageContent).toContain('var(--color-text-secondary)');
+    expect(pageContent).toContain('var(--color-accent)');
+    expect(pageContent).toContain('var(--color-border)');
   });
 
   it('uses responsive breakpoint at 768px', () => {

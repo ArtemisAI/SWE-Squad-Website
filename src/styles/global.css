@@ -38,6 +38,11 @@
   --color-border: #e5e7eb;
   --color-text-tertiary: #9ca3af;
 
+  /* Layout */
+  --section-max-width: 72rem;
+  --sidebar-width: 16rem;
+  --toc-width: 14rem;
+
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
