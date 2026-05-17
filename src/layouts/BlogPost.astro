@@ -1,7 +1,9 @@
 ---
+import Header from '@components/Header.astro';
 import TableOfContents from '@components/docs/TableOfContents.astro';
 import ShareLinks from '@components/blog/ShareLinks.astro';
 import SearchDialog from '@components/SearchDialog.astro';
+import '../styles/global.css';
 
 interface TocItem {
   id: string;
@@ -18,9 +20,12 @@ interface Props {
   image?: string;
   headings: TocItem[];
   slug: string;
+  wordCount?: number;
 }
 
-const { title, description, date, author, tags = [], image, headings, slug } = Astro.props;
+const { title, description, date, author, tags = [], image, headings, slug, wordCount = 0 } = Astro.props;
+
+const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
 const postUrl = `https://swe-squad.dev/blog/${slug}`;
 
@@ -33,10 +38,6 @@ const formattedDate = date.toLocaleDateString('en-US', {
   month: 'long',
   day: 'numeric',
 });
-
-const wordCount = Astro.slots.has('default')
-  ? 0
-  : 0;
 ---
 
 <!doctype html>
@@ -53,27 +54,7 @@ const wordCount = Astro.slots.has('default')
     {image && <meta property="og:image" content={image} />}
     <style is:global>
       :root {
-        --color-bg: #ffffff;
-        --color-bg-sidebar: #f9fafb;
-        --color-bg-hover: rgba(0, 0, 0, 0.05);
-        --color-text-primary: #1a1a2e;
-        --color-text-secondary: #4a4a6a;
-        --color-text-tertiary: #9ca3af;
-        --color-accent: #3b82f6;
-        --color-border: #e5e7eb;
         --toc-width: 14rem;
-      }
-
-      *, *::before, *::after {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        color: var(--color-text-primary);
-        background-color: var(--color-bg);
-        line-height: 1.6;
       }
 
       .blog-layout {
@@ -253,6 +234,7 @@ const wordCount = Astro.slots.has('default')
     </style>
   </head>
   <body>
+    <Header />
     <div class="blog-layout">
       <main class="blog-main" data-pagefind-body>
         <div class="blog-header">
@@ -272,6 +254,13 @@ const wordCount = Astro.slots.has('default')
                 <path d="M8 1.5a2.75 2.75 0 0 0-2.75 2.75v1h-.5A1.25 1.25 0 0 0 3.5 6.5v5.75c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V6.5a1.25 1.25 0 0 0-1.25-1.25h-.5v-1A2.75 2.75 0 0 0 8 1.5zm0 1.25c.83 0 1.5.67 1.5 1.5v1h-3v-1c0-.83.67-1.5 1.5-1.5z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               {author}
+            </span>
+            <span class="blog-meta-item">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M2 4h12v8H2z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                <path d="M5 4V2.5M11 4V2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+              {readingTime} min read
             </span>
           </div>
           {tags.length > 0 && (

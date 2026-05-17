@@ -1,0 +1,52 @@
+---
+title: "Multi-Agent Orchestration: How SWE-Squad Coordinates AI Agents"
+description: "A deep dive into the orchestration layer that manages SWE-Squad's specialized AI agents — Explorer, Planner, Coder, and Reviewer — and how they collaborate to resolve incidents."
+date: 2025-04-20
+author: "Engineering Team"
+tags: ["engineering", "ai", "orchestration"]
+image: "/blog/orchestration.png"
+---
+
+SWE-Squad's power comes not from any single AI agent, but from how multiple specialized agents work together. The orchestration layer is the brain that coordinates them. Here's how it works.
+
+## The Agent Roster
+
+Each agent type has a specific role in the incident pipeline:
+
+- **Explorer** — Fast, read-only agent that searches code, logs, and dashboards to gather context
+- **Planner** — Analyzes the gathered context and designs an approach to the fix
+- **Coder** — Implements the actual code changes based on the plan
+- **Reviewer** — Validates the proposed changes before they reach the Stability Gate
+
+## Orchestration Flow
+
+When an incident enters the pipeline, the orchestrator assigns it to an Explorer first. The Explorer's findings are passed to the Planner, who creates a strategy document. The Coder then implements the plan, and the Reviewer checks the result.
+
+<Callout type="tip" title="Key Insight">
+Each agent operates with a different model tier. Explorers use Haiku for speed, while Coders and Planners use Sonnet for balanced reasoning. Only the most complex cases escalate to Opus.
+</Callout>
+
+## Handoff Protocol
+
+Between each stage, the orchestrator validates the output:
+
+1. **Explorer → Planner**: The findings must contain actionable context
+2. **Planner → Coder**: The plan must be specific and scoped
+3. **Coder → Reviewer**: The diff must pass syntax checks
+4. **Reviewer → Stability Gate**: The review must approve the change
+
+If any handoff fails, the orchestrator can retry with a different approach or escalate to a human.
+
+<Callout type="info">
+The handoff protocol is configurable per team. Teams with stricter compliance requirements can add additional review stages.
+</Callout>
+
+## Parallel Execution
+
+Not all incidents need the full pipeline. Simple, recurring patterns — which make up about 40% of incidents — can skip directly from detection to a cached fix. The orchestrator checks the semantic cache before starting any agent pipeline.
+
+For novel incidents, the orchestrator can run the Explorer and a preliminary cache lookup in parallel. If the cache returns a match, the agent pipeline is cancelled mid-flight, saving both time and compute cost.
+
+## What's Next
+
+We're working on dynamic agent composition — allowing the orchestrator to create custom agent teams based on the specific characteristics of each incident, rather than always using the fixed four-agent pipeline.
