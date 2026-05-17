@@ -41,8 +41,18 @@ for (const doc of sortedDocs) {
   sectionsMap.set(sec, items);
 }
 
+const sectionOrder = ['Getting Started', 'Core Concepts', 'API', 'Reference'];
+
 const sidebarSections: SidebarSection[] = [];
-for (const [name, items] of sectionsMap) {
+const orderedSections = [...sectionsMap.entries()].sort((a, b) => {
+  const ai = sectionOrder.indexOf(a[0]);
+  const bi = sectionOrder.indexOf(b[0]);
+  if (ai === -1 && bi === -1) return a[0].localeCompare(b[0]);
+  if (ai === -1) return 1;
+  if (bi === -1) return -1;
+  return ai - bi;
+});
+for (const [name, items] of orderedSections) {
   sidebarSections.push({ name, items });
 }
 
@@ -349,7 +359,7 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
         </button>
         <Sidebar sections={sidebarSections} currentSlug={currentSlug} />
       </aside>
-      <main class="docs-main" data-pagefind-body>
+      <main id="docs-content" class="docs-main" data-pagefind-body>
         <Breadcrumbs items={breadcrumbs} />
         <slot />
         <EditOnGitHub href={githubEditUrl} />

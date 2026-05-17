@@ -7,6 +7,7 @@ export interface SidebarItem {
 export interface SidebarSection {
   name: string;
   items: SidebarItem[];
+  defaultExpanded?: boolean;
 }
 
 interface Props {
@@ -15,15 +16,23 @@ interface Props {
 }
 
 const { sections, currentSlug } = Astro.props;
+
+const enrichedSections = sections.map((section) => ({
+  ...section,
+  defaultExpanded: section.defaultExpanded ?? section.items.some((item) => item.slug === currentSlug),
+}));
 ---
 
 <nav class="sidebar-nav" aria-label="Documentation navigation">
-  {sections.map((section) => (
+  {enrichedSections.map((section) => {
+    const sectionId = `section-${section.name.replace(/\s+/g, '-').toLowerCase()}`;
+    const isActive = section.items.some((item) => item.slug === currentSlug);
+    return (
     <div class="sidebar-section" data-section={section.name}>
       <button
         class="sidebar-section-toggle"
-        aria-expanded="true"
-        aria-controls={`section-${section.name.replace(/\s+/g, '-').toLowerCase()}`}
+        aria-expanded={section.defaultExpanded ? 'true' : 'false'}
+        aria-controls={sectionId}
       >
         <span class="sidebar-section-name">{section.name}</span>
         <svg class="sidebar-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -31,8 +40,8 @@ const { sections, currentSlug } = Astro.props;
         </svg>
       </button>
       <ul
-        id={`section-${section.name.replace(/\s+/g, '-').toLowerCase()}`}
-        class="sidebar-section-items"
+        id={sectionId}
+        class:list={['sidebar-section-items', { collapsed: !section.defaultExpanded }]}
         role="list"
       >
         {section.items.map((item) => (
@@ -48,7 +57,8 @@ const { sections, currentSlug } = Astro.props;
         ))}
       </ul>
     </div>
-  ))}
+  );
+  })}
 </nav>
 
 <style>
@@ -91,7 +101,7 @@ const { sections, currentSlug } = Astro.props;
     transform: rotate(-90deg);
   }
 
-  .sidebar-section-toggle[aria-expanded="false"] + .sidebar-section-items {
+  .sidebar-section-items.collapsed {
     display: none;
   }
 
