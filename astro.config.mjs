@@ -5,7 +5,7 @@ import vercel from '@astrojs/vercel';
 
 export default defineConfig({
   site: 'https://swe-squad.dev',
-  output: 'static',
+  output: 'hybrid',
   adapter: vercel(),
   integrations: [
     tailwind(),
