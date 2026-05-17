@@ -22,7 +22,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
   <a href={`/blog/${slug}`} class="post-card-link">
     {image && (
       <div class="post-card-image-wrapper">
-        <img src={image} alt={title} class="post-card-image" width={400} height={210} loading="lazy" decoding="async" />
+        <img src={image} alt="" class="post-card-image" width={400} height={210} loading="lazy" decoding="async" />
       </div>
     )}
     <div class="post-card-content">
@@ -102,7 +102,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
     display: flex;
     gap: 1rem;
     font-size: 0.8125rem;
-    color: var(--color-text-tertiary, #9ca3af);
+    color: var(--color-text-tertiary, #6b7280);
     margin-bottom: 0.5rem;
   }
 

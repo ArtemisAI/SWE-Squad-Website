@@ -58,7 +58,7 @@ const wordCount = Astro.slots.has('default')
         --color-bg-hover: rgba(0, 0, 0, 0.05);
         --color-text-primary: #1a1a2e;
         --color-text-secondary: #4a4a6a;
-        --color-text-tertiary: #9ca3af;
+        --color-text-tertiary: #6b7280;
         --color-accent: #3b82f6;
         --color-border: #e5e7eb;
         --toc-width: 14rem;
@@ -250,11 +250,40 @@ const wordCount = Astro.slots.has('default')
           display: none;
         }
       }
+
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 0;
+        background: var(--color-accent, #2563eb);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        z-index: 10000;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 0 0 0.25rem 0;
+      }
+      .skip-link:focus {
+        top: 0;
+      }
+
+      a:focus-visible,
+      button:focus-visible,
+      input:focus-visible,
+      select:focus-visible,
+      textarea:focus-visible,
+      [tabindex]:focus-visible {
+        outline: 2px solid var(--color-accent, #2563eb);
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
     </style>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <div class="blog-layout">
-      <main class="blog-main" data-pagefind-body>
+      <main class="blog-main" id="main-content" data-pagefind-body>
         <div class="blog-header">
           <div class="blog-breadcrumb">
             <a href="/blog">&larr; Blog</a>
@@ -282,7 +311,7 @@ const wordCount = Astro.slots.has('default')
             </div>
           )}
           {image && (
-            <img src={image} alt={title} class="blog-hero-image" width={1200} height={630} loading="eager" fetchpriority="high" />
+            <img src={image} alt="" class="blog-hero-image" width={1200} height={630} loading="eager" fetchpriority="high" />
           )}
         </div>
         <slot />
@@ -290,7 +319,7 @@ const wordCount = Astro.slots.has('default')
           <ShareLinks title={title} url={postUrl} />
         </div>
       </main>
-      <aside class="blog-toc">
+      <aside class="blog-toc" aria-label="Table of contents">
         {tocItems.length > 0 && <TableOfContents items={tocItems} />}
       </aside>
     </div>

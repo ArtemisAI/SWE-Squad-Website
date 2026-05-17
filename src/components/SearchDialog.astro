@@ -14,6 +14,7 @@
       placeholder="Search docs and blog..."
       autocomplete="off"
       autofocus
+      aria-label="Search documentation"
     />
     <kbd class="search-kbd">Esc</kbd>
   </div>
@@ -67,7 +68,7 @@
 
   .search-icon {
     flex-shrink: 0;
-    color: var(--color-text-tertiary, #9ca3af);
+    color: var(--color-text-tertiary, #6b7280);
   }
 
   .search-input {
@@ -80,8 +81,13 @@
     background: transparent;
   }
 
+  .search-input:focus-visible {
+    outline: 2px solid var(--color-accent, #2563eb);
+    outline-offset: 2px;
+  }
+
   .search-input::placeholder {
-    color: var(--color-text-tertiary, #9ca3af);
+    color: var(--color-text-tertiary, #6b7280);
   }
 
   .search-kbd {
@@ -89,7 +95,7 @@
     padding: 0.125rem 0.5rem;
     font-size: 0.75rem;
     font-family: inherit;
-    color: var(--color-text-tertiary, #9ca3af);
+    color: var(--color-text-tertiary, #6b7280);
     background: var(--color-bg-sidebar, #f9fafb);
     border: 1px solid var(--color-border, #e5e7eb);
     border-radius: 0.25rem;
@@ -104,14 +110,14 @@
   .search-empty {
     padding: 2rem 1rem;
     text-align: center;
-    color: var(--color-text-tertiary, #9ca3af);
+    color: var(--color-text-tertiary, #6b7280);
     font-size: 0.875rem;
   }
 
   .search-no-results {
     padding: 2rem 1rem;
     text-align: center;
-    color: var(--color-text-tertiary, #9ca3af);
+    color: var(--color-text-tertiary, #6b7280);
     font-size: 0.875rem;
   }
 </style>
@@ -141,6 +147,32 @@
       });
     }
 
+    function trapFocus(e: KeyboardEvent) {
+      if (e.key !== 'Tab') return;
+      if (!dialog) return;
+
+      const focusableSelectors = 'a[href], input, button, textarea, select, [tabindex]:not([tabindex="-1"])';
+      const focusableEls = dialog.querySelectorAll<HTMLElement>(focusableSelectors);
+      if (focusableEls.length === 0) return;
+
+      const firstEl = focusableEls[0];
+      const lastEl = focusableEls[focusableEls.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstEl) {
+          e.preventDefault();
+          lastEl.focus();
+        }
+      } else {
+        if (document.activeElement === lastEl) {
+          e.preventDefault();
+          firstEl.focus();
+        }
+      }
+    }
+
+    dialog?.addEventListener('keydown', trapFocus);
+
     function closeSearch() {
       backdrop?.classList.remove('is-open');
       dialog?.classList.remove('is-open');
@@ -149,6 +181,7 @@
       if (resultsContainer) {
         resultsContainer.innerHTML = '<div class="search-empty">Type to search documentation and blog posts</div>';
       }
+      document.querySelector('[aria-label="Search documentation"]')?.focus();
     }
 
     // Cmd+K / Ctrl+K shortcut

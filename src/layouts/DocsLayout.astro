@@ -87,7 +87,7 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
         --color-bg-active: rgba(59, 130, 246, 0.1);
         --color-text-primary: #1a1a2e;
         --color-text-secondary: #4a4a6a;
-        --color-text-tertiary: #9ca3af;
+        --color-text-tertiary: #6b7280;
         --color-accent: #3b82f6;
         --color-border: #e5e7eb;
         --sidebar-width: 16rem;
@@ -291,9 +291,38 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
           display: none;
         }
       }
+
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 0;
+        background: var(--color-accent, #2563eb);
+        color: #fff;
+        padding: 0.5rem 1rem;
+        z-index: 10000;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 0 0 0.25rem 0;
+      }
+      .skip-link:focus {
+        top: 0;
+      }
+
+      a:focus-visible,
+      button:focus-visible,
+      input:focus-visible,
+      select:focus-visible,
+      textarea:focus-visible,
+      [tabindex]:focus-visible {
+        outline: 2px solid var(--color-accent, #2563eb);
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
     </style>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <button class="mobile-sidebar-toggle" aria-label="Open navigation" id="mobile-sidebar-toggle">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
         <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -302,7 +331,7 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
     <div class="mobile-sidebar-backdrop" id="mobile-sidebar-backdrop"></div>
 
     <div class="docs-layout">
-      <aside class="docs-sidebar" id="docs-sidebar">
+      <aside class="docs-sidebar" id="docs-sidebar" aria-label="Sidebar">
         <button class="search-trigger" id="search-trigger" aria-label="Search docs and blog">
           <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M8.5 3a5.5 5.5 0 0 1 4.23 9.02l4.12 4.13a.75.75 0 0 1-1.06 1.06l-4.13-4.12A5.5 5.5 0 1 1 8.5 3zm0 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="currentColor"/>
@@ -312,7 +341,7 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
         </button>
         <Sidebar sections={sidebarSections} currentSlug={currentSlug} />
       </aside>
-      <main class="docs-main" data-pagefind-body>
+      <main class="docs-main" id="main-content" data-pagefind-body>
         <Breadcrumbs items={breadcrumbs} />
         <slot />
         <EditOnGitHub href={githubEditUrl} />

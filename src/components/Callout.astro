@@ -16,7 +16,7 @@ const colorMap: Record<string, { accent: string; bg: string }> = {
 const colors = colorMap[type];
 ---
 
-<div class="callout" style={`--callout-accent: ${colors.accent}; --callout-bg: ${colors.bg};`}>
+<div class="callout" role="note" style={`--callout-accent: ${colors.accent}; --callout-bg: ${colors.bg};`}>
   {title && <div class="callout-title">{title}</div>}
   <div class="callout-content">
     <slot />

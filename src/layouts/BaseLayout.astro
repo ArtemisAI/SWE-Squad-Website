@@ -20,6 +20,39 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <slot />
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <main id="main-content">
+      <slot />
+    </main>
   </body>
 </html>
+
+<style is:global>
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    background: var(--color-accent, #2563eb);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    z-index: 10000;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 0 0 0.25rem 0;
+  }
+  .skip-link:focus {
+    top: 0;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--color-accent, #2563eb);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+</style>

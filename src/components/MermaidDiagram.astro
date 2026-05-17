@@ -9,7 +9,7 @@ const { code, id, theme = 'default' } = Astro.props;
 const diagramId = id ?? `mermaid-${Math.random().toString(36).slice(2, 9)}`;
 ---
 
-<pre class="mermaid" data-mermaid-id={diagramId} data-mermaid-theme={theme}>{code}</pre>
+<pre class="mermaid" role="img" aria-label={`Diagram: ${code.substring(0, 100)}`} data-mermaid-id={diagramId} data-mermaid-theme={theme}>{code}</pre>
 
 <script>
   document.addEventListener('DOMContentLoaded', async () => {
