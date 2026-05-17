@@ -1,7 +1,7 @@
 ---
 interface Props {
-  prev?: { slug: string; title: string } | null;
-  next?: { slug: string; title: string } | null;
+  prev?: { id: string; title: string } | null;
+  next?: { id: string; title: string } | null;
 }
 
 const { prev, next } = Astro.props;
@@ -11,13 +11,13 @@ const { prev, next } = Astro.props;
   <nav class="page-nav" aria-label="Page navigation">
     <div class="page-nav-inner">
       {prev ? (
-        <a href={`/docs/${prev.slug}`} class="page-nav-link page-nav-prev" rel="prev">
+        <a href={`/docs/${prev.id}`} class="page-nav-link page-nav-prev" rel="prev">
           <span class="page-nav-direction">Previous</span>
           <span class="page-nav-title">{prev.title}</span>
         </a>
       ) : <div />}
       {next ? (
-        <a href={`/docs/${next.slug}`} class="page-nav-link page-nav-next" rel="next">
+        <a href={`/docs/${next.id}`} class="page-nav-link page-nav-next" rel="next">
           <span class="page-nav-direction">Next</span>
           <span class="page-nav-title">{next.title}</span>
         </a>
@@ -50,7 +50,7 @@ const { prev, next } = Astro.props;
   }
 
   .page-nav-link:hover {
-    border-color: var(--color-accent, #3b82f6);
+    border-color: var(--color-accent, #6366f1);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
 
@@ -77,6 +77,6 @@ const { prev, next } = Astro.props;
   }
 
   .page-nav-link:hover .page-nav-title {
-    color: var(--color-accent, #3b82f6);
+    color: var(--color-accent, #6366f1);
   }
 </style>

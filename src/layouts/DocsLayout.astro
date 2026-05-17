@@ -1,4 +1,6 @@
 ---
+import Header from '@components/Header.astro';
+import '../styles/global.css';
 import Sidebar from '@components/docs/Sidebar.astro';
 import Breadcrumbs from '@components/docs/Breadcrumbs.astro';
 import TableOfContents from '@components/docs/TableOfContents.astro';
@@ -37,7 +39,7 @@ const sectionsMap = new Map<string, SidebarItem[]>();
 for (const doc of sortedDocs) {
   const sec = doc.data.section;
   const items = sectionsMap.get(sec) || [];
-  items.push({ slug: doc.slug, title: doc.data.title });
+  items.push({ id: doc.id, title: doc.data.title });
   sectionsMap.set(sec, items);
 }
 
@@ -47,13 +49,13 @@ for (const [name, items] of sectionsMap) {
 }
 
 const flatDocs = sortedDocs.map((doc) => ({
-  slug: doc.slug,
+  id: doc.id,
   title: doc.data.title,
   section: doc.data.section,
   order: doc.data.order,
 }));
 
-const currentIndex = flatDocs.findIndex((doc) => doc.slug === currentSlug);
+const currentIndex = flatDocs.findIndex((doc) => doc.id === currentSlug);
 const prevDoc = currentIndex > 0 ? flatDocs[currentIndex - 1] : null;
 const nextDoc = currentIndex < flatDocs.length - 1 ? flatDocs[currentIndex + 1] : null;
 
@@ -81,29 +83,8 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
     <meta data-pagefind-meta="description" content={description} />
     <style is:global>
       :root {
-        --color-bg: #ffffff;
-        --color-bg-sidebar: #f9fafb;
-        --color-bg-hover: rgba(0, 0, 0, 0.05);
-        --color-bg-active: rgba(59, 130, 246, 0.1);
-        --color-text-primary: #1a1a2e;
-        --color-text-secondary: #4a4a6a;
-        --color-text-tertiary: #9ca3af;
-        --color-accent: #3b82f6;
-        --color-border: #e5e7eb;
         --sidebar-width: 16rem;
         --toc-width: 14rem;
-      }
-
-      *, *::before, *::after {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        color: var(--color-text-primary);
-        background-color: var(--color-bg);
-        line-height: 1.6;
       }
 
       .docs-layout {
@@ -294,6 +275,7 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
     </style>
   </head>
   <body>
+    <Header />
     <button class="mobile-sidebar-toggle" aria-label="Open navigation" id="mobile-sidebar-toggle">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
         <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
