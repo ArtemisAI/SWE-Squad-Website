@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://swe-squad.dev/sitemap-index.xml
