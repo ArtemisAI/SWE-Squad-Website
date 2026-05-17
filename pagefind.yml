@@ -1,0 +1,5 @@
+# Pagefind configuration
+# Index only docs and blog pages — exclude marketing/landing pages
+
+site: dist
+glob: "{docs,blog}/**/*.html"
