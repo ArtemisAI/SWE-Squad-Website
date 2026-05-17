@@ -76,6 +76,7 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} | SWE-Squad Docs</title>
     <meta name="description" content={description} />
+    <link rel="preconnect" href="https://github.com" crossorigin />
     <style is:global>
       :root {
         --color-bg: #ffffff;
@@ -307,6 +308,14 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
       });
 
       backdrop?.addEventListener('click', closeSidebar);
+
+      // Sidebar section toggle (expand/collapse)
+      document.querySelectorAll('.sidebar-section-toggle').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', String(!expanded));
+        });
+      });
     </script>
   </body>
 </html>

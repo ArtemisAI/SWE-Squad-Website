@@ -48,6 +48,11 @@ const wordCount = Astro.slots.has('default')
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {image && <meta property="og:image" content={image} />}
+    <link rel="preconnect" href="https://twitter.com" />
+    <link rel="dns-prefetch" href="https://twitter.com" />
+    <link rel="preconnect" href="https://www.linkedin.com" />
+    <link rel="dns-prefetch" href="https://www.linkedin.com" />
+    {image && <link rel="preload" as="image" href={image} />}
     <style is:global>
       :root {
         --color-bg: #ffffff;
@@ -279,7 +284,7 @@ const wordCount = Astro.slots.has('default')
             </div>
           )}
           {image && (
-            <img src={image} alt={title} class="blog-hero-image" />
+            <img src={image} alt={title} class="blog-hero-image" width="800" height="400" loading="eager" fetchpriority="high" decoding="async" />
           )}
         </div>
         <slot />

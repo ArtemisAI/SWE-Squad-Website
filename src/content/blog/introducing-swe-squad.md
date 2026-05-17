@@ -5,6 +5,7 @@ date: 2025-01-15
 author: "SWE-Squad Team"
 tags: ["announcement", "ai", "incident-management"]
 image: "/blog/swe-squad-intro.png"
+# NOTE: image file /blog/swe-squad-intro.png is missing from public/ directory
 ---
 
 We're excited to announce SWE-Squad, an AI-powered platform that transforms how teams handle production incidents. Instead of waking engineers at 3 AM, SWE-Squad deploys autonomous agents that handle the entire incident lifecycle.

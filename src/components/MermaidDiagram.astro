@@ -1,4 +1,6 @@
 ---
+import { renderMermaidDiagram } from '../utils/renderMermaid.mjs';
+
 interface Props {
   code: string;
   id?: string;
@@ -7,19 +9,10 @@ interface Props {
 
 const { code, id, theme = 'default' } = Astro.props;
 const diagramId = id ?? `mermaid-${Math.random().toString(36).slice(2, 9)}`;
+const svg = await renderMermaidDiagram(code);
 ---
 
-<pre class="mermaid" data-mermaid-id={diagramId} data-mermaid-theme={theme}>{code}</pre>
-
-<script>
-  import mermaid from 'mermaid';
-
-  mermaid.initialize({ startOnLoad: false, theme: 'default' });
-
-  document.addEventListener('DOMContentLoaded', () => {
-    mermaid.run({ querySelector: '.mermaid' });
-  });
-</script>
+<div class="mermaid" data-mermaid-id={diagramId} data-mermaid-theme={theme} set:html={svg} />
 
 <style>
   .mermaid {

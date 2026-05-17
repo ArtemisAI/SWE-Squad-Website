@@ -122,12 +122,3 @@ const { sections, currentSlug } = Astro.props;
     font-weight: 500;
   }
 </style>
-
-<script>
-  document.querySelectorAll('.sidebar-section-toggle').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!expanded));
-    });
-  });
-</script>
