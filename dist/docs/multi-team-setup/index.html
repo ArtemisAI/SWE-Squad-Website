@@ -1,0 +1,226 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Multi-Team Setup | SWE-Squad Docs</title><meta name="description" content="Configure multiple squads with separate team IDs, dedicated GitHub bots, shared Supabase, ticket isolation, and cross-team semantic memory"><meta data-pagefind-meta="title" content="Multi-Team Setup"><meta data-pagefind-meta="description" content="Configure multiple squads with separate team IDs, dedicated GitHub bots, shared Supabase, ticket isolation, and cross-team semantic memory"><link rel="stylesheet" href="/_astro/_slug_.D1V7rumz.css">
+<style>.toc[data-astro-cid-cott7la3]{position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto}.toc-heading[data-astro-cid-cott7la3]{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary, #4a4a6a);margin-bottom:.75rem}.toc-list[data-astro-cid-cott7la3]{list-style:none;padding:0;margin:0}.toc-item[data-astro-cid-cott7la3]{margin-bottom:.25rem}.toc-link[data-astro-cid-cott7la3]{display:block;font-size:.8125rem;color:var(--color-text-secondary, #4a4a6a);text-decoration:none;padding:.25rem 0;line-height:1.4;transition:color .15s}.toc-link[data-astro-cid-cott7la3]:hover{color:var(--color-text-primary, #1a1a2e)}.toc-depth-2[data-astro-cid-cott7la3]{padding-left:0}.toc-depth-3[data-astro-cid-cott7la3]{padding-left:1rem}.toc-depth-4[data-astro-cid-cott7la3]{padding-left:2rem}.search-result{display:block;padding:.75rem 1rem;text-decoration:none;color:inherit;transition:background .15s}.search-result:hover,.search-result:focus{background:var(--color-bg-hover, rgba(0, 0, 0, .05))}.search-result-title{font-weight:600;font-size:.9375rem;color:var(--color-text-primary, #1a1a2e);margin-bottom:.25rem}.search-result-excerpt{font-size:.8125rem;color:var(--color-text-secondary, #4a4a6a);line-height:1.5}.search-result-excerpt mark{background:#3b82f626;color:var(--color-accent, #3b82f6);padding:.0625rem 0;border-radius:.125rem}.search-backdrop[data-astro-cid-euff75kw]{display:none;position:fixed;inset:0;background:#00000080;z-index:50}.search-backdrop[data-astro-cid-euff75kw].is-open{display:block}.search-dialog[data-astro-cid-euff75kw]{position:fixed;top:12vh;left:50%;transform:translate(-50%);width:min(90vw,40rem);max-height:70vh;background:var(--color-bg, #ffffff);border:1px solid var(--color-border, #e5e7eb);border-radius:.75rem;box-shadow:0 25px 50px -12px #00000040;z-index:51;overflow:hidden;display:none;flex-direction:column}.search-dialog[data-astro-cid-euff75kw].is-open{display:flex}.search-input-wrapper[data-astro-cid-euff75kw]{display:flex;align-items:center;gap:.75rem;padding:.875rem 1rem;border-bottom:1px solid var(--color-border, #e5e7eb)}.search-icon[data-astro-cid-euff75kw]{flex-shrink:0;color:var(--color-text-tertiary, #9ca3af)}.search-input[data-astro-cid-euff75kw]{flex:1;border:none;outline:none;font-size:1rem;font-family:inherit;color:var(--color-text-primary, #1a1a2e);background:transparent}.search-input[data-astro-cid-euff75kw]::placeholder{color:var(--color-text-tertiary, #9ca3af)}.search-kbd[data-astro-cid-euff75kw]{flex-shrink:0;padding:.125rem .5rem;font-size:.75rem;font-family:inherit;color:var(--color-text-tertiary, #9ca3af);background:var(--color-bg-sidebar, #f9fafb);border:1px solid var(--color-border, #e5e7eb);border-radius:.25rem}.search-results[data-astro-cid-euff75kw]{overflow-y:auto;padding:.5rem 0;max-height:calc(70vh - 4rem)}.search-empty[data-astro-cid-euff75kw],.search-no-results[data-astro-cid-euff75kw]{padding:2rem 1rem;text-align:center;color:var(--color-text-tertiary, #9ca3af);font-size:.875rem}
+</style><script type="module" src="/_astro/hoisted.zQcclJqR.js"></script>
+<script type="module" src="/_astro/page.DTIbhfSr.js"></script></head> <body> <button class="mobile-sidebar-toggle" aria-label="Open navigation" id="mobile-sidebar-toggle"> <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"> <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path> </svg> </button> <div class="mobile-sidebar-backdrop" id="mobile-sidebar-backdrop"></div> <div class="docs-layout"> <aside class="docs-sidebar" id="docs-sidebar"> <button class="search-trigger" id="search-trigger" aria-label="Search docs and blog"> <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"> <path d="M8.5 3a5.5 5.5 0 0 1 4.23 9.02l4.12 4.13a.75.75 0 0 1-1.06 1.06l-4.13-4.12A5.5 5.5 0 1 1 8.5 3zm0 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="currentColor"></path> </svg> <span class="search-trigger-text">Search...</span> <kbd class="search-trigger-kbd">⌘K</kbd> </button> <nav class="sidebar-nav" aria-label="Documentation navigation" data-astro-cid-mx5xs5wp> <div class="sidebar-section" data-section="Advanced" data-astro-cid-mx5xs5wp> <button class="sidebar-section-toggle" aria-expanded="true" aria-controls="section-advanced" data-astro-cid-mx5xs5wp> <span class="sidebar-section-name" data-astro-cid-mx5xs5wp>Advanced</span> <svg class="sidebar-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-astro-cid-mx5xs5wp> <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-mx5xs5wp></path> </svg> </button> <ul id="section-advanced" class="sidebar-section-items" role="list" data-astro-cid-mx5xs5wp> <li data-astro-cid-mx5xs5wp> <a href="/docs/provider-plugin-guide" class="sidebar-link" data-astro-cid-mx5xs5wp> Provider Plugin Development Guide </a> </li><li data-astro-cid-mx5xs5wp> <a href="/docs/multi-team-setup" class="sidebar-link active" aria-current="page" data-astro-cid-mx5xs5wp> Multi-Team Setup </a> </li><li data-astro-cid-mx5xs5wp> <a href="/docs/security-rbac" class="sidebar-link" data-astro-cid-mx5xs5wp> Security and RBAC </a> </li> </ul> </div><div class="sidebar-section" data-section="API" data-astro-cid-mx5xs5wp> <button class="sidebar-section-toggle" aria-expanded="true" aria-controls="section-api" data-astro-cid-mx5xs5wp> <span class="sidebar-section-name" data-astro-cid-mx5xs5wp>API</span> <svg class="sidebar-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-astro-cid-mx5xs5wp> <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-mx5xs5wp></path> </svg> </button> <ul id="section-api" class="sidebar-section-items" role="list" data-astro-cid-mx5xs5wp> <li data-astro-cid-mx5xs5wp> <a href="/docs/api-reference" class="sidebar-link" data-astro-cid-mx5xs5wp> API Reference </a> </li> </ul> </div><div class="sidebar-section" data-section="Core Concepts" data-astro-cid-mx5xs5wp> <button class="sidebar-section-toggle" aria-expanded="true" aria-controls="section-core-concepts" data-astro-cid-mx5xs5wp> <span class="sidebar-section-name" data-astro-cid-mx5xs5wp>Core Concepts</span> <svg class="sidebar-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-astro-cid-mx5xs5wp> <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-mx5xs5wp></path> </svg> </button> <ul id="section-core-concepts" class="sidebar-section-items" role="list" data-astro-cid-mx5xs5wp> <li data-astro-cid-mx5xs5wp> <a href="/docs/architecture" class="sidebar-link" data-astro-cid-mx5xs5wp> Architecture </a> </li><li data-astro-cid-mx5xs5wp> <a href="/docs/agents" class="sidebar-link" data-astro-cid-mx5xs5wp> Agents </a> </li> </ul> </div><div class="sidebar-section" data-section="Getting Started" data-astro-cid-mx5xs5wp> <button class="sidebar-section-toggle" aria-expanded="true" aria-controls="section-getting-started" data-astro-cid-mx5xs5wp> <span class="sidebar-section-name" data-astro-cid-mx5xs5wp>Getting Started</span> <svg class="sidebar-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-astro-cid-mx5xs5wp> <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-mx5xs5wp></path> </svg> </button> <ul id="section-getting-started" class="sidebar-section-items" role="list" data-astro-cid-mx5xs5wp> <li data-astro-cid-mx5xs5wp> <a href="/docs/introduction" class="sidebar-link" data-astro-cid-mx5xs5wp> Introduction </a> </li><li data-astro-cid-mx5xs5wp> <a href="/docs/installation" class="sidebar-link" data-astro-cid-mx5xs5wp> Installation </a> </li><li data-astro-cid-mx5xs5wp> <a href="/docs/configuration" class="sidebar-link" data-astro-cid-mx5xs5wp> Configuration </a> </li><li data-astro-cid-mx5xs5wp> <a href="/docs/running" class="sidebar-link" data-astro-cid-mx5xs5wp> Running SWE-Squad </a> </li> </ul> </div><div class="sidebar-section" data-section="Reference" data-astro-cid-mx5xs5wp> <button class="sidebar-section-toggle" aria-expanded="true" aria-controls="section-reference" data-astro-cid-mx5xs5wp> <span class="sidebar-section-name" data-astro-cid-mx5xs5wp>Reference</span> <svg class="sidebar-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-astro-cid-mx5xs5wp> <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-mx5xs5wp></path> </svg> </button> <ul id="section-reference" class="sidebar-section-items" role="list" data-astro-cid-mx5xs5wp> <li data-astro-cid-mx5xs5wp> <a href="/docs/configuration-reference" class="sidebar-link" data-astro-cid-mx5xs5wp> Configuration Reference </a> </li> </ul> </div> </nav>   </aside> <main class="docs-main" data-pagefind-body> <nav class="breadcrumbs" aria-label="Breadcrumb" data-astro-cid-grgf6asm> <ol class="breadcrumb-list" role="list" data-astro-cid-grgf6asm> <li class="breadcrumb-item" data-astro-cid-grgf6asm> <a href="/docs" class="breadcrumb-link" data-astro-cid-grgf6asm>Docs</a> <svg class="breadcrumb-separator" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-astro-cid-grgf6asm> <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-grgf6asm></path> </svg> </li><li class="breadcrumb-item" data-astro-cid-grgf6asm> <span class="breadcrumb-current" aria-current="page" data-astro-cid-grgf6asm>Advanced</span> <svg class="breadcrumb-separator" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" data-astro-cid-grgf6asm> <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-grgf6asm></path> </svg> </li><li class="breadcrumb-item" data-astro-cid-grgf6asm> <span class="breadcrumb-current" aria-current="page" data-astro-cid-grgf6asm>Multi-Team Setup</span>  </li> </ol> </nav>   <h1 id="multi-team-setup">Multi-Team Setup</h1>
+<p>SWE-Squad supports multiple engineering teams operating within a single organization. Each team gets its own isolated workspace with independent model preferences, governance rules, and codebase scope boundaries, while all teams share a common semantic memory store for cross-team learning.</p>
+<h2 id="overview">Overview</h2>
+<p>In a multi-team deployment, every squad operates as an independent unit with its own configuration, agent tuning, and escalation policies. A backend team handling Go microservices can run with strict governance and manual approval, while a frontend team shipping TypeScript may prefer auto-merge and faster polling intervals. Despite this isolation, the shared memory store ensures that lessons learned by one team benefit others encountering similar patterns.</p>
+<p>The key primitives that make multi-team support work are:</p>
+<ul>
+<li><strong>Team Router</strong> — Directs incoming alerts to the correct team based on service ownership metadata.</li>
+<li><strong>SWE_TEAM_ID</strong> — A unique identifier that namespaces all ticket state, branch names, and persisted data per team.</li>
+<li><strong>Scoped Codebase Access</strong> — Agents operate within strictly defined file paths, preventing cross-team changes.</li>
+<li><strong>Shared Supabase Backend</strong> — All teams write to the same Supabase instance, with isolation enforced by <code>SWE_TEAM_ID</code>.</li>
+<li><strong>Dedicated GitHub Bots</strong> — Each team uses its own GitHub token and bot account for correct attribution and scope control.</li>
+<li><strong>Cross-Team Semantic Memory</strong> — Knowledge accumulated by any team is available to all teams through the shared memory store.</li>
+</ul>
+<h2 id="architecture">Architecture</h2>
+<p>The following diagram illustrates how multiple teams route through a shared platform while maintaining scoped codebase access and a common memory store:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="mermaid"><code><span class="line"><span style="color:#E1E4E8">flowchart TD</span></span>
+<span class="line"><span style="color:#E1E4E8">    subgraph MultiTeam["Multi-Team Scoping"]</span></span>
+<span class="line"><span style="color:#E1E4E8">        Router[Team Router]</span></span>
+<span class="line"><span style="color:#E1E4E8">        Memory[Shared Memory Store]</span></span>
+<span class="line"><span style="color:#E1E4E8">        Router --> TeamA["Team Alpha&#x3C;br/>Backend Services"]</span></span>
+<span class="line"><span style="color:#E1E4E8">        Router --> TeamB["Team Bravo&#x3C;br/>Frontend &#x26; Mobile"]</span></span>
+<span class="line"><span style="color:#E1E4E8">        Router --> TeamC["Team Charlie&#x3C;br/>Data Pipeline"]</span></span>
+<span class="line"><span style="color:#E1E4E8">        TeamA --> ScopeA["Scoped Codebase Access&#x3C;br/>Service A, B, C"]</span></span>
+<span class="line"><span style="color:#E1E4E8">        TeamB --> ScopeB["Scoped Codebase Access&#x3C;br/>Web, iOS, Android"]</span></span>
+<span class="line"><span style="color:#E1E4E8">        TeamC --> ScopeC["Scoped Codebase Access&#x3C;br/>ETL, ML Pipeline"]</span></span>
+<span class="line"><span style="color:#E1E4E8">        ScopeA --> Memory</span></span>
+<span class="line"><span style="color:#E1E4E8">        ScopeB --> Memory</span></span>
+<span class="line"><span style="color:#E1E4E8">        ScopeC --> Memory</span></span>
+<span class="line"><span style="color:#E1E4E8">    end</span></span>
+<span class="line"></span></code></pre>
+<p>Each team receives alerts from the Team Router, operates within its own scoped codebase, and writes findings back to the shared memory store. The memory store is the single integration point across teams — no team directly accesses another team’s codebase or ticket state.</p>
+<h2 id="team-router">Team Router</h2>
+<p>The Team Router is the entry point for all incoming alerts. It reads service ownership metadata attached to each alert and directs it to the correct team. This metadata typically comes from monitoring sources (PagerDuty, Datadog, GitHub) and includes the service name, repository, or error category.</p>
+<p>Routing logic works as follows:</p>
+<ol>
+<li>An alert arrives with metadata identifying the source service (for example, <code>backend-api</code>, <code>frontend-web</code>, or <code>data-pipeline</code>).</li>
+<li>The Team Router matches the service against the configured team scopes in <code>swe_team.yaml</code>.</li>
+<li>The alert is dispatched to the matching team’s pipeline. If no match is found, the alert is routed to a default team or flagged for manual triage.</li>
+<li>When an alert spans multiple services owned by different teams, the Router broadcasts it to all affected teams simultaneously (see <a href="#cross-team-incidents">Cross-Team Incidents</a>).</li>
+</ol>
+<p>This ensures that a backend timeout alert is handled by the backend team with the right model configuration and governance rules, while a frontend rendering error goes to the frontend team with its own settings.</p>
+<h2 id="configuring-teams">Configuring Teams</h2>
+<p>Each team requires two configuration files: a <code>swe_team.yaml</code> for structural and behavioral settings, and a <code>.env</code> file for secrets and runtime toggles. The following examples demonstrate a two-team setup sharing a single Supabase instance.</p>
+<h3 id="team-a-backend-api">Team A: backend-api</h3>
+<p><strong>swe_team.yaml:</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">version</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">project</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">backend-api</span></span>
+<span class="line"><span style="color:#85E89D">  language</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">go</span></span>
+<span class="line"><span style="color:#85E89D">  repository</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">https://github.com/myorg/backend-api</span></span>
+<span class="line"><span style="color:#85E89D">  branch_prefix</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">swe-fix/backend-api/</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">monitor</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  sources</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">github</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">pagerduty</span></span>
+<span class="line"><span style="color:#85E89D">  severity_filter</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">critical</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">high</span></span>
+<span class="line"><span style="color:#85E89D">  labels</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">incident</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">governance</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  require_approval</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  auto_merge</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">false</span></span>
+<span class="line"><span style="color:#85E89D">  stability_gate</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  test_threshold</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0.85</span></span>
+<span class="line"><span style="color:#85E89D">  rejection_limit</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">2</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">agents</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  coder</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    max_tokens</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">8192</span></span>
+<span class="line"><span style="color:#85E89D">    timeout</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">240</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">integrations</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  pagerduty</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    api_key</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">pd-api-key-team-a</span></span>
+<span class="line"><span style="color:#85E89D">  slack</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    webhook_url</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">https://hooks.slack.com/services/T00/B00/team-a</span></span>
+<span class="line"></span></code></pre>
+<p><strong>.env:</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E1E4E8">ANTHROPIC_API_KEY</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">sk-ant-...</span></span>
+<span class="line"><span style="color:#E1E4E8">GITHUB_TOKEN</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">ghp_...</span></span>
+<span class="line"><span style="color:#E1E4E8">SUPABASE_URL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">https://shared.supabase.co</span></span>
+<span class="line"><span style="color:#E1E4E8">SUPABASE_ANON_KEY</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">eyJ...</span></span>
+<span class="line"><span style="color:#E1E4E8">SWE_TEAM_ID</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">backend-api-team</span></span>
+<span class="line"></span></code></pre>
+<p>Team A is configured for a Go backend service with strict governance: every PR requires manual approval, auto-merge is disabled, and the test threshold is set to 85%. The coder agent has an extended timeout of 240 seconds to accommodate longer compilation cycles.</p>
+<h3 id="team-b-frontend-web">Team B: frontend-web</h3>
+<p><strong>swe_team.yaml:</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">version</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">project</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">frontend-web</span></span>
+<span class="line"><span style="color:#85E89D">  language</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">typescript</span></span>
+<span class="line"><span style="color:#85E89D">  repository</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">https://github.com/myorg/frontend-web</span></span>
+<span class="line"><span style="color:#85E89D">  branch_prefix</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">swe-fix/frontend-web/</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">monitor</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  sources</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">github</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">datadog</span></span>
+<span class="line"><span style="color:#85E89D">  poll_interval</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">20</span></span>
+<span class="line"><span style="color:#85E89D">  severity_filter</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">critical</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">high</span></span>
+<span class="line"><span style="color:#E1E4E8">    - </span><span style="color:#9ECBFF">medium</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">governance</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  require_approval</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">false</span></span>
+<span class="line"><span style="color:#85E89D">  auto_merge</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  stability_gate</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">true</span></span>
+<span class="line"><span style="color:#85E89D">  test_threshold</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0.8</span></span>
+<span class="line"><span style="color:#85E89D">  max_file_changes</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">25</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">agents</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  explorer</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    max_tokens</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">4096</span></span>
+<span class="line"><span style="color:#85E89D">  reviewer</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    model</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">opus</span></span>
+<span class="line"><span style="color:#85E89D">    max_tokens</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">8192</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#85E89D">integrations</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">  datadog</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    api_key</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">dd-api-key-team-b</span></span>
+<span class="line"><span style="color:#85E89D">    app_key</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">dd-app-key-team-b</span></span>
+<span class="line"><span style="color:#85E89D">  slack</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#85E89D">    webhook_url</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">https://hooks.slack.com/services/T00/B00/team-b</span></span>
+<span class="line"></span></code></pre>
+<p><strong>.env:</strong></p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#E1E4E8">ANTHROPIC_API_KEY</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">sk-ant-...</span></span>
+<span class="line"><span style="color:#E1E4E8">GITHUB_TOKEN</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">ghp_...</span></span>
+<span class="line"><span style="color:#E1E4E8">SUPABASE_URL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">https://shared.supabase.co</span></span>
+<span class="line"><span style="color:#E1E4E8">SUPABASE_ANON_KEY</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">eyJ...</span></span>
+<span class="line"><span style="color:#E1E4E8">SWE_TEAM_ID</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">frontend-web-team</span></span>
+<span class="line"></span></code></pre>
+<p>Team B operates a TypeScript frontend with lighter governance: auto-merge is enabled, approval is not required, and the severity filter includes medium-priority issues. The reviewer agent is upgraded to Opus for thorough code review of UI changes.</p>
+<h2 id="shared-supabase-backend">Shared Supabase Backend</h2>
+<p>All teams in a multi-team deployment write to the same Supabase instance. The <code>SUPABASE_URL</code> and <code>SUPABASE_ANON_KEY</code> are identical across teams, while the <code>SWE_TEAM_ID</code> differentiates each team’s data:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Variable</th><th>Team A</th><th>Team B</th></tr></thead><tbody><tr><td><code>SUPABASE_URL</code></td><td><code>https://shared.supabase.co</code></td><td><code>https://shared.supabase.co</code></td></tr><tr><td><code>SUPABASE_ANON_KEY</code></td><td><code>eyJ...</code></td><td><code>eyJ...</code></td></tr><tr><td><code>SWE_TEAM_ID</code></td><td><code>backend-api-team</code></td><td><code>frontend-web-team</code></td></tr></tbody></table>
+<p>This shared backend simplifies infrastructure management — you provision and maintain a single Supabase project rather than one per team. The database schema uses <code>SWE_TEAM_ID</code> as a partition key on all ticket and state tables, so queries are automatically scoped to the requesting team.</p>
+<h2 id="ticket-isolation">Ticket Isolation</h2>
+<p>The <code>SWE_TEAM_ID</code> environment variable is the primary isolation mechanism between teams. Every ticket, branch, and persisted state entry is namespaced with this identifier:</p>
+<ul>
+<li><strong>Ticket queries</strong> include a <code>WHERE team_id = ?</code> filter, so each team only sees and operates on its own tickets.</li>
+<li><strong>Branch names</strong> are prefixed with the team’s <code>branch_prefix</code> (for example, <code>swe-fix/backend-api/ticket-abc123</code>), preventing naming collisions.</li>
+<li><strong>State transitions</strong> (New, Triaged, Investigating, In Development, In Review, Deployed) are tracked per team, so one team’s pipeline never interferes with another’s.</li>
+</ul>
+<p>This means Team Alpha can have a ticket in the In Review state while Team Bravo processes a separate ticket through Triage, and neither team’s operations affect the other’s state.</p>
+<h2 id="dedicated-github-bot-accounts">Dedicated GitHub Bot Accounts</h2>
+<p>Each team should use its own GitHub bot account and personal access token. This provides three benefits:</p>
+<ol>
+<li><strong>Correct attribution</strong> — PRs and comments show the team’s bot identity rather than a shared generic account, making it clear which team’s automation created a change.</li>
+<li><strong>Scope isolation</strong> — Each token is scoped to only the repositories that team manages, preventing accidental access to another team’s codebase.</li>
+<li><strong>Rate limit independence</strong> — Each token has its own API rate limit budget, so a high-activity team does not throttle another team’s automation.</li>
+</ol>
+<p>Configuration is straightforward. Each team sets its own <code>GITHUB_TOKEN</code> in its <code>.env</code> file:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6A737D"># Team A .env</span></span>
+<span class="line"><span style="color:#E1E4E8">GITHUB_TOKEN</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">ghp_backend-bot-token</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Team B .env</span></span>
+<span class="line"><span style="color:#E1E4E8">GITHUB_TOKEN</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">ghp_frontend-bot-token</span></span>
+<span class="line"></span></code></pre>
+<p>When creating the bot accounts, restrict each token’s scope to the repositories owned by that team. For example, the backend bot token should only have access to <code>myorg/backend-api</code> and related service repos, while the frontend bot token should only access <code>myorg/frontend-web</code> and its dependencies.</p>
+<h2 id="scoped-codebase-access">Scoped Codebase Access</h2>
+<p>Within each team, agents operate within strictly scoped codebase boundaries defined by the <code>scope</code> configuration. A backend agent cannot access frontend repositories and vice versa. This prevents accidental cross-team changes and keeps each team’s context window focused on relevant code.</p>
+<p>Define scopes in the <code>teams</code> section of your configuration:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="yaml"><code><span class="line"><span style="color:#85E89D">teams</span><span style="color:#E1E4E8">:</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">platform</span></span>
+<span class="line"><span style="color:#85E89D">    models</span><span style="color:#E1E4E8">: { </span><span style="color:#85E89D">triage</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">haiku</span><span style="color:#E1E4E8">, </span><span style="color:#85E89D">fix</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">sonnet</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"><span style="color:#85E89D">    scope</span><span style="color:#E1E4E8">: [</span><span style="color:#9ECBFF">"src/core"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"src/api"</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"><span style="color:#E1E4E8">  - </span><span style="color:#85E89D">name</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">frontend</span></span>
+<span class="line"><span style="color:#85E89D">    models</span><span style="color:#E1E4E8">: { </span><span style="color:#85E89D">triage</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">haiku</span><span style="color:#E1E4E8">, </span><span style="color:#85E89D">fix</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">haiku</span><span style="color:#E1E4E8"> }</span></span>
+<span class="line"><span style="color:#85E89D">    scope</span><span style="color:#E1E4E8">: [</span><span style="color:#9ECBFF">"src/web"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"src/components"</span><span style="color:#E1E4E8">]</span></span>
+<span class="line"></span></code></pre>
+<p>In this example, the platform team’s agents can only read and modify files under <code>src/core</code> and <code>src/api</code>. The frontend team’s agents are restricted to <code>src/web</code> and <code>src/components</code>. Any file path outside the configured scope is inaccessible to that team’s agents.</p>
+<p>Scope enforcement applies at the file-read and file-write level. An agent that attempts to read a file outside its scope receives an access-denied response, and write attempts to out-of-scope paths are rejected before execution. This is a hard boundary — there is no override or bypass mechanism.</p>
+<h2 id="cross-team-semantic-memory">Cross-Team Semantic Memory</h2>
+<p>Despite scoped codebases, the semantic memory store is shared across all teams. When one team resolves a novel issue, the Distiller Agent extracts the key findings and writes them to the shared memory. Any team that later encounters a similar pattern can retrieve that knowledge, even if the original issue was in a different service or language.</p>
+<p>This creates a compounding knowledge effect:</p>
+<ul>
+<li>A backend team’s fix for a database connection leak teaches the data pipeline team about connection pooling patterns.</li>
+<li>A frontend team’s resolution of a race condition informs the mobile team about async state management.</li>
+<li>Over time, the shared memory reduces duplicate investigations across the organization.</li>
+</ul>
+<p>The memory store uses semantic similarity matching, not exact string matching. This means lessons are transferred based on conceptual similarity rather than identical error messages, making cross-team knowledge transfer effective even when teams use different languages, frameworks, or error formats.</p>
+<h2 id="cross-team-incidents">Cross-Team Incidents</h2>
+<p>Some incidents span multiple teams. A common example is an API change in a backend service that breaks a frontend consumer. The Team Router handles these cases by detecting overlap in the alert’s affected services and broadcasting the incident to all relevant teams simultaneously.</p>
+<p>The cross-team incident flow works as follows:</p>
+<ol>
+<li>The Team Router receives an alert that references services owned by multiple teams (for example, both <code>backend-api</code> and <code>frontend-web</code>).</li>
+<li>The Router creates a separate ticket in each affected team’s namespace, linked by a shared incident correlation ID.</li>
+<li>Each team investigates the incident within its own scoped codebase, using its own model configuration and governance rules.</li>
+<li>As each team posts findings to the shared memory store, other teams working the same incident can access the accumulated context.</li>
+<li>When one team’s fix resolves the root cause, the correlated tickets in other teams are automatically updated with the resolution context, allowing them to verify the fix on their side.</li>
+</ol>
+<p>This broadcast-and-correlate approach ensures that cross-team incidents are handled in parallel rather than sequentially. The frontend team does not wait for the backend team to finish before starting its investigation — both work concurrently, sharing context through the memory store as they go.</p>  <a href="https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/src/content/docs/multi-team-setup.md" class="edit-on-github" target="_blank" rel="noopener noreferrer" data-astro-cid-qludoyyf> <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" data-astro-cid-qludoyyf> <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" data-astro-cid-qludoyyf></path> </svg> <span data-astro-cid-qludoyyf>Edit on GitHub</span> </a>  <nav class="page-nav" aria-label="Page navigation" data-astro-cid-tgdidiz2><div class="page-nav-inner" data-astro-cid-tgdidiz2><a href="/docs/provider-plugin-guide" class="page-nav-link page-nav-prev" rel="prev" data-astro-cid-tgdidiz2><span class="page-nav-direction" data-astro-cid-tgdidiz2>Previous</span><span class="page-nav-title" data-astro-cid-tgdidiz2>Provider Plugin Development Guide</span></a><a href="/docs/security-rbac" class="page-nav-link page-nav-next" rel="next" data-astro-cid-tgdidiz2><span class="page-nav-direction" data-astro-cid-tgdidiz2>Next</span><span class="page-nav-title" data-astro-cid-tgdidiz2>Security and RBAC</span></a></div></nav> </main> <aside class="docs-toc"> <nav class="toc" aria-label="Table of contents" data-astro-cid-cott7la3> <h2 class="toc-heading" data-astro-cid-cott7la3>On this page</h2> <ul class="toc-list" role="list" data-astro-cid-cott7la3> <li class="toc-item toc-depth-2" data-astro-cid-cott7la3> <a href="#undefined" class="toc-link" data-astro-cid-cott7la3> Overview </a> </li><li class="toc-item toc-depth-2" data-astro-cid-cott7la3> <a href="#undefined" class="toc-link" data-astro-cid-cott7la3> Architecture </a> </li><li class="toc-item toc-depth-2" data-astro-cid-cott7la3> <a href="#undefined" class="toc-link" data-astro-cid-cott7la3> Team Router </a> </li><li class="toc-item toc-depth-2" data-astro-cid-cott7la3> <a href="#undefined" class="toc-link" data-astro-cid-cott7la3> Configuring Teams </a> </li><li class="toc-item toc-depth-3" data-astro-cid-cott7la3> <a href="#undefined" class="toc-link" data-astro-cid-cott7la3> Team A: backend-api </a> </li><li class="toc-item toc-depth-3" data-astro-cid-cott7la3> <a href="#undefined" class="toc-link" data-astro-cid-cott7la3> Team B: frontend-web </a> </li><li class="toc-item toc-depth-2" data-astro-cid-cott7la3> <a href="#undefined" class="toc-link" data-astro-cid-cott7la3> Shared Supabase Backend </a> </li><li class="toc-item toc-depth-2" data-astro-cid-cott7la3> <a href="#undefined" class="toc-link" data-astro-cid-cott7la3> Ticket Isolation </a> </li><li class="toc-item toc-depth-2" data-astro-cid-cott7la3> <a href="#undefined" class="toc-link" data-astro-cid-cott7la3> Dedicated GitHub Bot Accounts </a> </li><li class="toc-item toc-depth-2" data-astro-cid-cott7la3> <a href="#undefined" class="toc-link" data-astro-cid-cott7la3> Scoped Codebase Access </a> </li><li class="toc-item toc-depth-2" data-astro-cid-cott7la3> <a href="#undefined" class="toc-link" data-astro-cid-cott7la3> Cross-Team Semantic Memory </a> </li><li class="toc-item toc-depth-2" data-astro-cid-cott7la3> <a href="#undefined" class="toc-link" data-astro-cid-cott7la3> Cross-Team Incidents </a> </li> </ul> </nav>  </aside> </div>  <div class="search-backdrop" id="search-backdrop" data-astro-cid-euff75kw></div> <div class="search-dialog" id="search-dialog" role="dialog" aria-modal="true" aria-label="Search" data-astro-cid-euff75kw> <div class="search-input-wrapper" data-astro-cid-euff75kw> <svg class="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" data-astro-cid-euff75kw> <path d="M8.5 3a5.5 5.5 0 0 1 4.23 9.02l4.12 4.13a.75.75 0 0 1-1.06 1.06l-4.13-4.12A5.5 5.5 0 1 1 8.5 3zm0 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="currentColor" data-astro-cid-euff75kw></path> </svg> <input type="search" class="search-input" id="search-input" placeholder="Search docs and blog..." autocomplete="off" autofocus data-astro-cid-euff75kw> <kbd class="search-kbd" data-astro-cid-euff75kw>Esc</kbd> </div> <div class="search-results" id="search-results" data-astro-cid-euff75kw> <div class="search-empty" data-astro-cid-euff75kw>Type to search documentation and blog posts</div> </div> </div>    </body></html>

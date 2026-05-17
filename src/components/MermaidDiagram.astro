@@ -12,12 +12,14 @@ const diagramId = id ?? `mermaid-${Math.random().toString(36).slice(2, 9)}`;
 <pre class="mermaid" data-mermaid-id={diagramId} data-mermaid-theme={theme}>{code}</pre>
 
 <script>
-  import mermaid from 'mermaid';
-
-  mermaid.initialize({ startOnLoad: false, theme: 'default' });
-
-  document.addEventListener('DOMContentLoaded', () => {
-    mermaid.run({ querySelector: '.mermaid' });
+  document.addEventListener('DOMContentLoaded', async () => {
+    const mermaidEls = document.querySelectorAll('.mermaid');
+    if (mermaidEls.length === 0) return;
+    const { default: mermaid } = await import('mermaid');
+    mermaid.initialize({ startOnLoad: false, theme: 'default' });
+    requestIdleCallback(() => {
+      mermaid.run({ querySelector: '.mermaid' });
+    }, { timeout: 2000 });
   });
 </script>
 

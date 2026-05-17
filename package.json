@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && pagefind --site dist --glob 'docs/**/*.html' --glob 'blog/**/*.html'",
+    "build": "astro build && pagefind --site dist --glob '{docs,blog}/**/*.html'",
     "preview": "astro preview",
     "test": "vitest run",
     "test:watch": "vitest"
