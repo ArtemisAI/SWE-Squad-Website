@@ -60,6 +60,10 @@ const formattedDate = date.toLocaleDateString('en-US', {
       <meta data-pagefind-meta="description" content={description} />
     </BaseHead>
     <style is:global>
+      :root {
+        --toc-width: 14rem;
+      }
+
       .blog-layout {
         display: grid;
         grid-template-columns: 1fr var(--toc-width);
