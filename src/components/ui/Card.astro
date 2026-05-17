@@ -1,0 +1,68 @@
+---
+/**
+ * Card — flexible card component with optional link, icon, and footer slots.
+ *
+ * Props:
+ *   title       (string)         — card heading
+ *   description (string)         — short body text
+ *   href        (string?)        — if provided, card becomes an <a>
+ *   icon        (string?)        — fallback icon name (icon slot takes priority)
+ *   class       (string?)        — extra CSS classes on the card container
+ *
+ * Slots:
+ *   icon   — custom icon content (overrides `icon` prop)
+ *   default — main body content
+ *   footer  — optional footer content
+ */
+interface Props {
+  title: string;
+  description: string;
+  href?: string;
+  icon?: string;
+  class?: string;
+}
+
+const { title, description, href, icon, class: className = '' } = Astro.props;
+---
+
+{href ? (
+  <a href={href} class:list={['group/card block rounded-xl border border-gray-200 bg-white shadow-md transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 dark:border-gray-700 dark:bg-gray-800', className]}>
+    <div class="p-6">
+      {(icon || Astro.slots.has('icon')) && (
+        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400">
+          <slot name="icon">
+            {icon && <span aria-hidden="true">{icon}</span>}
+          </slot>
+        </div>
+      )}
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h3>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{description}</p>
+      <slot />
+    </div>
+    {Astro.slots.has('footer') && (
+      <div class="border-t border-gray-100 px-6 py-3 dark:border-gray-700">
+        <slot name="footer" />
+      </div>
+    )}
+  </a>
+) : (
+  <div class:list={['rounded-xl border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800', className]}>
+    <div class="p-6">
+      {(icon || Astro.slots.has('icon')) && (
+        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-primary-100 text-primary-600 dark:bg-primary-900/30 dark:text-primary-400">
+          <slot name="icon">
+            {icon && <span aria-hidden="true">{icon}</span>}
+          </slot>
+        </div>
+      )}
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h3>
+      <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">{description}</p>
+      <slot />
+    </div>
+    {Astro.slots.has('footer') && (
+      <div class="border-t border-gray-100 px-6 py-3 dark:border-gray-700">
+        <slot name="footer" />
+      </div>
+    )}
+  </div>
+)}

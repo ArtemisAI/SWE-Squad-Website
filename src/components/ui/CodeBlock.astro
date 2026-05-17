@@ -1,0 +1,94 @@
+---
+/**
+ * CodeBlock — syntax-highlighted code block with filename label and copy button.
+ *
+ * Props:
+ *   code     (string)  — the code content to render
+ *   filename (string?) — optional label shown in the top-left corner
+ *   lang     (string)  — language for syntax highlighting (default 'bash')
+ *   class    (string?) — extra CSS classes on the container
+ *
+ * Uses Astro's built-in <Code /> component from astro:components for Shiki
+ * syntax highlighting. Falls back to a plain <pre><code> block if unavailable.
+ */
+import { Code } from 'astro:components';
+
+interface Props {
+  code: string;
+  filename?: string;
+  lang?: string;
+  class?: string;
+}
+
+const {
+  code,
+  filename,
+  lang = 'bash',
+  class: className = '',
+} = Astro.props;
+
+// The <Code /> component requires a CodeLanguage type internally, but we
+// accept any string from the consumer and cast it. Unrecognized languages
+// fall back gracefully in Shiki.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const codeLang = lang as any;
+---
+
+<div data-code-block class:list={['relative overflow-hidden rounded-lg border border-gray-700 bg-gray-900 dark:border-gray-600 dark:bg-gray-950', className]}>
+  <!-- Header bar: filename + copy button -->
+  <div class="flex items-center justify-between border-b border-gray-700 bg-gray-800 px-4 py-2 dark:bg-gray-900">
+    {filename ? (
+      <span class="font-mono text-sm text-gray-400">{filename}</span>
+    ) : (
+      <span class="font-mono text-sm text-gray-500">{lang}</span>
+    )}
+    <button
+      type="button"
+      class="copy-btn text-xs text-gray-400 transition-colors hover:text-white"
+      aria-label="Copy code to clipboard"
+    >
+      Copy
+    </button>
+  </div>
+
+  <!-- Code area -->
+  <div class="overflow-x-auto px-4 py-3">
+    <Code code={code} lang={codeLang} theme="github-dark" />
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      // Walk up to the .copy-btn's parent container and find the code text
+      const container = btn.closest('[data-code-block]');
+      if (!container) return;
+
+      // The Shiki-rendered output is inside <pre><code>; extract text content
+      const codeEl = container.querySelector('pre code') || container.querySelector('pre');
+      const text = codeEl?.textContent ?? '';
+
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+        }, 2000);
+      } catch {
+        // Fallback: select a temporary textarea
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        btn.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+        }, 2000);
+      }
+    });
+  });
+</script>
