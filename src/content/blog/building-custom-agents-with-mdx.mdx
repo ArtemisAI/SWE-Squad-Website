@@ -1,0 +1,42 @@
+---
+title: "Building Custom Agents with MDX Components"
+description: "Learn how to create interactive blog posts using MDX components in SWE-Squad's documentation, with live code examples and embedded diagrams."
+date: 2025-04-20
+author: "Developer Relations"
+tags: ["engineering", "mdx", "components"]
+---
+
+One of the most powerful features of our blog platform is MDX support. MDX lets you use JSX components directly in Markdown, enabling rich interactive content that goes beyond static text.
+
+## What is MDX?
+
+MDX is Markdown with JSX. It lets you import and use React-like components directly inside your Markdown files. This means blog posts can include:
+
+- Interactive code examples
+- Embedded diagrams
+- Dynamic data visualizations
+- Custom UI components
+
+## A Simple Example
+
+Here's how you'd use a component in an MDX file:
+
+```jsx
+import { Chart } from '../components/Chart.astro';
+
+<Chart data={incidentData} type="bar" />
+```
+
+The component renders inline just like any HTML element, but with the full power of JavaScript behind it.
+
+## Benefits for Technical Content
+
+For engineering blogs, MDX unlocks patterns that pure Markdown can't express:
+
+1. **Live code blocks** — Readers can interact with code samples
+2. **Data-driven visuals** — Charts and diagrams that reflect real data
+3. **Reusable components** — Share UI patterns across posts
+
+## Getting Started
+
+To write an MDX post, simply use the `.mdx` file extension instead of `.md`. The frontmatter schema is identical, so all existing metadata fields work as expected. The Astro build pipeline automatically processes MDX files through the `@astrojs/mdx` integration.
