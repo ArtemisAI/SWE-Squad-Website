@@ -121,6 +121,40 @@ const { sections, currentSlug } = Astro.props;
     color: var(--color-accent, #3b82f6);
     font-weight: 500;
   }
+
+  .sidebar-section-toggle:focus-visible {
+    outline: 2px solid var(--color-accent, #2563eb);
+    outline-offset: 2px;
+  }
+
+  .sidebar-link:focus-visible {
+    outline: 2px solid var(--color-accent, #2563eb);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .sidebar-section-toggle {
+      color: var(--color-text-primary, #f9fafb);
+    }
+
+    .sidebar-section-toggle:hover {
+      background-color: var(--color-bg-hover, rgba(255, 255, 255, 0.1));
+    }
+
+    .sidebar-link {
+      color: var(--color-text-secondary, #d1d5db);
+    }
+
+    .sidebar-link:hover {
+      background-color: var(--color-bg-hover, rgba(255, 255, 255, 0.1));
+      color: var(--color-text-primary, #f9fafb);
+    }
+
+    .sidebar-link.active {
+      background-color: var(--color-bg-active, rgba(59, 130, 246, 0.2));
+      color: var(--color-accent, #60a5fa);
+    }
+  }
 </style>
 
 <script>

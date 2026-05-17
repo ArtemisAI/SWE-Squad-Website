@@ -7,6 +7,7 @@ interface Props {
 const { tags, activeTag } = Astro.props;
 ---
 
+<nav aria-label="Filter by tag">
 <div class="tag-filter">
   <a
     href="/blog"
@@ -22,7 +23,8 @@ const { tags, activeTag } = Astro.props;
       {tag}
     </a>
   ))}
-</div>
+  </div>
+</nav>
 
 <style>
   .tag-filter {
@@ -53,5 +55,29 @@ const { tags, activeTag } = Astro.props;
     background: var(--color-accent, #3b82f6);
     border-color: var(--color-accent, #3b82f6);
     color: #ffffff;
+  }
+
+  .tag-filter-item:focus-visible {
+    outline: 2px solid var(--color-accent, #2563eb);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .tag-filter-item {
+      background: var(--color-bg, #1f2937);
+      border-color: var(--color-border, #374151);
+      color: var(--color-text-secondary, #d1d5db);
+    }
+
+    .tag-filter-item:hover {
+      border-color: var(--color-accent, #60a5fa);
+      color: var(--color-accent, #60a5fa);
+    }
+
+    .tag-filter-item.active {
+      background: var(--color-accent, #2563eb);
+      border-color: var(--color-accent, #2563eb);
+      color: #ffffff;
+    }
   }
 </style>

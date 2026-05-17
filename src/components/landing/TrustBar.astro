@@ -1,0 +1,100 @@
+---
+---
+
+<section class="trust-bar-section">
+  <h2 class="trust-bar-heading">Powered By</h2>
+  <div class="trust-bar">
+    <div class="trust-items">
+      <div class="trust-item">
+        <span class="trust-icon">&#9889;</span>
+        <span class="trust-label">Claude Code</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon">&#128279;</span>
+        <span class="trust-label">A2A Protocol</span>
+      </div>
+      <div class="trust-item">
+        <span class="trust-icon">&#128451;</span>
+        <span class="trust-label">Supabase</span>
+      </div>
+    </div>
+    <div class="trust-license">
+      <span class="license-badge">MIT License</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust-bar-section {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .trust-bar-heading {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    color: var(--color-text, #1a1a2e);
+  }
+
+  .trust-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .trust-items {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .trust-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .trust-label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-text, #1a1a2e);
+  }
+
+  .trust-license {
+    display: flex;
+    align-items: center;
+  }
+
+  .license-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    background: var(--color-surface, #f9fafb);
+    border: 1px solid var(--color-border, #e5e7eb);
+    color: var(--color-text-secondary, #4a4a6a);
+  }
+
+  @media (max-width: 640px) {
+    .trust-bar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .trust-items {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+</style>

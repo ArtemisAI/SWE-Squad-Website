@@ -1,0 +1,138 @@
+---
+const steps = [
+  {
+    number: 1,
+    icon: "\u{1F4E1}",
+    title: "Monitor",
+    description:
+      "SWE Squad continuously monitors your GitHub issues and CI pipelines. It detects failures, errors, and regressions as they happen.",
+  },
+  {
+    number: 2,
+    icon: "\u{1F50D}",
+    title: "Investigate",
+    description:
+      "Each issue is triaged and investigated by specialized AI agents. They analyze logs, trace root causes, and propose targeted fixes.",
+  },
+  {
+    number: 3,
+    icon: "\u{1F527}",
+    title: "Fix",
+    description:
+      "Autonomous agents implement and validate fixes through a stability gate. Only changes that pass all checks are merged automatically.",
+  },
+];
+---
+
+<section class="how-it-works-section">
+  <h2 class="how-it-works-heading">How It Works</h2>
+  <div class="steps">
+    {steps.map((step, index) => (
+      <>
+        <div class="step">
+          <div class="step-number">{step.number}</div>
+          <span class="step-icon">{step.icon}</span>
+          <h3 class="step-title">{step.title}</h3>
+          <p class="step-description">{step.description}</p>
+        </div>
+        {index < steps.length - 1 && (
+          <div class="step-arrow" aria-hidden="true">&rarr;</div>
+        )}
+      </>
+    ))}
+  </div>
+</section>
+
+<style>
+  .how-it-works-section {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .how-it-works-heading {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 2rem;
+    color: var(--color-text, #1a1a2e);
+  }
+
+  .steps {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.625rem;
+    background: var(--color-surface, #f9fafb);
+    border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 0.5rem;
+    padding: 1.5rem 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .step:hover {
+    border-color: var(--color-accent, #3b82f6);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.12);
+  }
+
+  .step-number {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--color-accent, #3b82f6);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .step-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  .step-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-text, #1a1a2e);
+  }
+
+  .step-description {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin: 0;
+    color: var(--color-text-secondary, #4a4a6a);
+  }
+
+  .step-arrow {
+    font-size: 1.5rem;
+    color: var(--color-accent, #3b82f6);
+    align-self: center;
+    padding-top: 3rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 640px) {
+    .steps {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .step-arrow {
+      text-align: center;
+      padding: 0.5rem 0;
+      transform: rotate(90deg);
+    }
+  }
+</style>

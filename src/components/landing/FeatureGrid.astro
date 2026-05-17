@@ -1,0 +1,84 @@
+---
+import Card from "../Card.astro";
+
+const features = [
+  {
+    icon: "\u{1F9E0}",
+    title: "Smart Model Routing",
+    description:
+      "Routes each task to the optimal AI model based on complexity. Fast models handle simple fixes while expert models tackle deep investigations.",
+  },
+  {
+    icon: "\u{1F504}",
+    title: "Keep/Discard Fix Loop",
+    description:
+      "Iterative fix validation that learns from failures. Keeps successful patterns and discards approaches that don't work.",
+  },
+  {
+    icon: "\u{1F6E1}\uFE0F",
+    title: "Stability Gate",
+    description:
+      "Automated quality gate that validates every proposed change. Only fixes passing all checks are merged to protect your codebase.",
+  },
+  {
+    icon: "\u{1F4BE}",
+    title: "Semantic Memory",
+    description:
+      "Persistent memory across sessions and projects. Agents remember past fixes, team conventions, and architectural decisions.",
+  },
+  {
+    icon: "\u{1F465}",
+    title: "Multi-Team Support",
+    description:
+      "Coordinate multiple engineering teams with isolated workflows. Each team gets dedicated agents while sharing organizational knowledge.",
+  },
+  {
+    icon: "\u{1F517}",
+    title: "A2A Protocol",
+    description:
+      "Agent-to-agent communication protocol for seamless collaboration. Enables specialized agents to work together on complex multi-step issues.",
+  },
+];
+---
+
+<section class="feature-grid-section">
+  <h2 class="feature-grid-heading">Capabilities</h2>
+  <div class="feature-grid">
+    {features.map((feature) => (
+      <Card title={feature.title} description={feature.description} icon={feature.icon} />
+    ))}
+  </div>
+</section>
+
+<style>
+  .feature-grid-section {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .feature-grid-heading {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 2rem;
+    color: var(--color-text, #1a1a2e);
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .feature-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

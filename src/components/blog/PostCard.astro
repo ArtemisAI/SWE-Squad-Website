@@ -102,7 +102,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
     display: flex;
     gap: 1rem;
     font-size: 0.8125rem;
-    color: var(--color-text-tertiary, #9ca3af);
+    color: var(--color-text-tertiary, #6b7280);
     margin-bottom: 0.5rem;
   }
 
@@ -119,5 +119,35 @@ const formattedDate = date.toLocaleDateString('en-US', {
     border-radius: 0.25rem;
     font-size: 0.6875rem;
     color: var(--color-text-secondary, #4a4a6a);
+  }
+
+  .post-card-link:focus-visible {
+    outline: 2px solid var(--color-accent, #2563eb);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .post-card {
+      background: var(--color-bg, #1f2937);
+      border-color: var(--color-border, #374151);
+    }
+
+    .post-card-title {
+      color: var(--color-text-primary, #f9fafb);
+    }
+
+    .post-card-description {
+      color: var(--color-text-secondary, #d1d5db);
+    }
+
+    .post-card-meta {
+      color: var(--color-text-tertiary, #9ca3af);
+    }
+
+    .post-card-tag {
+      background: var(--color-bg-hover, rgba(255, 255, 255, 0.1));
+      border-color: var(--color-border, #374151);
+      color: var(--color-text-secondary, #d1d5db);
+    }
   }
 </style>

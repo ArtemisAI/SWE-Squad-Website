@@ -210,6 +210,7 @@ import Callout from '@components/Callout.astro';
     --color-text-primary: #1a1a2e;
     --color-text-secondary: #4a4a6a;
     --color-accent: #3b82f6;
+    --color-accent-text: #1d4ed8;
     --color-border: #e5e7eb;
   }
 
@@ -235,7 +236,7 @@ import Callout from '@components/Callout.astro';
 
   .back-link {
     display: inline-block;
-    color: var(--color-accent);
+    color: var(--color-accent-text);
     text-decoration: none;
     font-weight: 600;
     font-size: 0.9375rem;
@@ -244,8 +245,13 @@ import Callout from '@components/Callout.astro';
   }
 
   .back-link:hover {
-    color: #2563eb;
+    color: #1d4ed8;
     text-decoration: underline;
+  }
+
+  .back-link:focus-visible {
+    outline: 2px solid var(--color-accent, #2563eb);
+    outline-offset: 2px;
   }
 
   .page-title {
@@ -271,7 +277,7 @@ import Callout from '@components/Callout.astro';
     font-size: 1.75rem;
     font-weight: 700;
     margin: 0 0 0.75rem;
-    color: var(--color-accent);
+    color: var(--color-accent-text);
   }
 
   .section p {
@@ -314,7 +320,7 @@ import Callout from '@components/Callout.astro';
   }
 
   .stage-desc strong {
-    color: var(--color-accent);
+    color: var(--color-accent-text);
   }
 
   /* ---- Narrative steps ---- */
@@ -374,6 +380,28 @@ import Callout from '@components/Callout.astro';
       width: 2rem;
       height: 2rem;
       font-size: 0.8125rem;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-bg: #0f172a;
+      --color-bg-sidebar: #1e293b;
+      --color-text-primary: #f1f5f9;
+      --color-text-secondary: #cbd5e1;
+      --color-accent: #60a5fa;
+      --color-accent-text: #93bbfd;
+      --color-border: #334155;
+    }
+
+    body {
+      color: var(--color-text-primary);
+      background-color: var(--color-bg);
+    }
+
+    .step-number {
+      background: var(--color-accent);
+      color: #0f172a;
     }
   }
 </style>

@@ -21,7 +21,7 @@ const hasBackground = index % 2 === 0;
   <div class:list={['feature-row', { 'feature-row--reversed': isReversed }]}>
     <div class="feature-text">
       <div class="feature-icon-badge">{icon}</div>
-      <h3 class="feature-title">{title}</h3>
+      <h2 class="feature-title">{title}</h2>
       <div class="feature-description" set:html={description} />
     </div>
 
@@ -154,6 +154,29 @@ const hasBackground = index % 2 === 0;
 
     .feature-text {
       width: 100%;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .feature-section {
+      background: var(--color-bg, #111827);
+    }
+
+    .feature-section--bg {
+      background: var(--color-bg-sidebar, #1f2937);
+    }
+
+    .feature-title {
+      color: var(--color-text-primary, #f9fafb);
+    }
+
+    .feature-description {
+      color: var(--color-text-secondary, #d1d5db);
+    }
+
+    .feature-placeholder {
+      background: var(--color-bg-sidebar, #1f2937);
+      border-color: var(--color-border, #374151);
     }
   }
 </style>

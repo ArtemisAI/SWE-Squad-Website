@@ -55,10 +55,45 @@ const wordCount = Astro.slots.has('default')
         --color-bg-hover: rgba(0, 0, 0, 0.05);
         --color-text-primary: #1a1a2e;
         --color-text-secondary: #4a4a6a;
-        --color-text-tertiary: #9ca3af;
+        --color-text-tertiary: #6b7280;
         --color-accent: #3b82f6;
         --color-border: #e5e7eb;
         --toc-width: 14rem;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --color-bg: #111827;
+          --color-bg-sidebar: #1e1e2e;
+          --color-bg-hover: rgba(255, 255, 255, 0.05);
+          --color-text-primary: #e5e7eb;
+          --color-text-secondary: #d1d5db;
+          --color-text-tertiary: #9ca3af;
+          --color-accent: #60a5fa;
+          --color-border: #374151;
+        }
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--color-accent, #2563eb);
+        outline-offset: 2px;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--color-accent, #2563eb);
+        color: #fff;
+        padding: 8px 16px;
+        z-index: 100;
+        font-size: 14px;
+        text-decoration: none;
+        border-radius: 0 0 4px 0;
+      }
+
+      .skip-link:focus {
+        top: 0;
       }
 
       *, *::before, *::after {
@@ -250,8 +285,9 @@ const wordCount = Astro.slots.has('default')
     </style>
   </head>
   <body>
+    <a href="#blog-content" class="skip-link">Skip to content</a>
     <div class="blog-layout">
-      <main class="blog-main">
+      <main class="blog-main" id="blog-content">
         <div class="blog-header">
           <div class="blog-breadcrumb">
             <a href="/blog">&larr; Blog</a>

@@ -6,17 +6,17 @@ interface Props {
 
 const { type = 'info', title } = Astro.props;
 
-const colorMap: Record<string, { accent: string; bg: string }> = {
-  info:    { accent: '#3b82f6', bg: 'rgba(59, 130, 246, 0.08)' },
-  tip:     { accent: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.08)' },
-  success: { accent: '#22c55e', bg: 'rgba(34, 197, 94, 0.08)' },
-  warning: { accent: '#f59e0b', bg: 'rgba(245, 158, 11, 0.08)' },
+const colorMap: Record<string, { accent: string; bg: string; darkAccent: string; darkBg: string }> = {
+  info:    { accent: '#1e40af', bg: 'rgba(59, 130, 246, 0.08)', darkAccent: '#93c5fd', darkBg: 'rgba(59, 130, 246, 0.18)' },
+  tip:     { accent: '#5b21b6', bg: 'rgba(139, 92, 246, 0.08)', darkAccent: '#c4b5fd', darkBg: 'rgba(139, 92, 246, 0.18)' },
+  success: { accent: '#15803d', bg: 'rgba(34, 197, 94, 0.08)', darkAccent: '#86efac', darkBg: 'rgba(34, 197, 94, 0.18)' },
+  warning: { accent: '#92400e', bg: 'rgba(245, 158, 11, 0.08)', darkAccent: '#fcd34d', darkBg: 'rgba(245, 158, 11, 0.18)' },
 };
 
 const colors = colorMap[type];
 ---
 
-<div class="callout" style={`--callout-accent: ${colors.accent}; --callout-bg: ${colors.bg};`}>
+<div class="callout" role="note" style={`--callout-accent: ${colors.accent}; --callout-bg: ${colors.bg}; --callout-dark-accent: ${colors.darkAccent}; --callout-dark-bg: ${colors.darkBg};`}>
   {title && <div class="callout-title">{title}</div>}
   <div class="callout-content">
     <slot />
@@ -49,5 +49,16 @@ const colors = colorMap[type];
 
   .callout-content :global(p + p) {
     margin-top: 0.5rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .callout {
+      background: var(--callout-dark-bg);
+      border-left-color: var(--callout-dark-accent);
+    }
+
+    .callout-title {
+      color: var(--callout-dark-accent);
+    }
   }
 </style>

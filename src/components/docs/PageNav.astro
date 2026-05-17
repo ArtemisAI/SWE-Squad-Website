@@ -79,4 +79,35 @@ const { prev, next } = Astro.props;
   .page-nav-link:hover .page-nav-title {
     color: var(--color-accent, #3b82f6);
   }
+
+  .page-nav-link:focus-visible {
+    outline: 2px solid var(--color-accent, #2563eb);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .page-nav {
+      border-top-color: var(--color-border, #374151);
+    }
+
+    .page-nav-link {
+      border-color: var(--color-border, #374151);
+    }
+
+    .page-nav-link:hover {
+      border-color: var(--color-accent, #60a5fa);
+    }
+
+    .page-nav-direction {
+      color: var(--color-text-secondary, #d1d5db);
+    }
+
+    .page-nav-title {
+      color: var(--color-text-primary, #f9fafb);
+    }
+
+    .page-nav-link:hover .page-nav-title {
+      color: var(--color-accent, #60a5fa);
+    }
+  }
 </style>

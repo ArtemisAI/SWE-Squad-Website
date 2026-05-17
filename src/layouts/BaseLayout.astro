@@ -12,8 +12,60 @@ const { title } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    <style is:global>
+      :root {
+        --color-bg: #ffffff;
+        --color-bg-secondary: #f9fafb;
+        --color-bg-tertiary: #f3f4f6;
+        --color-text: #1a1a2e;
+        --color-text-secondary: #4a4a6a;
+        --color-text-tertiary: #6b7280;
+        --color-accent: #2563eb;
+        --color-accent-hover: #1d4ed8;
+        --color-border: #e5e7eb;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --color-bg: #111827;
+          --color-bg-secondary: #1e1e2e;
+          --color-bg-tertiary: #282a36;
+          --color-text: #e5e7eb;
+          --color-text-secondary: #d1d5db;
+          --color-text-tertiary: #9ca3af;
+          --color-accent: #60a5fa;
+          --color-accent-hover: #93bbfd;
+          --color-border: #374151;
+        }
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--color-accent, #2563eb);
+        outline-offset: 2px;
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -40px;
+        left: 0;
+        background: var(--color-accent, #2563eb);
+        color: #fff;
+        padding: 8px 16px;
+        z-index: 100;
+        font-size: 14px;
+        text-decoration: none;
+        border-radius: 0 0 4px 0;
+      }
+
+      .skip-link:focus {
+        top: 0;
+      }
+    </style>
   </head>
   <body>
-    <slot />
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <main id="main-content">
+      <slot />
+    </main>
   </body>
 </html>
