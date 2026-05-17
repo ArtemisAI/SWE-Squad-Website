@@ -6,7 +6,7 @@ interface Props {
   diagramDescription?: string;
 }
 
-const { code, id, theme = 'default', diagramDescription } = Astro.props;
+const { code, id, theme = 'default' } = Astro.props;
 const diagramId = id ?? `mermaid-${Math.random().toString(36).slice(2, 9)}`;
 ---
 

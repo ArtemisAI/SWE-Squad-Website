@@ -130,7 +130,130 @@ import Callout from '@components/Callout.astro';
       <p>Each concrete provider — OpenAI, Anthropic, a local model server, or a custom implementation — extends <code>BaseProvider</code> and implements the same set of methods. Because the core pipeline depends only on the abstract interface, swapping or adding providers requires no changes to the surrounding logic. Teams can plug in new models, swap backends, or run entirely local inference without touching the pipeline code.</p>
     </section>
 
-    <!-- Section 5: What Happens to a Log Line -->
+    <!-- Section 5: Agent Roles & Decision Logic -->
+    <section class="section">
+      <h2>Agent Roles</h2>
+      <p>SWE-Squad deploys specialized agents at each pipeline stage. Each agent has a defined role, specific inputs and outputs, and decision logic that governs its behavior.</p>
+
+      <div class="diagram-container">
+        <MermaidDiagram code={`flowchart TD
+    subgraph Agents["Pipeline Agents"]
+        Monitor["🔍 Monitor Agent"]
+        Triage["⚖️ Triage Agent"]
+        Investigator["🔬 Investigator Agent"]
+        Developer["🔧 Developer Agent"]
+        Ralph["🛡️ Ralph Wiggum<br/>(Stability Gate)"]
+        Creative["💡 Creative Agent"]
+        Distiller["🧠 Distiller Agent"]
+    end
+    Monitor -->|"Alert"| Triage
+    Triage -->|"Classified Incident"| Investigator
+    Investigator -->|"Root Cause + Context"| Developer
+    Developer -->|"Patch + Tests"| Ralph
+    Ralph -->|"Validated Fix"| Distiller
+    Creative -->|"Alternative Approaches"| Developer
+    Distiller -->|"Lessons Learned"| Memory["Semantic Memory"]`} />
+      </div>
+
+      <div class="stage-descriptions">
+        <div class="stage-desc">
+          <strong>Monitor Agent</strong> — Continuously ingests logs, metrics, and error signals from production systems. <em>Inputs:</em> raw log streams, metric thresholds, alert rules. <em>Outputs:</em> structured alerts with severity hints. <em>Decision logic:</em> anomaly detection via pattern matching against known signatures and statistical baselines.
+        </div>
+        <div class="stage-desc">
+          <strong>Triage Agent</strong> — Classifies each alert by severity and deduplicates against active incidents. <em>Inputs:</em> structured alerts from Monitor. <em>Outputs:</em> classified, deduplicated incident tickets. <em>Decision logic:</em> severity scored by error category, blast radius, and user impact; duplicates detected via semantic similarity against open tickets.
+        </div>
+        <div class="stage-desc">
+          <strong>Investigator Agent</strong> — Performs deep root-cause analysis by exploring the codebase and tracing error paths. <em>Inputs:</em> classified incident ticket, codebase access, commit history, semantic memory. <em>Outputs:</em> root cause summary, relevant file list, context window for fix generation. <em>Decision logic:</em> follows call-stack traces, identifies recent commits touching failing paths, and cross-references with historical fixes.
+        </div>
+        <div class="stage-desc">
+          <strong>Developer Agent</strong> — Generates targeted code patches and corresponding test cases. <em>Inputs:</em> root cause context from Investigator, file contents, project conventions. <em>Outputs:</em> code diff, test suite, self-review notes. <em>Decision logic:</em> applies minimal-diff strategy — prefers surgical edits over rewrites, and validates generated code against project lint and type rules before submission.
+        </div>
+        <div class="stage-desc">
+          <strong>Ralph Wiggum (Stability Gate)</strong> — Validates every proposed fix through a comprehensive quality gate. <em>Inputs:</em> code diff and tests from Developer. <em>Outputs:</em> pass/fail verdict with detailed failure report. <em>Decision logic:</em> runs unit tests, lint checks, type verification, security scanning (OWASP top 10), and smoke tests. Rejects any fix that fails a single check and returns failure context to the Developer Agent for the next retry.
+        </div>
+        <div class="stage-desc">
+          <strong>Creative Agent</strong> — Activated when the Developer Agent exhausts its retry budget without a passing fix. <em>Inputs:</em> accumulated failure context from previous attempts. <em>Outputs:</em> alternative solution strategies and unconventional approaches. <em>Decision logic:</em> breaks out of the local optimization loop by proposing fundamentally different solution paths — a different algorithm, a different module boundary, or a configuration-based fix instead of a code change.
+        </div>
+        <div class="stage-desc">
+          <strong>Distiller Agent</strong> — Runs post-resolution to extract reusable knowledge from each completed incident. <em>Inputs:</em> full incident trace, root cause, fix diff, and test results. <em>Outputs:</em> condensed lesson entries written to semantic memory. <em>Decision logic:</em> identifies which parts of the investigation were novel versus redundant, and stores only the new knowledge that would accelerate future resolutions.
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Ticket Lifecycle State Machine -->
+    <section class="section">
+      <h2>Ticket Lifecycle</h2>
+      <p>Every incident follows a well-defined state machine from first alert to resolution. The ticket lifecycle ensures no issue falls through the cracks — every state transition is tracked, timed, and auditable.</p>
+
+      <div class="diagram-container">
+        <MermaidDiagram code={`stateDiagram-v2
+    [*] --> New: Alert Ingested
+    New --> Triaged: Classified
+    Triaged --> Investigating: Agent Assigned
+    Investigating --> InDevelopment: Root Cause Found
+    InDevelopment --> InReview: Fix Submitted
+    InReview --> Deployed: All Checks Pass
+    InReview --> InDevelopment: Checks Fail
+    InDevelopment --> Escalated: Retry Limit Hit
+    Escalated --> InDevelopment: Human Provides Guidance
+    Deployed --> [*]: Resolved`} />
+      </div>
+
+      <p>Tickets move linearly through the pipeline under normal conditions. When the Stability Gate rejects a fix, the ticket loops back to In Development. If the retry budget is exhausted, the ticket escalates to a human engineer while remaining in the active queue. Once deployed, the ticket transitions to Resolved and feeds its findings back into semantic memory.</p>
+    </section>
+
+    <!-- Section 7: Model Routing & Auto-Escalation -->
+    <section class="section">
+      <h2>Model Routing &amp; Escalation</h2>
+      <p>SWE-Squad routes each task to the most cost-effective model capable of handling it. Simple classification runs on Haiku, investigation and patch generation use Sonnet, and complex architectural decisions invoke Opus.</p>
+
+      <div class="diagram-container">
+        <MermaidDiagram code={`flowchart TD
+    Input[Incoming Incident] --> Classify{Complexity?}
+    Classify -->|Simple| Haiku[Haiku<br/>~$0.25/1M tokens]
+    Classify -->|Standard| Sonnet[Sonnet<br/>~$3.00/1M tokens]
+    Classify -->|Complex| Opus[Opus<br/>~$15.00/1M tokens]
+    Haiku --> Result{Pass?}
+    Sonnet --> Result
+    Opus --> Result
+    Result -->|Yes| Deploy[Deploy Fix]
+    Result -->|No + Retries Left| Upgrade{Upgrade Model?}
+    Upgrade -->|Yes| NextModel[Next Tier Up]
+    Upgrade -->|No| SameModel[Same Model + New Context]
+    NextModel --> Result
+    SameModel --> Result
+    Result -->|No + Retries Exhausted| Escalate[Escalate to Human]`} />
+      </div>
+
+      <p>The auto-escalation path is equally important: if a model fails to produce a passing fix within its retry budget, the system first tries upgrading to the next model tier. If all tiers are exhausted, the incident escalates to a human engineer with the full diagnostic trace. This ensures every issue eventually reaches the right level of expertise — whether AI or human.</p>
+    </section>
+
+    <!-- Section 8: Multi-Team Scoping -->
+    <section class="section">
+      <h2>Multi-Team Scoping</h2>
+      <p>SWE-Squad supports multiple engineering teams within a single deployment. Each team is scoped to its own codebase boundaries, agent configurations, and escalation policies — while sharing a common memory store for cross-team learning.</p>
+
+      <div class="diagram-container">
+        <MermaidDiagram code={`flowchart TD
+    subgraph Platform["SWE-Squad Platform"]
+        Router[Team Router]
+        Memory[Shared Memory Store]
+        Router --> TeamA["Team Alpha<br/>Backend Services"]
+        Router --> TeamB["Team Bravo<br/>Frontend & Mobile"]
+        Router --> TeamC["Team Charlie<br/>Data Pipeline"]
+        TeamA --> ScopeA["Scoped Codebase Access<br/>Service A, B, C"]
+        TeamB --> ScopeB["Scoped Codebase Access<br/>Web, iOS, Android"]
+        TeamC --> ScopeC["Scoped Codebase Access<br/>ETL, ML Pipeline"]
+        ScopeA --> Memory
+        ScopeB --> Memory
+        ScopeC --> Memory
+    end`} />
+      </div>
+
+      <p>The Team Router directs incoming alerts to the correct team based on service ownership metadata. Within each team, agents operate within strictly scoped codebase boundaries — a backend agent cannot access frontend repositories, and vice versa. However, the shared semantic memory store allows lessons learned by one team to benefit others. Cross-team incidents (e.g., an API change that breaks a frontend consumer) are detected by the Router and broadcast to all affected teams simultaneously.</p>
+    </section>
+
+    <!-- Section 9: What Happens to a Log Line -->
     <section class="section">
       <h2>What Happens to a Log Line</h2>
       <p>Follow a single error log line on its journey from ingestion to deployment.</p>

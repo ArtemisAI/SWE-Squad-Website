@@ -4,6 +4,7 @@ import Breadcrumbs from '@components/docs/Breadcrumbs.astro';
 import TableOfContents from '@components/docs/TableOfContents.astro';
 import PageNav from '@components/docs/PageNav.astro';
 import EditOnGitHub from '@components/docs/EditOnGitHub.astro';
+import SearchDialog from '@components/SearchDialog.astro';
 import { getCollection } from 'astro:content';
 import type { SidebarSection, SidebarItem } from '@components/docs/Sidebar.astro';
 
@@ -76,6 +77,8 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} | SWE-Squad Docs</title>
     <meta name="description" content={description} />
+    <meta data-pagefind-meta="title" content={title} />
+    <meta data-pagefind-meta="description" content={description} />
     <style is:global>
       :root {
         --color-bg: #ffffff;
@@ -153,6 +156,38 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
         padding: 1.5rem 1rem;
         background-color: var(--color-bg-sidebar);
         border-right: 1px solid var(--color-border);
+      }
+
+      .search-trigger {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        margin-bottom: 1rem;
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        border-radius: 0.5rem;
+        cursor: pointer;
+        color: var(--color-text-tertiary);
+        font-size: 0.8125rem;
+        transition: border-color 0.15s, color 0.15s;
+      }
+
+      .search-trigger:hover {
+        border-color: var(--color-accent);
+        color: var(--color-text-secondary);
+      }
+
+      .search-trigger-text {
+        flex: 1;
+        text-align: left;
+      }
+
+      .search-trigger-kbd {
+        font-size: 0.6875rem;
+        font-family: inherit;
+        color: var(--color-text-tertiary);
       }
 
       .docs-main {
@@ -305,9 +340,16 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
 
     <div class="docs-layout">
       <aside class="docs-sidebar" id="docs-sidebar">
+        <button class="search-trigger" id="search-trigger" aria-label="Search docs and blog">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M8.5 3a5.5 5.5 0 0 1 4.23 9.02l4.12 4.13a.75.75 0 0 1-1.06 1.06l-4.13-4.12A5.5 5.5 0 1 1 8.5 3zm0 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="currentColor"/>
+          </svg>
+          <span class="search-trigger-text">Search...</span>
+          <kbd class="search-trigger-kbd">⌘K</kbd>
+        </button>
         <Sidebar sections={sidebarSections} currentSlug={currentSlug} />
       </aside>
-      <main class="docs-main" id="docs-content">
+      <main class="docs-main" data-pagefind-body>
         <Breadcrumbs items={breadcrumbs} />
         <slot />
         <EditOnGitHub href={githubEditUrl} />
@@ -345,11 +387,18 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
 
       backdrop?.addEventListener('click', closeSidebar);
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && sidebar?.classList.contains('is-open')) {
-          closeSidebar();
-        }
+      const searchTrigger = document.getElementById('search-trigger');
+      searchTrigger?.addEventListener('click', () => {
+        const searchInput = document.getElementById('search-input') as HTMLInputElement | null;
+        const searchBackdrop = document.getElementById('search-backdrop');
+        const searchDialog = document.getElementById('search-dialog');
+        searchBackdrop?.classList.add('is-open');
+        searchDialog?.classList.add('is-open');
+        searchInput?.focus();
+        document.body.style.overflow = 'hidden';
       });
     </script>
+
+    <SearchDialog />
   </body>
 </html>
