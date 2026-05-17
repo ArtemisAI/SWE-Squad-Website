@@ -1,0 +1,139 @@
+---
+/**
+ * TrustBar – displays technology dependencies and license badge.
+ * Static component, no props.
+ */
+---
+
+<section class="trust-bar">
+  <div class="trust-bar-inner">
+    <span class="trust-label">Built on</span>
+    <div class="trust-items">
+      <div class="trust-item">
+        <span class="trust-icon">⚡</span>
+        <span class="trust-name">Claude Code</span>
+      </div>
+      <div class="trust-divider" aria-hidden="true"></div>
+      <div class="trust-item">
+        <span class="trust-icon">🔗</span>
+        <span class="trust-name">A2A Protocol</span>
+      </div>
+      <div class="trust-divider" aria-hidden="true"></div>
+      <div class="trust-item">
+        <span class="trust-icon">🗄️</span>
+        <span class="trust-name">Supabase</span>
+      </div>
+    </div>
+    <div class="trust-badge">
+      <span class="badge-icon">📜</span>
+      <span class="badge-text">MIT License</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust-bar {
+    --color-bg: #0d1117;
+    --color-surface: #161b22;
+    --color-border: #30363d;
+    --color-text: #e6edf3;
+    --color-text-secondary: #8b949e;
+    --color-accent: #7c3aed;
+    --color-accent-light: #a78bfa;
+
+    width: 100%;
+    background-color: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .trust-bar-inner {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .trust-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+  }
+
+  .trust-items {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .trust-icon {
+    font-size: 1.125rem;
+    line-height: 1;
+    color: var(--color-accent-light);
+  }
+
+  .trust-name {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text);
+    line-height: 1;
+  }
+
+  .trust-divider {
+    width: 1px;
+    height: 1.25rem;
+    background-color: var(--color-border);
+  }
+
+  .trust-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  .badge-icon {
+    font-size: 0.875rem;
+    line-height: 1;
+  }
+
+  .badge-text {
+    font-weight: 600;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 640px) {
+    .trust-bar-inner {
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .trust-items {
+      gap: 0.75rem;
+    }
+
+    .trust-divider {
+      display: none;
+    }
+  }
+</style>

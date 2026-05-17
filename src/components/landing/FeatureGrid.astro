@@ -1,0 +1,70 @@
+---
+import Card from '../Card.astro';
+---
+<section class="feature-grid-section">
+  <div class="section-header">
+    <h2 class="section-title">Capabilities</h2>
+    <p class="section-subtitle">Everything you need for autonomous software maintenance</p>
+  </div>
+  <div class="feature-grid">
+    <Card title="Smart Model Routing" description="Routes each task to the right AI model based on complexity. Fast models handle simple fixes, while expert models tackle deep architectural changes." icon="⚡" />
+    <Card title="Keep/Discard Fix Loop" description="Every proposed fix goes through an automated review cycle. Fixes that pass the stability gate are kept; those that don't are discarded and retried." icon="🔄" />
+    <Card title="Stability Gate" description="No fix reaches your main branch without passing tests. The stability gate blocks any change that breaks existing test suites or introduces regressions." icon="🛡️" />
+    <Card title="Semantic Memory" description="Agents remember past fixes, project conventions, and team preferences. This accumulated knowledge makes each subsequent fix faster and more accurate." icon="🧠" />
+    <Card title="Multi-Team Support" description="Multiple teams can run SWE Squad independently with isolated configurations. Each team gets its own model routing, memory, and approval workflows." icon="👥" />
+    <Card title="A2A Protocol" description="Built on the Agent-to-Agent protocol for seamless inter-agent communication. Agents coordinate, delegate, and review each other's work through a standardized protocol." icon="🔗" />
+  </div>
+</section>
+
+<style>
+  .feature-grid-section {
+    --color-bg: #0d1117;
+    --color-surface: #161b22;
+    --color-border: #30363d;
+    --color-text: #e6edf3;
+    --color-text-secondary: #8b949e;
+    --color-accent: #7c3aed;
+    --color-accent-light: #a78bfa;
+
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 0.5rem;
+  }
+
+  .section-subtitle {
+    font-size: 1.0625rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .feature-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
