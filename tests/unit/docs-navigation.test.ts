@@ -64,6 +64,7 @@ const sampleDocs: DocEntry[] = [
   { slug: 'introduction', title: 'Introduction', section: 'Getting Started', order: 1 },
   { slug: 'installation', title: 'Installation', section: 'Getting Started', order: 2 },
   { slug: 'configuration', title: 'Configuration', section: 'Getting Started', order: 3 },
+  { slug: 'running', title: 'Running SWE-Squad', section: 'Getting Started', order: 4 },
   { slug: 'architecture', title: 'Architecture', section: 'Core Concepts', order: 1 },
   { slug: 'agents', title: 'Agents', section: 'Core Concepts', order: 2 },
   { slug: 'api-reference', title: 'API Reference', section: 'API', order: 1 },
@@ -83,6 +84,7 @@ describe('Sidebar sections', () => {
       'introduction',
       'installation',
       'configuration',
+      'running',
     ]);
   });
 
@@ -106,9 +108,15 @@ describe('Prev/Next navigation', () => {
   });
 
   it('returns null next for the last doc in sorted order', () => {
+    const { prev, next } = getPrevNext(sampleDocs, 'running');
+    expect(prev?.slug).toBe('configuration');
+    expect(next).toBeNull();
+  });
+
+  it('returns correct prev/next for configuration (not last in Getting Started)', () => {
     const { prev, next } = getPrevNext(sampleDocs, 'configuration');
     expect(prev?.slug).toBe('installation');
-    expect(next).toBeNull();
+    expect(next?.slug).toBe('running');
   });
 
   it('returns null for unknown slug', () => {
