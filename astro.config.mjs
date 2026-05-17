@@ -1,9 +1,16 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
+import mdx from '@astrojs/mdx';
+import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  integrations: [tailwind()],
   site: 'https://swe-squad.dev',
+  output: 'static',
+  adapter: vercel(),
+  integrations: [
+    tailwind(),
+    mdx(),
+  ],
   srcDir: './src',
   publicDir: './public',
   compressHTML: true,
