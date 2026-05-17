@@ -80,7 +80,7 @@ describe('Pricing page', () => {
     expect(pageContent).toContain('--color-bg-sidebar: #f9fafb');
     expect(pageContent).toContain('--color-text-primary: #1a1a2e');
     expect(pageContent).toContain('--color-text-secondary: #4a4a6a');
-    expect(pageContent).toContain('--color-accent: #3b82f6');
+    expect(pageContent).toContain('--color-accent: #6366f1');
     expect(pageContent).toContain('--color-border: #e5e7eb');
   });
 
