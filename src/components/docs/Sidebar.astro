@@ -1,6 +1,6 @@
 ---
 export interface SidebarItem {
-  slug: string;
+  id: string;
   title: string;
 }
 
@@ -38,9 +38,9 @@ const { sections, currentSlug } = Astro.props;
         {section.items.map((item) => (
           <li>
             <a
-              href={`/docs/${item.slug}`}
-              class:list={['sidebar-link', { active: item.slug === currentSlug }]}
-              aria-current={item.slug === currentSlug ? 'page' : undefined}
+              href={`/docs/${item.id}`}
+              class:list={['sidebar-link', { active: item.id === currentSlug }]}
+              aria-current={item.id === currentSlug ? 'page' : undefined}
             >
               {item.title}
             </a>
@@ -117,8 +117,8 @@ const { sections, currentSlug } = Astro.props;
   }
 
   .sidebar-link.active {
-    background-color: var(--color-bg-active, rgba(59, 130, 246, 0.1));
-    color: var(--color-accent, #3b82f6);
+    background-color: var(--color-bg-active, rgba(99, 102, 241, 0.1));
+    color: var(--color-accent, #6366f1);
     font-weight: 500;
   }
 </style>

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Grid pattern -->
+  <g stroke="#334155" stroke-width="0.5" opacity="0.4">
+    <line x1="0" y1="0" x2="1200" y2="630"/>
+    <line x1="0" y1="630" x2="1200" y2="0"/>
+    <line x1="600" y1="0" x2="0" y2="630"/>
+    <line x1="600" y1="0" x2="1200" y2="630"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <!-- Horizontal lines -->
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <!-- Vertical lines -->
+    <line x1="200" y1="0" x2="200" y2="630"/>
+    <line x1="400" y1="0" x2="400" y2="630"/>
+    <line x1="800" y1="0" x2="800" y2="630"/>
+    <line x1="1000" y1="0" x2="1000" y2="630"/>
+  </g>
+  <!-- Decorative circles -->
+  <circle cx="150" cy="100" r="80" fill="none" stroke="#3b82f6" stroke-width="0.5" opacity="0.15"/>
+  <circle cx="1050" cy="530" r="120" fill="none" stroke="#8b5cf6" stroke-width="0.5" opacity="0.15"/>
+  <circle cx="950" cy="80" r="50" fill="none" stroke="#3b82f6" stroke-width="0.5" opacity="0.1"/>
+  <!-- Accent line -->
+  <rect x="350" y="340" width="500" height="3" rx="1.5" fill="url(#accent)" opacity="0.8"/>
+  <!-- Title text -->
+  <text x="600" y="290" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="96" font-weight="800" fill="#f8fafc" letter-spacing="-2">SWE-Squad</text>
+  <!-- Tagline -->
+  <text x="600" y="395" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="400" fill="#94a3b8" letter-spacing="1">AI-Powered Software Engineering</text>
+  <!-- Small dots decoration -->
+  <g fill="#3b82f6" opacity="0.3">
+    <circle cx="350" cy="342" r="3"/>
+    <circle cx="370" cy="342" r="2"/>
+  </g>
+  <g fill="#8b5cf6" opacity="0.3">
+    <circle cx="830" cy="342" r="2"/>
+    <circle cx="850" cy="342" r="3"/>
+  </g>
+</svg>

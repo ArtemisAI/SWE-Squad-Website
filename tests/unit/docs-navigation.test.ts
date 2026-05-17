@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 
 interface SidebarItem {
-  slug: string;
+  id: string;
   title: string;
 }
 
@@ -11,7 +11,7 @@ interface SidebarSection {
 }
 
 interface DocEntry {
-  slug: string;
+  id: string;
   title: string;
   section: string;
   order: number;
@@ -28,7 +28,7 @@ function buildSidebarSections(docs: DocEntry[]): SidebarSection[] {
   const sectionsMap = new Map<string, SidebarItem[]>();
   for (const doc of sortedDocs) {
     const items = sectionsMap.get(doc.section) || [];
-    items.push({ slug: doc.slug, title: doc.title });
+    items.push({ id: doc.id, title: doc.title });
     sectionsMap.set(doc.section, items);
   }
 
@@ -39,12 +39,12 @@ function buildSidebarSections(docs: DocEntry[]): SidebarSection[] {
   return sections;
 }
 
-function getPrevNext(docs: DocEntry[], currentSlug: string) {
+function getPrevNext(docs: DocEntry[], currentId: string) {
   const sorted = [...docs].sort((a, b) => {
     if (a.section !== b.section) return a.section.localeCompare(b.section);
     return a.order - b.order;
   });
-  const idx = sorted.findIndex((d) => d.slug === currentSlug);
+  const idx = sorted.findIndex((d) => d.id === currentId);
   if (idx === -1) return { prev: null, next: null };
   return {
     prev: idx > 0 ? sorted[idx - 1] : null,
@@ -61,15 +61,15 @@ function buildBreadcrumbs(section: string, title: string) {
 }
 
 const sampleDocs: DocEntry[] = [
-  { slug: 'introduction', title: 'Introduction', section: 'Getting Started', order: 1 },
-  { slug: 'installation', title: 'Installation', section: 'Getting Started', order: 2 },
-  { slug: 'configuration', title: 'Configuration', section: 'Getting Started', order: 3 },
-  { slug: 'running', title: 'Running SWE-Squad', section: 'Getting Started', order: 4 },
-  { slug: 'architecture', title: 'Architecture', section: 'Core Concepts', order: 1 },
-  { slug: 'agents', title: 'Agents', section: 'Core Concepts', order: 2 },
-  { slug: 'api-reference', title: 'API Reference', section: 'API', order: 1 },
-  { slug: 'configuration-reference', title: 'Configuration Reference', section: 'Reference', order: 1 },
-  { slug: 'provider-plugin-guide', title: 'Provider Plugin Development Guide', section: 'Advanced', order: 1 },
+  { id: 'introduction', title: 'Introduction', section: 'Getting Started', order: 1 },
+  { id: 'installation', title: 'Installation', section: 'Getting Started', order: 2 },
+  { id: 'configuration', title: 'Configuration', section: 'Getting Started', order: 3 },
+  { id: 'running', title: 'Running SWE-Squad', section: 'Getting Started', order: 4 },
+  { id: 'architecture', title: 'Architecture', section: 'Core Concepts', order: 1 },
+  { id: 'agents', title: 'Agents', section: 'Core Concepts', order: 2 },
+  { id: 'api-reference', title: 'API Reference', section: 'API', order: 1 },
+  { id: 'configuration-reference', title: 'Configuration Reference', section: 'Reference', order: 1 },
+  { id: 'provider-plugin-guide', title: 'Provider Plugin Development Guide', section: 'Advanced', order: 1 },
 ];
 
 describe('Sidebar sections', () => {
@@ -82,7 +82,7 @@ describe('Sidebar sections', () => {
   it('sorts items within each section by order', () => {
     const sections = buildSidebarSections(sampleDocs);
     const started = sections.find((s) => s.name === 'Getting Started')!;
-    expect(started.items.map((i) => i.slug)).toEqual([
+    expect(started.items.map((i) => i.id)).toEqual([
       'introduction',
       'installation',
       'configuration',
@@ -99,26 +99,26 @@ describe('Sidebar sections', () => {
 describe('Prev/Next navigation', () => {
   it('returns prev and next for a middle doc', () => {
     const { prev, next } = getPrevNext(sampleDocs, 'installation');
-    expect(prev?.slug).toBe('introduction');
-    expect(next?.slug).toBe('configuration');
+    expect(prev?.id).toBe('introduction');
+    expect(next?.id).toBe('configuration');
   });
 
   it('returns null prev for the first doc in sorted order', () => {
     const { prev, next } = getPrevNext(sampleDocs, 'provider-plugin-guide');
     expect(prev).toBeNull();
-    expect(next?.slug).toBe('api-reference');
+    expect(next?.id).toBe('api-reference');
   });
 
   it('returns null next for the last doc in sorted order', () => {
     const { prev, next } = getPrevNext(sampleDocs, 'configuration-reference');
-    expect(prev?.slug).toBe('running');
+    expect(prev?.id).toBe('running');
     expect(next).toBeNull();
   });
 
   it('returns correct prev/next for configuration (not last in Getting Started)', () => {
     const { prev, next } = getPrevNext(sampleDocs, 'configuration');
-    expect(prev?.slug).toBe('installation');
-    expect(next?.slug).toBe('running');
+    expect(prev?.id).toBe('installation');
+    expect(next?.id).toBe('running');
   });
 
   it('returns null for unknown slug', () => {

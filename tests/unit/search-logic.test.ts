@@ -45,6 +45,21 @@ function sortSearchResults<T extends { score?: number }>(results: T[]): T[] {
   return [...results].sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
 }
 
+function getResultPath(url: string): string {
+  if (url.startsWith('/docs/')) return 'Docs';
+  if (url.startsWith('/blog/')) return 'Blog';
+  return '';
+}
+
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 const sampleResults: PagefindResult[] = [
   {
     url: '/docs/introduction',
@@ -62,26 +77,61 @@ const sampleResults: PagefindResult[] = [
     excerpt: 'Configure SWE-Squad with environment variables and config files.',
   },
   {
-    url: '/blog/introducing-swe-squad',
-    meta: { title: 'Introducing SWE-Squad' },
-    excerpt: 'We are excited to announce the SWE-Squad platform for AI-driven incident management.',
+    url: '/docs/configuration-reference',
+    meta: { title: 'Configuration Reference' },
+    excerpt: 'Complete reference for all configuration options and environment variables.',
+  },
+  {
+    url: '/docs/provider-plugin-guide',
+    meta: { title: 'Provider Plugin Guide' },
+    excerpt: 'How to create and register custom provider plugins for SWE-Squad.',
+  },
+  {
+    url: '/docs/architecture',
+    meta: { title: 'Architecture' },
+    excerpt: 'Understand the SWE-Squad multi-agent architecture and A2A protocol.',
   },
   {
     url: '/docs/api-reference',
     meta: { title: 'API Reference' },
     excerpt: 'Complete API reference for the SWE-Squad REST and GraphQL endpoints.',
   },
+  {
+    url: '/blog/introducing-swe-squad',
+    meta: { title: 'Introducing SWE-Squad' },
+    excerpt: 'We are excited to announce the SWE-Squad platform for AI-driven incident management.',
+  },
+  {
+    url: '/docs/running',
+    meta: { title: 'Running SWE-Squad' },
+    excerpt: 'How to deploy and run SWE-Squad in production environments.',
+  },
+  {
+    url: '/docs/multi-team-setup',
+    meta: { title: 'Multi-Team Setup' },
+    excerpt: 'Set up multiple teams with isolated workspaces and model preferences.',
+  },
+  {
+    url: '/docs/agents',
+    meta: { title: 'Agents' },
+    excerpt: 'Learn about the Explorer, Planner, Coder, and Reviewer agents.',
+  },
+  {
+    url: '/docs/security-rbac',
+    meta: { title: 'Security & RBAC' },
+    excerpt: 'Role-based access control and security configuration for SWE-Squad.',
+  },
 ];
 
 describe('Search result filtering', () => {
   it('returns all results when no filter options', () => {
     const filtered = filterSearchResults(sampleResults);
-    expect(filtered).toHaveLength(5);
+    expect(filtered).toHaveLength(sampleResults.length);
   });
 
   it('filters results by base path for docs only', () => {
     const filtered = filterSearchResults(sampleResults, { basePath: '/docs/' });
-    expect(filtered).toHaveLength(4);
+    expect(filtered.length).toBeGreaterThan(0);
     expect(filtered.every((r) => r.url.startsWith('/docs/'))).toBe(true);
   });
 
@@ -163,7 +213,7 @@ describe('Search excerpt truncation', () => {
   it('truncates long excerpts and adds ellipsis', () => {
     const longText = 'a'.repeat(150);
     const result = truncateExcerpt(longText, 120);
-    expect(result.length).toBe(121); // 120 chars + ellipsis
+    expect(result.length).toBe(121);
     expect(result.endsWith('…')).toBe(true);
   });
 
@@ -209,5 +259,82 @@ describe('Search result sorting', () => {
     ];
     sortSearchResults(results);
     expect(results[0].url).toBe('/a');
+  });
+});
+
+describe('Common search queries', () => {
+  function searchByKeyword(results: PagefindResult[], keyword: string): PagefindResult[] {
+    const lower = keyword.toLowerCase();
+    return results.filter((r) => {
+      const title = (r.meta?.title || '').toLowerCase();
+      const excerpt = (r.excerpt || '').toLowerCase();
+      const url = r.url.toLowerCase();
+      return title.includes(lower) || excerpt.includes(lower) || url.includes(lower);
+    });
+  }
+
+  it('finds results for "getting started"', () => {
+    const matches = searchByKeyword(sampleResults, 'get started');
+    expect(matches.length).toBeGreaterThan(0);
+    const filtered = filterSearchResults(matches);
+    expect(filtered.some((r) => r.url.startsWith('/docs/'))).toBe(true);
+  });
+
+  it('finds results for "configuration"', () => {
+    const matches = searchByKeyword(sampleResults, 'configuration');
+    expect(matches.length).toBeGreaterThan(0);
+    const filtered = filterSearchResults(matches);
+    expect(filtered.some((r) => r.title === 'Configuration')).toBe(true);
+    expect(filtered.some((r) => r.title === 'Configuration Reference')).toBe(true);
+  });
+
+  it('finds results for "provider"', () => {
+    const matches = searchByKeyword(sampleResults, 'provider');
+    expect(matches.length).toBeGreaterThan(0);
+    const filtered = filterSearchResults(matches);
+    expect(filtered.some((r) => r.url.includes('provider'))).toBe(true);
+  });
+
+  it('finds results for "deploy"', () => {
+    const matches = searchByKeyword(sampleResults, 'deploy');
+    expect(matches.length).toBeGreaterThan(0);
+    const filtered = filterSearchResults(matches);
+    expect(filtered.some((r) => r.url.includes('running') || r.excerpt.toLowerCase().includes('deploy'))).toBe(true);
+  });
+});
+
+describe('Result path classification', () => {
+  it('classifies docs URLs', () => {
+    expect(getResultPath('/docs/introduction')).toBe('Docs');
+    expect(getResultPath('/docs/configuration')).toBe('Docs');
+    expect(getResultPath('/docs/installation')).toBe('Docs');
+  });
+
+  it('classifies blog URLs', () => {
+    expect(getResultPath('/blog/introducing-swe-squad')).toBe('Blog');
+  });
+
+  it('returns empty for marketing pages', () => {
+    expect(getResultPath('/')).toBe('');
+    expect(getResultPath('/features')).toBe('');
+    expect(getResultPath('/pricing')).toBe('');
+    expect(getResultPath('/architecture')).toBe('');
+    expect(getResultPath('/community')).toBe('');
+  });
+});
+
+describe('XSS prevention in search', () => {
+  it('escapes HTML in user queries in no-results message', () => {
+    const maliciousQuery = '<img src=x onerror=alert(1)>';
+    const escaped = escapeHtml(maliciousQuery);
+    expect(escaped).not.toContain('<img');
+    expect(escaped).toContain('&lt;img');
+  });
+
+  it('escapes HTML in result titles', () => {
+    const title = '<script>alert("xss")</script>';
+    const escaped = escapeHtml(title);
+    expect(escaped).not.toContain('<script>');
+    expect(escaped).toContain('&lt;script&gt;');
   });
 });

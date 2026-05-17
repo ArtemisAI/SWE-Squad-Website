@@ -1,59 +1,64 @@
 ---
-import Card from '../Card.astro';
+import Card from '../../components/Card.astro';
 ---
-<section class="feature-grid-section">
-  <div class="section-header">
-    <h2 class="section-title">Capabilities</h2>
-    <p class="section-subtitle">Everything you need for autonomous software maintenance</p>
-  </div>
+
+<section class="feature-section">
+  <h2 class="section-title">Features</h2>
   <div class="feature-grid">
-    <Card title="Smart Model Routing" description="Routes each task to the right AI model based on complexity. Fast models handle simple fixes, while expert models tackle deep architectural changes." icon="⚡" />
-    <Card title="Keep/Discard Fix Loop" description="Every proposed fix goes through an automated review cycle. Fixes that pass the stability gate are kept; those that don't are discarded and retried." icon="🔄" />
-    <Card title="Stability Gate" description="No fix reaches your main branch without passing tests. The stability gate blocks any change that breaks existing test suites or introduces regressions." icon="🛡️" />
-    <Card title="Semantic Memory" description="Agents remember past fixes, project conventions, and team preferences. This accumulated knowledge makes each subsequent fix faster and more accurate." icon="🧠" />
-    <Card title="Multi-Team Support" description="Multiple teams can run SWE Squad independently with isolated configurations. Each team gets its own model routing, memory, and approval workflows." icon="👥" />
-    <Card title="A2A Protocol" description="Built on the Agent-to-Agent protocol for seamless inter-agent communication. Agents coordinate, delegate, and review each other's work through a standardized protocol." icon="🔗" />
+    <Card
+      title="Smart Model Routing"
+      icon="🧠"
+      description="Routes tasks to the optimal AI model based on complexity and cost. Fast models handle simple fixes while expert models tackle deep architectural issues."
+    />
+    <Card
+      title="Keep/Discard Fix Loop"
+      icon="🔄"
+      description="Automated fix cycles that validate each patch against your test suite. Fixes that fail are discarded and regenerated until a passing solution emerges."
+    />
+    <Card
+      title="Stability Gate"
+      icon="🛡️"
+      description="Every fix must pass a stability check before reaching your repository. This gate prevents regressions by verifying tests, builds, and lint checks all pass."
+    />
+    <Card
+      title="Semantic Memory"
+      icon="💾"
+      description="Persists context across sessions so the squad learns from past fixes. This memory helps avoid repeated mistakes and accelerates resolution of similar issues."
+    />
+    <Card
+      title="Multi-Team Support"
+      icon="👥"
+      description="Multiple engineering teams can operate independently with isolated contexts. Each team gets its own routing preferences, memory, and fix history."
+    />
+    <Card
+      title="A2A Protocol"
+      icon="🔗"
+      description="Agents communicate using the Agent-to-Agent protocol for coordinated workflows. This enables seamless handoffs between monitoring, investigation, and fix agents."
+    />
   </div>
 </section>
 
 <style>
-  .feature-grid-section {
-    --color-bg: #0d1117;
-    --color-surface: #161b22;
-    --color-border: #30363d;
-    --color-text: #e6edf3;
-    --color-text-secondary: #8b949e;
-    --color-accent: #7c3aed;
-    --color-accent-light: #a78bfa;
-
-    max-width: 72rem;
-    margin: 0 auto;
-    padding: 2rem;
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: 2.5rem;
+  .feature-section {
+    background: #f0f4f8;
+    padding: 4rem 2rem;
   }
 
   .section-title {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--color-text);
-    margin: 0 0 0.5rem;
-  }
-
-  .section-subtitle {
-    font-size: 1.0625rem;
-    color: var(--color-text-secondary);
-    margin: 0;
-    line-height: 1.6;
+    color: #1a1a2e;
+    text-align: center;
+    margin: 0 0 2.5rem;
+    line-height: 1.2;
   }
 
   .feature-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   @media (max-width: 768px) {

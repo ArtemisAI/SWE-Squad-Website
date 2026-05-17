@@ -25,6 +25,12 @@ interface SearchResult {
   excerpt: string;
 }
 
+function getResultPath(url: string): string {
+  if (url.startsWith('/docs/')) return 'Docs';
+  if (url.startsWith('/blog/')) return 'Blog';
+  return '';
+}
+
 function renderResults(results: SearchResult[], query: string): string {
   if (!query.trim()) {
     return '<p class="search-empty">Type to search documentation and blog posts</p>';
@@ -37,8 +43,10 @@ function renderResults(results: SearchResult[], query: string): string {
   return results
     .slice(0, 8)
     .map(
-      (r) =>
-        `<a href="${r.url}" class="search-result-item"><p class="search-result-title">${escapeHtml(r.title)}</p><p class="search-result-excerpt">${r.excerpt}</p></a>`
+      (r) => {
+        const pathLabel = getResultPath(r.url);
+        return `<a href="${r.url}" class="search-result-item"><p class="search-result-title">${escapeHtml(r.title)}</p>${pathLabel ? `<span class="search-result-path">${pathLabel}</span>` : ''}<p class="search-result-excerpt">${r.excerpt}</p></a>`;
+      }
     )
     .join('');
 }
@@ -113,6 +121,47 @@ describe('Search result rendering', () => {
     const html = renderResults(malicious, 'test');
     expect(html).not.toContain('<script>');
     expect(html).toContain('&lt;script&gt;');
+  });
+});
+
+describe('Result path labels', () => {
+  it('labels docs pages with "Docs"', () => {
+    expect(getResultPath('/docs/getting-started')).toBe('Docs');
+  });
+
+  it('labels blog pages with "Blog"', () => {
+    expect(getResultPath('/blog/introducing-swe-squad')).toBe('Blog');
+  });
+
+  it('returns empty string for non-docs/blog paths', () => {
+    expect(getResultPath('/features')).toBe('');
+    expect(getResultPath('/pricing')).toBe('');
+    expect(getResultPath('/')).toBe('');
+  });
+
+  it('includes path label in rendered docs results', () => {
+    const html = renderResults(
+      [{ url: '/docs/introduction', title: 'Introduction', excerpt: 'Get started...' }],
+      'intro'
+    );
+    expect(html).toContain('search-result-path');
+    expect(html).toContain('Docs');
+  });
+
+  it('includes path label in rendered blog results', () => {
+    const html = renderResults(
+      [{ url: '/blog/deploy', title: 'Deploy Guide', excerpt: 'How to deploy...' }],
+      'deploy'
+    );
+    expect(html).toContain('Blog');
+  });
+
+  it('omits path label for non-docs/blog results', () => {
+    const html = renderResults(
+      [{ url: '/features', title: 'Features', excerpt: 'All features...' }],
+      'features'
+    );
+    expect(html).not.toContain('search-result-path');
   });
 });
 
