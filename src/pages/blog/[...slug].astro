@@ -12,6 +12,8 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content, headings } = await post.render();
+
+const wordCount = post.body ? post.body.split(/\s+/).filter(Boolean).length : 0;
 ---
 
 <BlogPost
@@ -23,6 +25,7 @@ const { Content, headings } = await post.render();
   image={post.data.image}
   headings={headings}
   slug={post.slug}
+  wordCount={wordCount}
 >
   <Content />
 </BlogPost>

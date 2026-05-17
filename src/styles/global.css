@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Design system tokens */
+  --color-brand-primary: #6366f1;
+  --color-brand-secondary: #8b5cf6;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #06b6d4;
+  --color-surface-dark: #1e1e2e;
+  --color-surface-card: #ffffff;
+  --color-surface-light: #f9fafb;
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #4a4a6a;
+
+  /* Primary scale (indigo) */
+  --color-primary-50: 238 242 255;
+  --color-primary-500: 99 102 241;
+  --color-primary-600: 79 70 229;
+  --color-primary-700: 67 56 202;
+  --color-primary-900: 49 46 129;
+
+  /* Secondary scale (violet) */
+  --color-secondary-50: 245 243 255;
+  --color-secondary-500: 139 92 246;
+  --color-secondary-600: 124 58 237;
+  --color-secondary-700: 109 40 217;
+  --color-secondary-900: 76 29 149;
+
+  /* Backward-compatible existing variables */
+  --color-bg: #ffffff;
+  --color-bg-sidebar: #f9fafb;
+  --color-bg-hover: rgba(0, 0, 0, 0.05);
+  --color-bg-active: rgba(99, 102, 241, 0.1);
+  --color-accent: #6366f1;
+  --color-border: #e5e7eb;
+  --color-text-tertiary: #9ca3af;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', 'Courier New', monospace;
+}
+
+/* Dark mode overrides */
+.dark {
+  --color-brand-primary: #818cf8;
+  --color-brand-secondary: #a78bfa;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+  --color-info: #22d3ee;
+  --color-surface-dark: #11111b;
+  --color-surface-card: #1e1e2e;
+  --color-surface-light: #181825;
+  --color-text-primary: #cdd6f4;
+  --color-text-secondary: #a6adc8;
+  /* Primary scale (indigo) — dark mode */
+  --color-primary-50: 238 242 255;
+  --color-primary-400: 129 140 248;
+  --color-primary-500: 99 102 241;
+  --color-primary-600: 79 70 229;
+
+  /* Secondary scale (violet) — dark mode */
+  --color-secondary-50: 245 243 255;
+  --color-secondary-400: 167 139 250;
+  --color-secondary-500: 139 92 246;
+  --color-secondary-600: 124 58 237;
+
+  --color-bg: #1e1e2e;
+  --color-bg-sidebar: #181825;
+  --color-bg-hover: rgba(255, 255, 255, 0.05);
+  --color-bg-active: rgba(129, 140, 248, 0.15);
+  --color-accent: #818cf8;
+  --color-border: #45475a;
+  --color-text-tertiary: #6c7086;
+}
+
+/* Base typography rules */
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+}
+
+a {
+  color: var(--color-brand-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
