@@ -2,18 +2,27 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import MermaidDiagram from '@components/MermaidDiagram.astro';
 import Callout from '@components/Callout.astro';
+import TrustBar from '../components/landing/TrustBar.astro';
+import HowItWorks from '../components/landing/HowItWorks.astro';
+import FeatureGrid from '../components/landing/FeatureGrid.astro';
 ---
 
 <BaseLayout title="SWE-Squad">
   <div class="landing">
 
     <!-- Hero -->
-    <section class="hero">
-      <h1 class="hero-title">SWE-Squad</h1>
-      <p class="hero-tagline">Autonomous AI agents for production incident management</p>
-      <p class="hero-welcome">Welcome to SWE-Squad — an AI-powered platform that detects, triages, investigates, and resolves production incidents automatically.</p>
-      <a href="/docs" class="hero-link">Documentation</a>
-    </section>
+    <header>
+      <section class="hero">
+        <h1 class="hero-title">SWE-Squad</h1>
+        <p class="hero-tagline">Autonomous AI agents for production incident management</p>
+        <p class="hero-welcome">Welcome to SWE-Squad — an AI-powered platform that detects, triages, investigates, and resolves production incidents automatically.</p>
+        <a href="/docs" class="hero-link">Documentation</a>
+      </section>
+    </header>
+
+    <TrustBar />
+    <HowItWorks />
+    <FeatureGrid />
 
     <!-- Section 1: Architecture Overview -->
     <section class="section">
@@ -116,8 +125,8 @@ docker compose up -d</code></pre>
     --color-bg-hover: rgba(0, 0, 0, 0.05);
     --color-text-primary: #1a1a2e;
     --color-text-secondary: #4a4a6a;
-    --color-text-tertiary: #9ca3af;
-    --color-accent: #3b82f6;
+    --color-text-tertiary: #6b7280;
+    --color-accent: #2563eb;
     --color-border: #e5e7eb;
     --section-max-width: 72rem;
   }
@@ -296,7 +305,7 @@ docker compose up -d</code></pre>
 
   .tier-expert {
     background: #ede9fe;
-    color: #7c3aed;
+    color: #6d28d9;
   }
 
   /* ---- Code block ---- */
@@ -313,7 +322,7 @@ docker compose up -d</code></pre>
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: #7f849c;
+    color: #a0a8b8;
     pointer-events: none;
   }
 

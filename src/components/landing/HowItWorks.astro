@@ -1,0 +1,206 @@
+---
+// HowItWorks — static landing-page section
+---
+
+<section class="how-it-works">
+  <div class="section-header">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-subtitle">Three steps from detection to resolution</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-number">1</div>
+      <div class="step-icon">📡</div>
+      <h3 class="step-title">Monitor</h3>
+      <p class="step-description">SWE Squad continuously monitors your GitHub repositories for new issues. It triages incoming bugs and feature requests automatically, assigning severity and module tags.</p>
+    </div>
+    <div class="step-connector" aria-hidden="true">
+      <span class="connector-arrow">&#8250;</span>
+    </div>
+    <div class="step">
+      <div class="step-number">2</div>
+      <div class="step-icon">🔍</div>
+      <h3 class="step-title">Investigate</h3>
+      <p class="step-description">Each issue gets a dedicated AI agent that deeply investigates the root cause. The agent reads code, checks git history, and identifies affected files before planning a fix.</p>
+    </div>
+    <div class="step-connector" aria-hidden="true">
+      <span class="connector-arrow">&#8250;</span>
+    </div>
+    <div class="step">
+      <div class="step-number">3</div>
+      <div class="step-icon">🔧</div>
+      <h3 class="step-title">Fix</h3>
+      <p class="step-description">The agent implements the fix, runs tests, and submits a pull request. A stability gate ensures only passing fixes are merged, keeping your main branch green.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .how-it-works {
+    --color-bg: #0d1117;
+    --color-surface: #161b22;
+    --color-border: #30363d;
+    --color-text: #e6edf3;
+    --color-text-secondary: #8b949e;
+    --color-accent: #7c3aed;
+    --color-accent-light: #a78bfa;
+
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 3rem 2rem 4rem;
+  }
+
+  /* ---- Section header ---- */
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 0.5rem;
+    line-height: 1.2;
+  }
+
+  .section-subtitle {
+    font-size: 1.125rem;
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ---- Steps row ---- */
+  .steps {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  /* ---- Individual step card ---- */
+  .step {
+    flex: 1 1 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: #ffffff;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .step-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+  }
+
+  .step-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .step-description {
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ---- Connector between steps ---- */
+  .step-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    min-width: 3rem;
+    position: relative;
+  }
+
+  .step-connector::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color-border);
+    transform: translateY(-50%);
+  }
+
+  .connector-arrow {
+    position: relative;
+    z-index: 1;
+    background: var(--color-surface);
+    color: var(--color-border);
+    font-size: 1.25rem;
+    line-height: 1;
+    padding: 0 0.25rem;
+    font-weight: 700;
+  }
+
+  /* ---- Responsive: stack vertically on small screens ---- */
+  @media (max-width: 768px) {
+    .how-it-works {
+      padding: 2rem 1rem 3rem;
+    }
+
+    .steps {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step {
+      width: 100%;
+    }
+
+    .step-connector {
+      width: auto;
+      min-width: auto;
+      height: 2.5rem;
+      min-height: 2.5rem;
+      justify-content: center;
+    }
+
+    .step-connector::before {
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      right: auto;
+      width: 2px;
+      height: 100%;
+      transform: translateX(-50%);
+    }
+
+    .connector-arrow {
+      padding: 0.25rem 0;
+      transform: rotate(90deg);
+    }
+
+    .section-title {
+      font-size: 1.75rem;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+    }
+  }
+</style>
