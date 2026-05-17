@@ -1,14 +1,11 @@
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
-import vercel from '@astrojs/vercel';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://swe-squad.dev',
-  output: 'hybrid',
-  adapter: vercel(),
+  output: 'static',
   integrations: [
-    tailwind(),
     mdx(),
   ],
   srcDir: './src',
@@ -16,6 +13,7 @@ export default defineConfig({
   compressHTML: true,
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   vite: {
+    plugins: [tailwindcss()],
     build: {
       rollupOptions: {
         external: ['/pagefind/pagefind.js'],

@@ -1,0 +1,217 @@
+---
+/**
+ * Footer — site-wide footer with four-column link grid,
+ * ArtemisAI attribution, and GitHub star button.
+ *
+ * Props: none (self-contained)
+ * Dependencies: global.css custom properties
+ */
+
+export interface Props {}
+
+const columns = [
+  {
+    heading: 'Product',
+    links: [
+      { label: 'Features', href: '/features' },
+      { label: 'Architecture', href: '/architecture' },
+      { label: 'Pricing', href: '/pricing' },
+    ],
+  },
+  {
+    heading: 'Resources',
+    links: [
+      { label: 'Docs', href: '/docs' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Changelog', href: '/docs' },
+    ],
+  },
+  {
+    heading: 'Community',
+    links: [
+      { label: 'GitHub', href: 'https://github.com/swe-squad/swe-squad', external: true },
+      { label: 'Discussions', href: 'https://github.com/swe-squad/swe-squad/discussions', external: true },
+      { label: 'Contributing', href: 'https://github.com/swe-squad/swe-squad/blob/main/CONTRIBUTING.md', external: true },
+    ],
+  },
+  {
+    heading: 'Legal',
+    links: [
+      { label: 'MIT License', href: 'https://github.com/swe-squad/swe-squad/blob/main/LICENSE', external: true },
+      { label: 'Security', href: 'https://github.com/swe-squad/swe-squad/security', external: true },
+    ],
+  },
+];
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <nav class="footer-grid" aria-label="Footer navigation">
+      {columns.map(({ heading, links }) => (
+        <section class="footer-column">
+          <h3 class="footer-heading">{heading}</h3>
+          <ul class="footer-links">
+            {links.map(({ label, href, external }) => (
+              <li>
+                <a
+                  href={href}
+                  class="footer-link"
+                  target={external ? '_blank' : undefined}
+                  rel={external ? 'noopener noreferrer' : undefined}
+                >
+                  {label}
+                  {external && (
+                    <svg class="external-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L12.94 14H7.75a.75.75 0 000 1.5h7.5a.75.75 0 00.75-.75v-7.5a.75.75 0 00-1.5 0v5.19L6.28 5.22z" />
+                    </svg>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </nav>
+
+    <div class="footer-bottom">
+      <p class="footer-attribution">Built by ArtemisAI</p>
+      <a
+        class="github-star-btn"
+        href="https://github.com/swe-squad/swe-squad"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Star SWE-Squad on GitHub"
+      >
+        <svg class="star-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z" />
+        </svg>
+        Star
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border, #e5e7eb);
+    background-color: var(--color-bg, #ffffff);
+    color: var(--color-text-secondary, #6b7280);
+    padding: 3rem 1rem 2rem;
+  }
+
+  .footer-inner {
+    max-width: 72rem;
+    margin: 0 auto;
+  }
+
+  /* ── Link grid ─────────────────────────────────────────────── */
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .footer-heading {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text, #1f2937);
+    margin: 0 0 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .footer-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary, #6b7280);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-link:hover {
+    color: var(--color-brand-primary, #6366f1);
+    text-decoration: none;
+  }
+
+  .external-icon {
+    width: 0.75rem;
+    height: 0.75rem;
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  /* ── Bottom bar ────────────────────────────────────────────── */
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border, #e5e7eb);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-attribution {
+    font-size: 0.8125rem;
+    color: var(--color-text-tertiary, #9ca3af);
+    margin: 0;
+  }
+
+  .github-star-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.875rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-text, #1f2937);
+    background-color: var(--color-bg, #ffffff);
+    border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 0.375rem;
+    text-decoration: none;
+    transition: border-color 0.15s, color 0.15s, background-color 0.15s;
+  }
+
+  .github-star-btn:hover {
+    border-color: var(--color-brand-primary, #6366f1);
+    color: var(--color-brand-primary, #6366f1);
+    text-decoration: none;
+  }
+
+  .star-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    color: var(--color-warning, #f59e0b);
+    flex-shrink: 0;
+  }
+
+  /* ── Responsive: stack on mobile ────────────────────────────── */
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

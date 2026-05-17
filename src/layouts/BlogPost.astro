@@ -1,5 +1,6 @@
 ---
 import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
 import TableOfContents from '@components/docs/TableOfContents.astro';
 import ShareLinks from '@components/blog/ShareLinks.astro';
 import SearchDialog from '@components/SearchDialog.astro';
@@ -43,6 +44,16 @@ const formattedDate = date.toLocaleDateString('en-US', {
 <!doctype html>
 <html lang="en">
   <head>
+    <script is:inline>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} | SWE-Squad Blog</title>
@@ -284,5 +295,6 @@ const formattedDate = date.toLocaleDateString('en-US', {
       </aside>
     </div>
     <SearchDialog />
+    <Footer />
   </body>
 </html>

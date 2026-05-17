@@ -5,46 +5,42 @@
 <section class="how-it-works">
   <div class="section-header">
     <h2 class="section-title">How It Works</h2>
-    <p class="section-subtitle">Three steps from detection to resolution</p>
   </div>
   <div class="steps">
     <div class="step">
       <div class="step-number">1</div>
-      <div class="step-icon">📡</div>
+      <div class="step-icon">&#128065;&#65039;</div>
       <h3 class="step-title">Monitor</h3>
-      <p class="step-description">SWE Squad continuously monitors your GitHub repositories for new issues. It triages incoming bugs and feature requests automatically, assigning severity and module tags.</p>
+      <p class="step-description">SWE Squad continuously monitors your GitHub repositories for new issues and failures. It tracks CI pipelines, error logs, and issue labels to detect problems as they emerge.</p>
     </div>
-    <div class="step-connector" aria-hidden="true">
-      <span class="connector-arrow">&#8250;</span>
-    </div>
+    <div class="step-connector" aria-hidden="true">&rarr;</div>
     <div class="step">
       <div class="step-number">2</div>
-      <div class="step-icon">🔍</div>
+      <div class="step-icon">&#128269;&#65039;</div>
       <h3 class="step-title">Investigate</h3>
-      <p class="step-description">Each issue gets a dedicated AI agent that deeply investigates the root cause. The agent reads code, checks git history, and identifies affected files before planning a fix.</p>
+      <p class="step-description">Each detected issue is triaged and investigated with context-aware analysis. The system identifies root causes, affected files, and blast radius before proposing any fix.</p>
     </div>
-    <div class="step-connector" aria-hidden="true">
-      <span class="connector-arrow">&#8250;</span>
-    </div>
+    <div class="step-connector" aria-hidden="true">&rarr;</div>
     <div class="step">
       <div class="step-number">3</div>
-      <div class="step-icon">🔧</div>
+      <div class="step-icon">&#128295;&#65039;</div>
       <h3 class="step-title">Fix</h3>
-      <p class="step-description">The agent implements the fix, runs tests, and submits a pull request. A stability gate ensures only passing fixes are merged, keeping your main branch green.</p>
+      <p class="step-description">Automated fix loops generate, test, and validate patches with model routing and stability gates. Only fixes that pass all checks are submitted as pull requests.</p>
     </div>
   </div>
 </section>
 
 <style>
   .how-it-works {
-    --color-bg: #0d1117;
-    --color-surface: #161b22;
-    --color-border: #30363d;
-    --color-text: #e6edf3;
-    --color-text-secondary: #8b949e;
-    --color-accent: #7c3aed;
-    --color-accent-light: #a78bfa;
+    --color-bg: #ffffff;
+    --color-surface: #f9fafb;
+    --color-border: #e5e7eb;
+    --color-text: #1a1a2e;
+    --color-text-secondary: #4a4a6a;
+    --color-accent: #3b82f6;
+    --color-connector: #cbd5e1;
 
+    background: var(--color-bg);
     max-width: 72rem;
     margin: 0 auto;
     padding: 3rem 2rem 4rem;
@@ -57,18 +53,11 @@
   }
 
   .section-title {
-    font-size: 2.25rem;
+    font-size: 2rem;
     font-weight: 700;
     color: var(--color-text);
-    margin: 0 0 0.5rem;
-    line-height: 1.2;
-  }
-
-  .section-subtitle {
-    font-size: 1.125rem;
-    color: var(--color-text-secondary);
     margin: 0;
-    line-height: 1.6;
+    line-height: 1.2;
   }
 
   /* ---- Steps row ---- */
@@ -83,8 +72,8 @@
     flex: 1 1 0;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 0.75rem;
-    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -96,12 +85,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: var(--color-accent);
     color: #ffffff;
-    font-size: 0.8125rem;
+    font-size: 1rem;
     font-weight: 700;
     line-height: 1;
   }
@@ -132,33 +121,14 @@
     justify-content: center;
     width: 3rem;
     min-width: 3rem;
-    position: relative;
-  }
-
-  .step-connector::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--color-border);
-    transform: translateY(-50%);
-  }
-
-  .connector-arrow {
-    position: relative;
-    z-index: 1;
-    background: var(--color-surface);
-    color: var(--color-border);
-    font-size: 1.25rem;
-    line-height: 1;
-    padding: 0 0.25rem;
+    color: var(--color-connector);
+    font-size: 2rem;
     font-weight: 700;
+    line-height: 1;
   }
 
   /* ---- Responsive: stack vertically on small screens ---- */
-  @media (max-width: 768px) {
+  @media (max-width: 640px) {
     .how-it-works {
       padding: 2rem 1rem 3rem;
     }
@@ -177,30 +147,11 @@
       min-width: auto;
       height: 2.5rem;
       min-height: 2.5rem;
-      justify-content: center;
-    }
-
-    .step-connector::before {
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      right: auto;
-      width: 2px;
-      height: 100%;
-      transform: translateX(-50%);
-    }
-
-    .connector-arrow {
-      padding: 0.25rem 0;
       transform: rotate(90deg);
     }
 
     .section-title {
       font-size: 1.75rem;
-    }
-
-    .section-subtitle {
-      font-size: 1rem;
     }
   }
 </style>

@@ -1,5 +1,6 @@
 ---
 import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
 import '../styles/global.css';
 import Sidebar from '@components/docs/Sidebar.astro';
 import Breadcrumbs from '@components/docs/Breadcrumbs.astro';
@@ -75,6 +76,16 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
 <!doctype html>
 <html lang="en">
   <head>
+    <script is:inline>
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title} | SWE-Squad Docs</title>
@@ -345,5 +356,6 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
     </script>
 
     <SearchDialog />
+    <Footer />
   </body>
 </html>
