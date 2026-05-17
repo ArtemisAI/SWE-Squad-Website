@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Design system tokens */
+  --color-brand-primary: #3b82f6;
+  --color-brand-secondary: #8b5cf6;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --color-info: #06b6d4;
+  --color-surface-dark: #1e1e2e;
+  --color-surface-card: #ffffff;
+  --color-surface-light: #f9fafb;
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #4a4a6a;
+
+  /* Backward-compatible existing variables */
+  --color-bg: #ffffff;
+  --color-bg-sidebar: #f9fafb;
+  --color-bg-hover: rgba(0, 0, 0, 0.05);
+  --color-bg-active: rgba(59, 130, 246, 0.1);
+  --color-accent: #3b82f6;
+  --color-border: #e5e7eb;
+  --color-text-tertiary: #9ca3af;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', 'Courier New', monospace;
+}
+
+/* Dark mode overrides */
+.dark {
+  --color-brand-primary: #60a5fa;
+  --color-brand-secondary: #a78bfa;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+  --color-info: #22d3ee;
+  --color-surface-dark: #11111b;
+  --color-surface-card: #1e1e2e;
+  --color-surface-light: #181825;
+  --color-text-primary: #cdd6f4;
+  --color-text-secondary: #a6adc8;
+  --color-bg: #1e1e2e;
+  --color-bg-sidebar: #181825;
+  --color-bg-hover: rgba(255, 255, 255, 0.05);
+  --color-bg-active: rgba(96, 165, 250, 0.15);
+  --color-accent: #60a5fa;
+  --color-border: #45475a;
+  --color-text-tertiary: #6c7086;
+}
+
+/* Base typography rules */
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+}
+
+a {
+  color: var(--color-brand-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
