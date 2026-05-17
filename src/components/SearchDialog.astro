@@ -20,6 +20,10 @@
   <div class="search-results" id="search-results">
     <div class="search-empty">Type to search documentation and blog posts</div>
   </div>
+  <div class="search-loading" id="search-loading">
+    <span class="search-loading-spinner"></span>
+    <span>Searching...</span>
+  </div>
 </div>
 
 <style>
@@ -114,6 +118,33 @@
     color: var(--color-text-tertiary, #9ca3af);
     font-size: 0.875rem;
   }
+
+  .search-loading {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    color: var(--color-text-tertiary, #9ca3af);
+    font-size: 0.875rem;
+  }
+
+  .search-loading.is-active {
+    display: flex;
+  }
+
+  .search-loading-spinner {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid var(--color-border, #e5e7eb);
+    border-top-color: var(--color-accent, #3b82f6);
+    border-radius: 50%;
+    animation: search-spin 0.6s linear infinite;
+  }
+
+  @keyframes search-spin {
+    to { transform: rotate(360deg); }
+  }
 </style>
 
 <script>
@@ -123,7 +154,38 @@
     const input = document.getElementById('search-input') as HTMLInputElement;
     const resultsContainer = document.getElementById('search-results');
 
+    const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    let triggerElement: HTMLElement | null = null;
+
+    function getFocusableElements(): HTMLElement[] {
+      if (!dialog) return [];
+      return Array.from(dialog.querySelectorAll<HTMLElement>(focusableSelector));
+    }
+
+    function trapFocus(e: KeyboardEvent) {
+      if (e.key !== 'Tab' || !dialog?.classList.contains('is-open')) return;
+
+      const focusable = getFocusableElements();
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
     function openSearch() {
+      triggerElement = document.activeElement as HTMLElement;
       backdrop?.classList.add('is-open');
       dialog?.classList.add('is-open');
       input?.focus();
@@ -138,7 +200,14 @@
       if (resultsContainer) {
         resultsContainer.innerHTML = '<div class="search-empty">Type to search documentation and blog posts</div>';
       }
+      if (triggerElement) {
+        triggerElement.focus();
+        triggerElement = null;
+      }
     }
+
+    // Focus trap: Tab / Shift+Tab wrapping
+    document.addEventListener('keydown', trapFocus);
 
     // Cmd+K / Ctrl+K shortcut
     document.addEventListener('keydown', (e) => {
@@ -163,38 +232,48 @@
       const pagefind = await import('/pagefind/pagefind.js');
       await pagefind.init();
 
-      input?.addEventListener('input', async () => {
+      let debounceTimer: ReturnType<typeof setTimeout>;
+
+      input?.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
         const query = input.value.trim();
         if (!query) {
           if (resultsContainer) {
             resultsContainer.innerHTML = '<div class="search-empty">Type to search documentation and blog posts</div>';
           }
+          document.getElementById('search-loading')?.classList.remove('is-active');
           return;
         }
 
-        const search = await pagefind.search(query);
-        const results = await Promise.all(search.results.slice(0, 8).map((r: any) => r.data()));
+        document.getElementById('search-loading')?.classList.add('is-active');
 
-        if (results.length === 0) {
-          if (resultsContainer) {
-            resultsContainer.innerHTML = `<div class="search-no-results">No results for "${query}"</div>`;
+        debounceTimer = setTimeout(async () => {
+          const search = await pagefind.search(query);
+          const results = await Promise.all(search.results.slice(0, 8).map((r: any) => r.data()));
+
+          document.getElementById('search-loading')?.classList.remove('is-active');
+
+          if (results.length === 0) {
+            if (resultsContainer) {
+              resultsContainer.innerHTML = `<div class="search-no-results">No results for "${query}"</div>`;
+            }
+            return;
           }
-          return;
-        }
 
-        if (resultsContainer) {
-          resultsContainer.innerHTML = results.map((result: any) => {
-            const url = result.url;
-            const title = result.meta?.title || url;
-            const excerpt = result.excerpt || '';
-            return `
-              <a href="${url}" class="search-result">
-                <div class="search-result-title">${title}</div>
-                <div class="search-result-excerpt">${excerpt}</div>
-              </a>
-            `;
-          }).join('');
-        }
+          if (resultsContainer) {
+            resultsContainer.innerHTML = results.map((result: any) => {
+              const url = result.url;
+              const title = result.meta?.title || url;
+              const excerpt = result.excerpt || '';
+              return `
+                <a href="${url}" class="search-result">
+                  <div class="search-result-title">${title}</div>
+                  <div class="search-result-excerpt">${excerpt}</div>
+                </a>
+              `;
+            }).join('');
+          }
+        }, 200);
       });
     }
 

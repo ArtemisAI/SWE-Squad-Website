@@ -349,7 +349,7 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
     <div class="mobile-sidebar-backdrop" id="mobile-sidebar-backdrop" aria-hidden="true"></div>
 
     <div class="docs-layout">
-      <aside class="docs-sidebar" id="docs-sidebar">
+      <aside class="docs-sidebar" id="docs-sidebar" data-pagefind-ignore>
         <button class="search-trigger" id="search-trigger" aria-label="Search docs and blog">
           <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M8.5 3a5.5 5.5 0 0 1 4.23 9.02l4.12 4.13a.75.75 0 0 1-1.06 1.06l-4.13-4.12A5.5 5.5 0 1 1 8.5 3zm0 1.5a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="currentColor"/>
@@ -365,7 +365,7 @@ const githubEditUrl = `https://github.com/ArtemisAI/SWE-Squad-Website/edit/main/
         <EditOnGitHub href={githubEditUrl} />
         <PageNav prev={prevDoc} next={nextDoc} />
       </main>
-      <aside class="docs-toc">
+      <aside class="docs-toc" data-pagefind-ignore>
         {tocItems.length > 0 && <TableOfContents items={tocItems} />}
       </aside>
     </div>
